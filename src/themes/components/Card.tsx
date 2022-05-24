@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     },
     name: {
         position: 'absolute',
-        bottom: 22,
+        bottom: 40,
         left: 22,
         fontSize: 24,
         fontWeight: 'bold',

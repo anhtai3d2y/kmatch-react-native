@@ -1,21 +1,17 @@
-import {useNavigation} from '@react-navigation/native';
-import {useState} from 'react';
 import {TouchableOpacity} from 'react-native';
-import {TextInput} from 'react-native-paper';
-import {Text, View} from 'react-native';
+import {Text, View, TextInput} from 'react-native';
 import styles from '../../themes/screens/Login';
 import axios from 'axios';
+import {LinearGradient} from 'expo-linear-gradient';
+import {FontAwesome} from '@expo/vector-icons';
 
-export default function LoginScreen() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const navigation = useNavigation();
-    const handleGoToHome = () => {
-        navigation.navigate('Home');
+export default function LoginScreen({navigation}) {
+    const handleGoToStart = () => {
+        navigation.navigate('Start');
     };
 
-    const handleGoToRoot = () => {
-        navigation.navigate('Root');
+    const handleGoToRegister = () => {
+        navigation.navigate('Register');
     };
 
     const handleLogin = async () => {
@@ -28,34 +24,31 @@ export default function LoginScreen() {
     };
     return (
         <View style={styles.container}>
-            <View style={styles.inputContainer}>
-                <TextInput
-                    placeholder="Email"
-                    value={email}
-                    onChangeText={text => setEmail(text)}
-                    style={styles.input}
-                />
-                <TextInput
-                    placeholder="Password"
-                    value={password}
-                    onChangeText={text => setPassword(text)}
-                    style={styles.input}
-                    secureTextEntry
-                />
-            </View>
-
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                    onPress={handleGoToRoot}
-                    style={styles.button}>
-                    <Text style={styles.buttonText}>Login</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={[styles.button, styles.buttonOutline]}
-                    onPress={handleGoToHome}>
-                    <Text style={styles.buttonOutlineText}>Register</Text>
-                </TouchableOpacity>
-            </View>
+            <LinearGradient
+                start={{x: 1, y: 0}}
+                end={{x: 0, y: 1}}
+                colors={['#e98242', '#e35568', '#df5888']}
+                style={styles.linearGradient}>
+                <Text style={[styles.title, styles.kma]}>kma</Text>
+                <Text style={[styles.title, styles.match]}>match</Text>
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity
+                        onPress={handleGoToRegister}
+                        style={styles.button}>
+                        <Text style={styles.buttonText}>CREATE ACCOUNT</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.button, styles.buttonOutline]}
+                        onPress={handleGoToStart}>
+                        <Text style={styles.buttonOutlineText}>SIGN IN</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={handleGoToRegister}>
+                        <Text style={styles.buttonOutlineText}>
+                            Trouble Signing In?
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </LinearGradient>
         </View>
     );
 }
