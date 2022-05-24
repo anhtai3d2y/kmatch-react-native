@@ -1,22 +1,46 @@
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import {StatusBar} from 'expo-status-bar';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {Provider as ThemeProvider} from 'react-native-paper';
+import StartScreen from './src/screens/Start';
+import RegisterScreen from './src/screens/Register';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import LoginScreen from './src/screens/Login';
+import HomeScreen from './src/screens/Home';
 
-import useCachedResources from './src/hooks/useCachedResources';
-import useColorScheme from './src/hooks/useColorScheme';
-import Navigation from './src/navigation';
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const isLoadingComplete = useCachedResources();
-  const colorScheme = useColorScheme();
-
-  if (!isLoadingComplete) {
-    return null;
-  } else {
     return (
-      <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar />
-      </SafeAreaProvider>
+        <SafeAreaProvider>
+            <ThemeProvider>
+                <NavigationContainer>
+                    {/* <StartScreen /> */}
+                    <StatusBar style="auto" />
+                    <Stack.Navigator initialRouteName="Login">
+                        <Stack.Screen
+                            name="Login"
+                            component={LoginScreen}
+                            options={{headerShown: false}}
+                        />
+                        <Stack.Screen
+                            name="Register"
+                            component={RegisterScreen}
+                            options={{headerShown: false}}
+                        />
+                        <Stack.Screen
+                            name="Home"
+                            component={HomeScreen}
+                            options={{headerShown: false}}
+                        />
+                        <Stack.Screen
+                            name="Start"
+                            component={StartScreen}
+                            options={{headerShown: false}}
+                        />
+                    </Stack.Navigator>
+                </NavigationContainer>
+            </ThemeProvider>
+        </SafeAreaProvider>
     );
-  }
 }
