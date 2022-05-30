@@ -19,13 +19,17 @@ export async function getLoginData(data: object) {
                     response.data.statusCode === 200
                 ) {
                     const userLogin = {
-                        avatar: response.data.data?.data?.avatar,
                         id: response.data.data?.data?._id,
+                        token: response.data.data?.accessToken,
+                        email: response.data.data?.data?.email,
+                        name: response.data.data?.data?.name,
+                        role: response.data.data?.data?.role,
+                        phonenumber: response.data.data?.data?.phonenumber,
+                        avatar: response.data.data?.data?.avatar,
                         gender: response.data.data?.data?.gender,
+                        birthday: response.data.data?.data?.birthday,
                     };
-                    console.log(userLogin);
-
-                    resolve(response.data.data);
+                    resolve(userLogin);
                 }
             })
             .catch(e => {
