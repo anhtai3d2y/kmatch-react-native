@@ -10,6 +10,9 @@ import {useState} from "react";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import {IApplicationState} from "../../stores/IApplicationState";
+import {getToken} from "../../helpers";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {UrlApi} from "../../constants";
 
 export default function LoginScreen({navigation}) {
     const dispatch = useDispatch();
@@ -43,21 +46,34 @@ export default function LoginScreen({navigation}) {
         );
     };
 
+    const axiosClient = axios.create({
+        baseURL: "http://kmatch.online",
+        responseType: "json",
+        timeout: 15 * 1000,
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+
+    axiosClient.interceptors.request.use(async config => {
+        const accessToken = await AsyncStorage.getItem("token");
+        config.headers.Authorization = `Bearer ${accessToken}`;
+        return config;
+    });
+
     const handleLogin = async () => {
-        // try {
-        //     const res = await axios.post(
-        //         "http://www.kmatch.online/auth/login",
-        //         {
-        //             email: "anhtai3d2y@gmail.com",
-        //             password: "anhtai3d2",
-        //         },
-        //     );
-        //     console.log(res.data);
-        // } catch (error) {
-        //     console.log(error);
-        // }
-        await onLogin("anhtai3d2y@gmail.com", "anhtai3d2y");
-        console.log("dataLogin: ", dataLogin);
+        const apiUrl = "http://www.kmatch.online/user";
+        const headers = {"Content-Type": "application/json"};
+        try {
+            const res = await axiosClient.get(apiUrl, {
+                headers,
+            });
+            console.log(res.data);
+        } catch (error) {
+            console.log(error);
+        }
+        // await onLogin("anhtai3d2y@gmail.com", "anhtai3d2y");
+        // console.log("token: ", await getToken());
     };
     return (
         <View style={styles.container}>
