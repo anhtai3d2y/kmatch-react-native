@@ -1,0 +1,9 @@
+{
+    "home": "Home",
+    "login": "Login",
+    "public_navigator": "PublicNavigator",
+    "main_stack": "MainStack",
+    "home_stack": "HomeStack",
+    "login_email": "LoginEmail",
+    "sign_up": "SignUp"
+}

@@ -1,36 +1,73 @@
-import {TouchableOpacity} from 'react-native';
-import {Text, View, TextInput} from 'react-native';
-import styles from '../../themes/screens/Login';
-import axios from 'axios';
-import {LinearGradient} from 'expo-linear-gradient';
-import {FontAwesome} from '@expo/vector-icons';
+import {TouchableOpacity} from "react-native";
+import {Text, View, TextInput} from "react-native";
+import styles from "../../themes/screens/Login";
+import axios from "axios";
+import {useDispatch, useSelector} from "react-redux";
+import {getLogin, resetLogin} from "../../stores/actions";
+import {LinearGradient} from "expo-linear-gradient";
+import {FontAwesome} from "@expo/vector-icons";
+import {useState} from "react";
+import * as Location from "expo-location";
+import * as Permissions from "expo-permissions";
+import {IApplicationState} from "../../stores/IApplicationState";
 
 export default function LoginScreen({navigation}) {
+    const dispatch = useDispatch();
+    const dataLogin = useSelector((state: IApplicationState) => state.login);
+    const onLogin = (email: string, password: string) => {
+        dispatch(getLogin(email, password));
+    };
+
     const handleGoToStart = () => {
-        navigation.navigate('Start');
+        navigation.navigate("Start");
     };
 
     const handleGoToRegister = () => {
-        navigation.navigate('Register');
+        navigation.navigate("Register");
+    };
+
+    const [location, setLocation] = useState("location");
+
+    const handleGetLocation = async () => {
+        let {status} = await Permissions.askAsync(
+            Permissions.LOCATION_FOREGROUND,
+        );
+        if (status === "granted") {
+            setLocation("Permission to access location was denied");
+        }
+
+        let location = await Location.getCurrentPositionAsync({});
+
+        setLocation(
+            location.coords.latitude + ", " + location.coords.longitude,
+        );
     };
 
     const handleLogin = async () => {
-        try {
-            const res = await axios.get('http://192.168.31.50:3000/healthz');
-            console.log(res.data);
-        } catch (error) {
-            console.log(error);
-        }
+        // try {
+        //     const res = await axios.post(
+        //         "http://www.kmatch.online/auth/login",
+        //         {
+        //             email: "anhtai3d2y@gmail.com",
+        //             password: "anhtai3d2",
+        //         },
+        //     );
+        //     console.log(res.data);
+        // } catch (error) {
+        //     console.log(error);
+        // }
+        await onLogin("anhtai3d2y@gmail.com", "anhtai3d2y");
+        console.log("dataLogin: ", dataLogin);
     };
     return (
         <View style={styles.container}>
             <LinearGradient
                 start={{x: 1, y: 0}}
                 end={{x: 0, y: 1}}
-                colors={['#e98242', '#e35568', '#df5888']}
+                colors={["#e98242", "#e35568", "#df5888"]}
                 style={styles.linearGradient}>
-                <Text style={[styles.title, styles.kma]}>kma</Text>
-                <Text style={[styles.title, styles.match]}>match</Text>
+                <Text style={styles.title}>kmatch</Text>
+                <Text style={[styles.title, {fontSize: 10}]}>{location}</Text>
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity
                         onPress={handleGoToRegister}
@@ -42,7 +79,14 @@ export default function LoginScreen({navigation}) {
                         onPress={handleGoToStart}>
                         <Text style={styles.buttonOutlineText}>SIGN IN</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={handleGoToRegister}>
+                    <TouchableOpacity
+                        style={[styles.button, styles.buttonOutline]}
+                        onPress={handleGetLocation}>
+                        <Text style={styles.buttonOutlineText}>
+                            GET LOCATION
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={handleLogin}>
                         <Text style={styles.buttonOutlineText}>
                             Trouble Signing In?
                         </Text>
