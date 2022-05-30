@@ -20,7 +20,6 @@ function* getLogin(action: any): Generator<any> {
 
     try {
         const dataLogin: any = yield getLoginData(data);
-
         if (!dataLogin.error) {
             // yield put(getLoginError(''));
             yield put(getLoginSuccess(dataLogin));
