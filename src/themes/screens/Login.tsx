@@ -21,18 +21,7 @@ const styles = StyleSheet.create({
         fontSize: 50,
         color: '#fff',
         fontWeight: '700',
-        position: 'absolute',
         top: 100,
-    },
-    kma: {
-        color: '#612fc4',
-        top: 102,
-        left: 93,
-        zIndex: 1,
-    },
-    match: {
-        color: '#ccc',
-        left: 130,
     },
     inputContainer: {
         width: '80%',
