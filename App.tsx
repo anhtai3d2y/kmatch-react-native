@@ -5,11 +5,13 @@ import StartScreen from "./src/screens/Start";
 import RegisterScreen from "./src/screens/Register";
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import {View} from "react-native";
 import LoginScreen from "./src/screens/Login";
 import HomeScreen from "./src/screens/Home";
 import {Logs} from "expo";
 import store from "./src/stores";
 import {Provider} from "react-redux";
+import ChatScreen from "./src/screens/Chat";
 
 Logs.enableExpoCliLogging();
 const Stack = createNativeStackNavigator();
@@ -41,6 +43,11 @@ export default function App() {
                             <Stack.Screen
                                 name="Start"
                                 component={StartScreen}
+                                options={{headerShown: false}}
+                            />
+                            <Stack.Screen
+                                name="Chat"
+                                component={ChatScreen}
                                 options={{headerShown: false}}
                             />
                         </Stack.Navigator>
