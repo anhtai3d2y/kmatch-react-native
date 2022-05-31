@@ -1,8 +1,8 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Text} from 'react-native';
-import LoginScreen from '../Login';
-import HomeScreen from '../Home';
-import {FontAwesome} from '@expo/vector-icons';
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import {Text} from "react-native";
+import MessageScreen from "../Message";
+import HomeScreen from "../Home";
+import {FontAwesome} from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
 
@@ -14,15 +14,22 @@ const StartScreen = () => {
                 component={HomeScreen}
                 options={{
                     headerShown: false,
+                    tabBarLabel: () => {
+                        return null;
+                    },
                     tabBarIcon: () => (
                         <FontAwesome name="home" size={30} color="#ccc" />
                     ),
                 }}
             />
             <Tab.Screen
-                name="ChatScreen"
-                component={LoginScreen}
+                name="MessageScreen"
+                component={MessageScreen}
                 options={{
+                    headerShown: false,
+                    tabBarLabel: () => {
+                        return null;
+                    },
                     tabBarIcon: () => (
                         <FontAwesome name="wechat" size={30} color="#ccc" />
                     ),
