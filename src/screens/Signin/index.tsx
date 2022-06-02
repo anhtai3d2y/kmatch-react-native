@@ -1,6 +1,6 @@
 import {TouchableOpacity} from "react-native";
 import {Text, View, TextInput} from "react-native";
-import styles from "../../themes/screens/Login";
+import styles from "../../themes/screens/Signin";
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import {getLogin, resetLogin} from "../../stores/actions";
@@ -14,7 +14,7 @@ import {getToken} from "../../helpers";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {UrlApi} from "../../constants";
 
-export default function LoginScreen({navigation}) {
+export default function SigninScreen({navigation}) {
     const dispatch = useDispatch();
     const dataLogin = useSelector((state: IApplicationState) => state.login);
     const onLogin = (email: string, password: string) => {
@@ -25,8 +25,8 @@ export default function LoginScreen({navigation}) {
         navigation.navigate("Start");
     };
 
-    const handleGoToRegister = () => {
-        navigation.navigate("Register");
+    const handleGoToSignup = () => {
+        navigation.navigate("Signup");
     };
 
     const [location, setLocation] = useState("location");
@@ -86,7 +86,7 @@ export default function LoginScreen({navigation}) {
                 <Text style={[styles.title, {fontSize: 10}]}>{location}</Text>
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity
-                        onPress={handleGoToRegister}
+                        onPress={handleGoToSignup}
                         style={styles.button}>
                         <Text style={styles.buttonText}>CREATE ACCOUNT</Text>
                     </TouchableOpacity>

@@ -1,12 +1,14 @@
-import {Dimensions} from 'react-native';
+import {Dimensions} from "react-native";
 
-export const {width, height} = Dimensions.get('screen');
+export const {width, height} = Dimensions.get("screen");
 
 export const CARD = {
-    WIDTH: width * 0.9,
-    HEIGHT: height * 0.78,
+    WIDTH: width * 0.98,
+    HEIGHT: height * 0.85,
     BORDER_RADIUS: 20,
-    OUT_OF_SCREEN: width + 0.5 * width,
+    OUT_OF_WIDTH: width + 0.5 * width,
+    OUT_OF_HEIGHT: height + 0.5 * height,
 };
 
-export const ACTION_OFFSET = 100;
+export const ACTION_X_OFFSET = 100;
+export const ACTION_Y_OFFSET = 200;

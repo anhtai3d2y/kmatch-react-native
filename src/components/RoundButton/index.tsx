@@ -1,7 +1,7 @@
-import React, {useCallback, useRef} from 'react';
-import {Animated, TouchableWithoutFeedback, View} from 'react-native';
-import {FontAwesome} from '@expo/vector-icons';
-import styles from '../../themes/components/RoundButton';
+import React, {useCallback, useRef} from "react";
+import {Animated, TouchableWithoutFeedback, View} from "react-native";
+import {FontAwesome, AntDesign} from "@expo/vector-icons";
+import styles from "../../themes/components/RoundButton";
 
 export default function RoundButton({name, size, color, onPress}) {
     const scale = useRef(new Animated.Value(1)).current;
@@ -27,7 +27,11 @@ export default function RoundButton({name, size, color, onPress}) {
             }}
             delayPressOut={110}>
             <Animated.View style={[styles.container, {transform: [{scale}]}]}>
-                <FontAwesome name={name} size={size} color={color} />
+                {name === "star" ? (
+                    <AntDesign name={name} size={size} color={color} />
+                ) : (
+                    <FontAwesome name={name} size={size} color={color} />
+                )}
             </Animated.View>
         </TouchableWithoutFeedback>
     );
