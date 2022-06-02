@@ -1,10 +1,10 @@
-import {View, TextInput, Text, TouchableOpacity} from 'react-native';
-import styles from '../../themes/screens/Register';
-import {useState} from 'react';
-import {LinearGradient} from 'expo-linear-gradient';
+import {View, TextInput, Text, TouchableOpacity} from "react-native";
+import styles from "../../themes/screens/Signup";
+import {useState} from "react";
+import {LinearGradient} from "expo-linear-gradient";
 
-export default function RegisterScreen() {
-    const [email, setEmail] = useState('');
+export default function SignupScreen() {
+    const [email, setEmail] = useState("");
     return (
         <View>
             <View style={styles.container}>
@@ -23,7 +23,7 @@ export default function RegisterScreen() {
             <LinearGradient
                 start={{x: 1, y: 0}}
                 end={{x: 0, y: 1}}
-                colors={['#e98242', '#e35568', '#df5888']}
+                colors={["#e98242", "#e35568", "#df5888"]}
                 style={styles.linearGradient}>
                 <Text style={styles.buttonText}>CONTINUE</Text>
                 <Text style={styles.title}>My email is</Text>

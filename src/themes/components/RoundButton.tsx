@@ -1,14 +1,14 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet} from "react-native";
 const styles = StyleSheet.create({
     container: {
-        width: 70,
-        height: 70,
-        backgroundColor: '#fff',
+        width: 50,
+        height: 50,
+        backgroundColor: "#fff",
         elevation: 5,
         borderRadius: 40,
-        justifyContent: 'center',
-        alignItems: 'center',
-        shadowColor: '#000',
+        justifyContent: "center",
+        alignItems: "center",
+        shadowColor: "#000",
         shadowOffset: {
             width: 0,
             height: 8,

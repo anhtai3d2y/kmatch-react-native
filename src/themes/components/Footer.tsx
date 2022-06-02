@@ -1,12 +1,12 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet} from "react-native";
 const styles = StyleSheet.create({
     container: {
-        position: 'absolute',
+        position: "absolute",
         bottom: 15,
-        width: 170,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        width: 200,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
     },
 });
 

@@ -1,11 +1,11 @@
-import React, {useState, useRef, useCallback, useEffect} from 'react';
-import {View, Text} from 'react-native';
-import {pets as petsArray} from '../../assets/data';
-import Card from '../../components/Card';
-import Footer from '../../components/Footer';
-import styles from '../../themes/screens/Home';
-import {Animated, PanResponder} from 'react-native';
-import {ACTION_OFFSET, CARD} from '../../constants/Layout';
+import React, {useState, useRef, useCallback, useEffect} from "react";
+import {View, Text} from "react-native";
+import {pets as petsArray} from "../../assets/data";
+import Card from "../../components/Card";
+import Footer from "../../components/Footer";
+import styles from "../../themes/screens/Home";
+import {Animated, PanResponder} from "react-native";
+import {ACTION_X_OFFSET, ACTION_Y_OFFSET, CARD} from "../../constants/Layout";
 export default function HomeScreen() {
     const [pets, setPets] = useState(petsArray);
     const swipe = useRef(new Animated.ValueXY()).current;
@@ -25,14 +25,24 @@ export default function HomeScreen() {
         },
         onPanResponderRelease: (_, {dx, dy}) => {
             const direction = Math.sign(dx);
-            const isActionActive = Math.abs(dx) > ACTION_OFFSET;
+            const isActionXActive = Math.abs(dx) > ACTION_X_OFFSET;
+            const isActionYActive = Math.abs(dy) > ACTION_Y_OFFSET;
 
-            if (isActionActive) {
+            if (isActionXActive) {
                 Animated.timing(swipe, {
                     duration: 200,
                     toValue: {
-                        x: direction * CARD.OUT_OF_SCREEN,
+                        x: direction * CARD.OUT_OF_WIDTH,
                         y: dy,
+                    },
+                    useNativeDriver: true,
+                }).start(removeTopCard);
+            } else if (isActionYActive) {
+                Animated.timing(swipe, {
+                    duration: 200,
+                    toValue: {
+                        x: dx,
+                        y: direction * CARD.OUT_OF_HEIGHT,
                     },
                     useNativeDriver: true,
                 }).start(removeTopCard);
@@ -56,13 +66,17 @@ export default function HomeScreen() {
 
     const handleChoice = useCallback(
         direction => {
-            Animated.timing(swipe.x, {
-                toValue: direction * CARD.OUT_OF_SCREEN,
+            const swipeXY = direction ? swipe.x : swipe.y;
+            direction = direction
+                ? direction * CARD.OUT_OF_WIDTH
+                : -1 * CARD.OUT_OF_HEIGHT;
+            Animated.timing(swipeXY, {
+                toValue: direction,
                 duration: 400,
                 useNativeDriver: true,
             }).start(removeTopCard);
         },
-        [removeTopCard, swipe.x],
+        [removeTopCard, swipe.y],
     );
 
     return (
