@@ -7,7 +7,7 @@ import styles from "../../themes/screens/Home";
 import {Animated, PanResponder} from "react-native";
 import {ACTION_X_OFFSET, ACTION_Y_OFFSET, CARD} from "../../constants/Layout";
 export default function HomeScreen() {
-    const [pets, setPets] = useState(petsArray);
+    const [pets, setPets] = useState(petsArray.reverse());
     const swipe = useRef(new Animated.ValueXY()).current;
     const tiltSign = useRef(new Animated.Value(1)).current;
 

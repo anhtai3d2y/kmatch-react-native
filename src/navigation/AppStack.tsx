@@ -1,8 +1,4 @@
-import {
-    FontAwesome5,
-    Ionicons,
-    MaterialCommunityIcons,
-} from "@expo/vector-icons";
+import {AntDesign, Feather} from "@expo/vector-icons";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import React from "react";
@@ -105,11 +101,15 @@ const MessageStack = ({navigation}) => (
         <Stack.Screen
             name="Chat"
             component={ChatScreen}
-            options={({route}) => ({
-                headerShown: false,
-                // title: route.params.userName,
-                headerBackTitleVisible: false,
-            })}
+            options={({route}) => {
+                console.log(route);
+                return {
+                    headerShown: false,
+                    tabBarVisible: false,
+                    // title: route.params.userName,
+                    headerBackTitleVisible: false,
+                };
+            }}
         />
     </Stack.Navigator>
 );
@@ -127,14 +127,6 @@ const ProfileStack = ({navigation}) => (
             component={EditProfileScreen}
             options={{
                 headerShown: false,
-                // headerTitle: "Edit Profile",
-                // headerBackTitleVisible: false,
-                // headerTitleAlign: "center",
-                // headerStyle: {
-                //     backgroundColor: "#fff",
-                //     shadowColor: "#fff",
-                //     elevation: 0,
-                // },
             }}
         />
         <Stack.Screen
@@ -142,14 +134,6 @@ const ProfileStack = ({navigation}) => (
             component={SettingProfileScreen}
             options={{
                 headerShown: false,
-                // headerTitle: "Edit Profile",
-                // headerBackTitleVisible: false,
-                // headerTitleAlign: "center",
-                // headerStyle: {
-                //     backgroundColor: "#fff",
-                //     shadowColor: "#fff",
-                //     elevation: 0,
-                // },
             }}
         />
         <Stack.Screen
@@ -157,14 +141,6 @@ const ProfileStack = ({navigation}) => (
             component={SubscriptionScreen}
             options={{
                 headerShown: false,
-                // headerTitle: "My Subscription",
-                // headerBackTitleVisible: false,
-                // headerTitleAlign: "center",
-                // headerStyle: {
-                //     backgroundColor: "#fff",
-                //     shadowColor: "#fff",
-                //     elevation: 0,
-                // },
             }}
         />
     </Stack.Navigator>
@@ -194,11 +170,7 @@ export default function AppStack() {
                     tabBarLabel: "Home",
                     // // tabBarVisible: route.state && route.state.index === 0,
                     tabBarIcon: ({color, size}) => (
-                        <MaterialCommunityIcons
-                            name="home-outline"
-                            color={color}
-                            size={size}
-                        />
+                        <AntDesign name="home" color={color} size={size} />
                     ),
                 })}
             />
@@ -207,17 +179,14 @@ export default function AppStack() {
                 component={MatchesStack}
                 options={({route}) => ({
                     headerShown: false,
+                    tabBarLabel: "Matches",
                     tabBarVisible: getTabBarVisibility(route),
                     // Or Hide tabbar when push!
                     // https://github.com/react-navigation/react-navigation/issues/7677
                     // tabBarVisible: route.state && route.state.index === 0,
                     // tabBarLabel: 'Home',
                     tabBarIcon: ({color, size}) => (
-                        <Ionicons
-                            name="chatbox-ellipses-outline"
-                            color={color}
-                            size={size}
-                        />
+                        <Feather name="disc" color={color} size={size} />
                     ),
                 })}
             />
@@ -226,14 +195,14 @@ export default function AppStack() {
                 component={MessageStack}
                 options={({route}) => ({
                     headerShown: false,
-                    // tabBarVisible: false,
+                    tabBarVisible: false,
                     // Or Hide tabbar when push!
                     // https://github.com/react-navigation/react-navigation/issues/7677
                     // tabBarVisible: route.state && route.state.index === 0,
-                    tabBarLabel: "Home",
+                    tabBarLabel: "Message",
                     tabBarIcon: ({color, size}) => (
-                        <Ionicons
-                            name="chatbox-ellipses-outline"
+                        <Feather
+                            name="message-square"
                             color={color}
                             size={size}
                         />
@@ -245,13 +214,9 @@ export default function AppStack() {
                 component={ProfileStack}
                 options={{
                     headerShown: false,
-                    // tabBarLabel: 'Home',
+                    tabBarLabel: "Profile",
                     tabBarIcon: ({color, size}) => (
-                        <Ionicons
-                            name="person-outline"
-                            color={color}
-                            size={size}
-                        />
+                        <AntDesign name="user" color={color} size={size} />
                     ),
                 }}
             />

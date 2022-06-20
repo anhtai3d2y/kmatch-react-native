@@ -1,26 +1,15 @@
 import {TouchableOpacity} from "react-native";
-import {Text, View, TextInput} from "react-native";
+import {Text, View} from "react-native";
 import styles from "../../themes/screens/Signin";
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
-import {getLogin, resetLogin} from "../../stores/actions";
 import {LinearGradient} from "expo-linear-gradient";
-import {FontAwesome} from "@expo/vector-icons";
 import {useState} from "react";
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
-import {IApplicationState} from "../../stores/IApplicationState";
-import {getToken} from "../../helpers";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {UrlApi} from "../../constants";
 
 export default function SigninScreen({navigation}) {
-    const dispatch = useDispatch();
-    const dataLogin = useSelector((state: IApplicationState) => state.login);
-    const onLogin = (email: string, password: string) => {
-        dispatch(getLogin(email, password));
-    };
-
     const handleGoToStart = () => {
         navigation.navigate("Start");
     };

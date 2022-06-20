@@ -75,6 +75,7 @@ export default function ChatScreen({route, navigation}) {
                                 mine={message.mine}
                                 image={message.image}
                                 text={message.text}
+                                key={id}
                             />
                         ))}
                     </View>

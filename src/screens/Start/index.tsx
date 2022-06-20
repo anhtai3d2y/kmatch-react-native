@@ -1,28 +1,16 @@
 import {TouchableOpacity} from "react-native";
-import {Text, View, TextInput} from "react-native";
+import {Text, View} from "react-native";
 import styles from "../../themes/screens/Signin";
 import axios from "axios";
-import {useDispatch, useSelector} from "react-redux";
-import {getLogin, resetLogin} from "../../stores/actions";
 import {LinearGradient} from "expo-linear-gradient";
-import {FontAwesome} from "@expo/vector-icons";
 import {useState} from "react";
 import * as Location from "expo-location";
-import * as Permissions from "expo-permissions";
-import {IApplicationState} from "../../stores/IApplicationState";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {getToken} from "../../helpers";
+import useStore from "../../stores/store";
+import Toast from "react-native-toast-message";
 
 export default function StartScreen({navigation}) {
-    const dispatch = useDispatch();
-    const dataLogin = useSelector((state: IApplicationState) => state.login);
-    const onLogin = (email: string, password: string) => {
-        dispatch(getLogin(email, password));
-    };
-
-    const handleGoToStart = () => {
-        navigation.navigate("Start");
-    };
-
     const handleGoToSignup = () => {
         navigation.navigate("Signup");
     };
@@ -35,9 +23,7 @@ export default function StartScreen({navigation}) {
     const [location, setLocation] = useState("location");
 
     const handleGetLocation = async () => {
-        let {status} = await Permissions.askAsync(
-            Permissions.LOCATION_FOREGROUND,
-        );
+        let {status} = await Location.requestForegroundPermissionsAsync();
         if (status === "granted") {
             setLocation("Permission to access location was denied");
         }
@@ -64,19 +50,20 @@ export default function StartScreen({navigation}) {
         return config;
     });
 
+    const setToken = useStore(state => state.setToken);
+    const loginEmail = useStore(state => state.loginEmail);
     const handleLogin = async () => {
-        const apiUrl = "http://www.kmatch.online/user";
-        const headers = {"Content-Type": "application/json"};
-        try {
-            const res = await axiosClient.get(apiUrl, {
-                headers,
-            });
-            console.log(res.data);
-        } catch (error) {
-            console.log(error);
+        loginEmail("anhtai3d2y@gmail.com", "anhtai3d2y");
+        const token = await getToken();
+        console.log("token: ", token);
+        setToken(token);
+        // Toast.show({
+        //     type: "success",
+        //     text1: "Hello",
+        //     text2: "This is some something 👋",
+        // });
+        if (token) {
         }
-        // await onLogin("anhtai3d2y@gmail.com", "anhtai3d2y");
-        // console.log("token: ", await getToken());
     };
     return (
         <View style={styles.container}>

@@ -2,10 +2,10 @@
 /* eslint-disable no-console */
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {UrlApi} from "../constants";
+import {API_URL} from "../constants";
 
 const axiosClient = axios.create({
-    baseURL: UrlApi.dev.url,
+    baseURL: API_URL,
     responseType: "json",
     timeout: 15 * 1000,
     headers: {
