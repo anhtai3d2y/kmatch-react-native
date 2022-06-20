@@ -1,4 +1,4 @@
-import NameScreen from './nameScreen.json';
-import {UrlApi, EndpointApi} from './api';
+import NameScreen from "./nameScreen.json";
+import {API_URL, EndpointApi} from "./api";
 
-export {UrlApi, NameScreen, EndpointApi};
+export {NameScreen, API_URL, EndpointApi};
