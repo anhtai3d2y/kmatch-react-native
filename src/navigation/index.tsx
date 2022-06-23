@@ -6,20 +6,19 @@ import AppStack from "./AppStack";
 import StartStack from "./StartStack";
 import useStore from "../stores/store";
 import shallow from "zustand/shallow";
-import {LogBox} from "react-native";
+import {LogBox, SafeAreaView} from "react-native";
 import Toast from "react-native-toast-message";
+import {StatusBar} from "expo-status-bar";
 Logs.enableExpoCliLogging();
 
 LogBox.ignoreLogs(["Remote debugger"]);
 export default function Routes() {
     const token = useStore(state => state.token, shallow);
-
-    console.log("token: ", token);
-
     return (
         <SafeAreaProvider>
             <ThemeProvider>
                 <NavigationContainer>
+                    <StatusBar style="dark" />
                     {token ? <AppStack /> : <StartStack />}
                     <Toast />
                 </NavigationContainer>

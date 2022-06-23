@@ -1,12 +1,12 @@
 import create, {GetState, SetState} from "zustand";
-import createLogin from "./zustandCreate/createAuth";
-import createToken from "./zustandCreate/createToken";
+import createAuth from "./zustandCreate/createAuth";
 import createUser from "./zustandCreate/createUser";
+import createVerification from "./zustandCreate/createVerification";
 
 const createRootSlice = (set: SetState<any>, get: GetState<any>) => ({
-    ...createToken(set, get),
-    ...createLogin(set, get),
+    ...createAuth(set, get),
     ...createUser(set, get),
+    ...createVerification(set, get),
 });
 
 const useStore = create(createRootSlice);

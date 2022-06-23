@@ -1,4 +1,10 @@
-import {AntDesign, Feather} from "@expo/vector-icons";
+import {
+    AntDesign,
+    Feather,
+    FontAwesome,
+    Ionicons,
+    MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import React from "react";
@@ -102,7 +108,6 @@ const MessageStack = ({navigation}) => (
             name="Chat"
             component={ChatScreen}
             options={({route}) => {
-                console.log(route);
                 return {
                     headerShown: false,
                     tabBarVisible: false,
@@ -160,17 +165,22 @@ export default function AppStack() {
     return (
         <Tab.Navigator
             screenOptions={{
-                tabBarActiveTintColor: "#2e64e5",
+                tabBarActiveTintColor: "#E94057",
             }}>
             <Tab.Screen
                 name="HomeTab"
                 component={FeedStack}
                 options={({route}) => ({
                     headerShown: false,
-                    tabBarLabel: "Home",
+                    // tabBarLabel: "Feeds",
+                    tabBarShowLabel: false,
                     // // tabBarVisible: route.state && route.state.index === 0,
                     tabBarIcon: ({color, size}) => (
-                        <AntDesign name="home" color={color} size={size} />
+                        <MaterialCommunityIcons
+                            name="cards"
+                            color={color}
+                            size={size}
+                        />
                     ),
                 })}
             />
@@ -179,14 +189,14 @@ export default function AppStack() {
                 component={MatchesStack}
                 options={({route}) => ({
                     headerShown: false,
-                    tabBarLabel: "Matches",
+                    // tabBarLabel: "Matches",
+                    tabBarShowLabel: false,
                     tabBarVisible: getTabBarVisibility(route),
                     // Or Hide tabbar when push!
                     // https://github.com/react-navigation/react-navigation/issues/7677
                     // tabBarVisible: route.state && route.state.index === 0,
-                    // tabBarLabel: 'Home',
                     tabBarIcon: ({color, size}) => (
-                        <Feather name="disc" color={color} size={size} />
+                        <Ionicons name="md-heart" color={color} size={size} />
                     ),
                 })}
             />
@@ -199,10 +209,11 @@ export default function AppStack() {
                     // Or Hide tabbar when push!
                     // https://github.com/react-navigation/react-navigation/issues/7677
                     // tabBarVisible: route.state && route.state.index === 0,
-                    tabBarLabel: "Message",
+                    // tabBarLabel: "Message",
+                    tabBarShowLabel: false,
                     tabBarIcon: ({color, size}) => (
-                        <Feather
-                            name="message-square"
+                        <MaterialCommunityIcons
+                            name="comment-text"
                             color={color}
                             size={size}
                         />
@@ -214,9 +225,10 @@ export default function AppStack() {
                 component={ProfileStack}
                 options={{
                     headerShown: false,
-                    tabBarLabel: "Profile",
+                    // tabBarLabel: "Profile",
+                    tabBarShowLabel: false,
                     tabBarIcon: ({color, size}) => (
-                        <AntDesign name="user" color={color} size={size} />
+                        <FontAwesome name="user" color={color} size={size} />
                     ),
                 }}
             />
