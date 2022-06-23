@@ -1,52 +1,60 @@
 import {StyleSheet} from "react-native";
 import colors from "../../constants/Colors";
 import fonts from "../../constants/Fonts";
-import {height, width} from "../../constants/Layout";
+import {width} from "../../constants/Layout";
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "white",
-        alignItems: "center",
         justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#fff",
     },
-    title: {
-        fontFamily: fonts.mainFontBold,
-        marginTop: 40,
-        color: "#000",
-        fontSize: 20,
+    linearGradient: {
+        flex: 1,
+        paddingLeft: 15,
+        paddingRight: 15,
+        borderRadius: 5,
+        width: width,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    inputContainer: {
+        width: "80%",
     },
     input: {
-        color: "black",
-        fontSize: 18,
-        width: width - 60,
+        backgroundColor: "white",
         paddingHorizontal: 15,
         paddingVertical: 10,
-        borderColor: colors.redColor,
-        borderWidth: 1,
-        borderRadius: 15,
-        marginTop: 30,
-        marginBottom: 30,
+        borderRadius: 10,
+        marginTop: 10,
+    },
+    buttonContainer: {
+        marginTop: 100,
+        width: "60%",
+        justifyContent: "center",
+        alignItems: "center",
     },
     button: {
+        backgroundColor: "white",
         width: width - 50,
         padding: 15,
         borderRadius: 40,
         borderWidth: 2,
-        borderColor: "#fff",
+        borderColor: colors.redColor,
         alignItems: "center",
         marginBottom: 10,
-    },
-    buttonText: {
-        color: "black",
-        fontWeight: "600",
-        fontSize: 12,
     },
     buttonOutline: {
         backgroundColor: colors.redColor,
         marginTop: 5,
         borderColor: colors.redColor,
         borderWidth: 2,
+    },
+    buttonText: {
+        color: colors.redColor,
+        fontWeight: "600",
+        fontSize: 16,
     },
     buttonOutlineText: {
         color: "white",

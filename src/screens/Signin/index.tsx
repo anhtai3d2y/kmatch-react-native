@@ -1,103 +1,75 @@
-import {TouchableOpacity} from "react-native";
-import {Text, View} from "react-native";
+import {
+    KeyboardAvoidingView,
+    TouchableOpacity,
+    TouchableWithoutFeedback,
+    Text,
+    View,
+    TextInput,
+    Keyboard,
+    Platform,
+} from "react-native";
 import styles from "../../themes/screens/Signin";
-import axios from "axios";
-import {useDispatch, useSelector} from "react-redux";
-import {LinearGradient} from "expo-linear-gradient";
 import {useState} from "react";
-import * as Location from "expo-location";
-import * as Permissions from "expo-permissions";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import Logo from "../../components/Logo";
+import colors from "../../constants/Colors";
+import useStore from "../../stores/store";
+import {getToken} from "../../helpers";
+import shallow from "zustand/shallow";
+import {ActivityIndicator} from "react-native-paper";
 
 export default function SigninScreen({navigation}) {
-    const handleGoToStart = () => {
-        navigation.navigate("Start");
-    };
-
-    const handleGoToSignup = () => {
-        navigation.navigate("Signup");
-    };
-
-    const [location, setLocation] = useState("location");
-
-    const handleGetLocation = async () => {
-        let {status} = await Permissions.askAsync(
-            Permissions.LOCATION_FOREGROUND,
-        );
-        if (status === "granted") {
-            setLocation("Permission to access location was denied");
-        }
-
-        let location = await Location.getCurrentPositionAsync({});
-
-        setLocation(
-            location.coords.latitude + ", " + location.coords.longitude,
-        );
-    };
-
-    const axiosClient = axios.create({
-        baseURL: "http://kmatch.online",
-        responseType: "json",
-        timeout: 15 * 1000,
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-
-    axiosClient.interceptors.request.use(async config => {
-        const accessToken = await AsyncStorage.getItem("token");
-        config.headers.Authorization = `Bearer ${accessToken}`;
-        return config;
-    });
-
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const setToken = useStore(state => state.setToken);
+    const loginEmail = useStore(state => state.loginEmail);
+    const isLoginLoading = useStore(state => state.isLoginLoading, shallow);
     const handleLogin = async () => {
-        const apiUrl = "http://www.kmatch.online/user";
-        const headers = {"Content-Type": "application/json"};
-        try {
-            const res = await axiosClient.get(apiUrl, {
-                headers,
-            });
-            console.log(res.data);
-        } catch (error) {
-            console.log(error);
-        }
-        // await onLogin("anhtai3d2y@gmail.com", "anhtai3d2y");
-        // console.log("token: ", await getToken());
+        loginEmail(email, password);
+        const token = await getToken();
+        setToken(token);
     };
     return (
-        <View style={styles.container}>
-            <LinearGradient
-                start={{x: 1, y: 0}}
-                end={{x: 0, y: 1}}
-                colors={["#e98242", "#e35568", "#df5888"]}
-                style={styles.linearGradient}>
-                <Text style={styles.title}>kmatch</Text>
-                <Text style={[styles.title, {fontSize: 10}]}>{location}</Text>
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity
-                        onPress={handleGoToSignup}
-                        style={styles.button}>
-                        <Text style={styles.buttonText}>CREATE ACCOUNT</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={[styles.button, styles.buttonOutline]}
-                        onPress={handleGoToStart}>
-                        <Text style={styles.buttonOutlineText}>SIGN IN</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={[styles.button, styles.buttonOutline]}
-                        onPress={handleGetLocation}>
-                        <Text style={styles.buttonOutlineText}>
-                            GET LOCATION
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={handleLogin}>
-                        <Text style={styles.buttonOutlineText}>
-                            Trouble Signing In?
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-            </LinearGradient>
-        </View>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.container}>
+                <Logo />
+                <KeyboardAvoidingView
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}>
+                    <TextInput
+                        placeholder="Email"
+                        placeholderTextColor="#ccc"
+                        value={email}
+                        onChangeText={text => setEmail(text)}
+                        style={styles.input}
+                    />
+                    <TextInput
+                        placeholder="Password"
+                        placeholderTextColor="#ccc"
+                        value={password}
+                        onChangeText={text => setPassword(text)}
+                        style={styles.input}
+                        secureTextEntry={true}
+                    />
+                </KeyboardAvoidingView>
+
+                <TouchableOpacity
+                    style={[
+                        styles.button,
+                        styles.buttonOutline,
+                        {marginTop: 30},
+                    ]}
+                    onPress={handleLogin}>
+                    {isLoginLoading ? (
+                        <ActivityIndicator size="small" color="#fff" />
+                    ) : (
+                        <Text style={styles.buttonOutlineText}>Sing in</Text>
+                    )}
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <Text style={{color: colors.redColor, marginTop: 20}}>
+                        Trouble Signing In?
+                    </Text>
+                </TouchableOpacity>
+            </View>
+        </TouchableWithoutFeedback>
     );
 }

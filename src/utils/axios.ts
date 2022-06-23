@@ -19,18 +19,4 @@ axiosClient.interceptors.request.use(async config => {
     return config;
 });
 
-axiosClient.interceptors.response.use(
-    response => response.data,
-    async error => {
-        // Handle error
-        if (error.response.status === 401) {
-            await AsyncStorage.removeItem("token");
-        }
-        console.error(
-            "error",
-            error.response ? error.response.data : error.response,
-        );
-    },
-);
-
 export default axiosClient;

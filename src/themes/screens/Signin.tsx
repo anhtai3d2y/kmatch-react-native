@@ -1,69 +1,57 @@
-import {StyleSheet} from 'react-native';
-import {width} from '../../constants/Layout';
+import {StyleSheet} from "react-native";
+import colors from "../../constants/Colors";
+import fonts from "../../constants/Fonts";
+import {height, width} from "../../constants/Layout";
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    linearGradient: {
-        flex: 1,
-        paddingLeft: 15,
-        paddingRight: 15,
-        borderRadius: 5,
-        width: width,
-        justifyContent: 'center',
-        alignItems: 'center',
+        backgroundColor: "white",
+        alignItems: "center",
+        justifyContent: "center",
     },
     title: {
-        fontFamily: 'Futura',
-        fontSize: 50,
-        color: '#fff',
-        fontWeight: '700',
-        top: 100,
-    },
-    inputContainer: {
-        width: '80%',
+        fontFamily: fonts.mainFontBold,
+        marginTop: 40,
+        marginBottom: 20,
+        color: "#000",
+        fontSize: 20,
     },
     input: {
-        backgroundColor: 'white',
+        color: "black",
+        fontSize: 18,
+        width: width - 60,
         paddingHorizontal: 15,
         paddingVertical: 10,
-        borderRadius: 10,
-        marginTop: 10,
-    },
-    buttonContainer: {
-        marginTop: 100,
-        width: '60%',
-        justifyContent: 'center',
-        alignItems: 'center',
+        borderColor: colors.redColor,
+        borderWidth: 1,
+        borderRadius: 15,
+        marginTop: 15,
     },
     button: {
-        backgroundColor: 'white',
         width: width - 50,
         padding: 15,
         borderRadius: 40,
         borderWidth: 2,
-        borderColor: '#fff',
-        alignItems: 'center',
+        borderColor: "#fff",
+        alignItems: "center",
         marginBottom: 10,
     },
+    buttonText: {
+        color: "black",
+        fontWeight: "600",
+        fontSize: 16,
+    },
     buttonOutline: {
-        backgroundColor: 'rgba(0,0,0,0)',
+        backgroundColor: colors.redColor,
         marginTop: 5,
-        borderColor: '#fff',
+        borderColor: colors.redColor,
         borderWidth: 2,
     },
-    buttonText: {
-        color: '#737373',
-        fontWeight: '600',
-        fontSize: 12,
-    },
     buttonOutlineText: {
-        color: 'white',
-        fontWeight: '600',
-        fontSize: 12,
+        color: "white",
+        fontWeight: "600",
+        fontSize: 16,
     },
 });
 
