@@ -1,13 +1,15 @@
 import {Ionicons} from "@expo/vector-icons";
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import React from "react";
 import {View} from "react-native";
 import SigninScreen from "../screens/Signin";
 import SignupScreen from "../screens/Signup";
+import SignupProfileScreen from "../screens/SignupProfile";
 import StartScreen from "../screens/Start";
+import VerificationScreen from "../screens/Verification";
 
 const Stack = createNativeStackNavigator();
-
 export default function StartStack() {
     return (
         <Stack.Navigator initialRouteName="Start">
@@ -16,15 +18,6 @@ export default function StartStack() {
                 component={StartScreen}
                 options={{
                     headerShown: false,
-                    // headerTitleAlign: "center",
-                    // headerTitleStyle: {
-                    //     color: "#2e64e5",
-                    //     fontFamily: "Kufam-SemiBoldItalic",
-                    //     fontSize: 18,
-                    // },
-                    // headerStyle: {
-                    //     backgroundColor: "#fff",
-                    // },
                 }}
             />
             <Stack.Screen
@@ -32,47 +25,28 @@ export default function StartStack() {
                 component={SignupScreen}
                 options={{
                     headerShown: false,
-                    // title: "",
-                    // headerTitleAlign: "center",
-                    // headerStyle: {
-                    //     backgroundColor: "#2e64e515",
-                    //     // shadowColor: "#2e64e515",
-                    //     elevation: 0,
-                    // },
-                    // headerBackTitleVisible: false,
-                    // headerBackImage: () => (
-                    //     <View style={{marginLeft: 15}}>
-                    //         <Ionicons
-                    //             name="arrow-back"
-                    //             size={25}
-                    //             color="#2e64e5"
-                    //         />
-                    //     </View>
-                    // ),
                 }}
             />
+
             <Stack.Screen
                 name="Signin"
                 component={SigninScreen}
                 options={{
                     headerShown: false,
-                    // title: "",
-                    // headerTitleAlign: "center",
-                    // headerStyle: {
-                    //     backgroundColor: "#2e64e515",
-                    //     // shadowColor: "#2e64e515",
-                    //     // elevation: 0,
-                    // },
-                    // headerBackTitleVisible: false,
-                    // headerBackImage: () => (
-                    //     <View style={{marginLeft: 15}}>
-                    //         <Ionicons
-                    //             name="arrow-back"
-                    //             size={25}
-                    //             color="#2e64e5"
-                    //         />
-                    //     </View>
-                    // ),
+                }}
+            />
+            <Stack.Screen
+                name="Verification"
+                component={VerificationScreen}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <Stack.Screen
+                name="SignupProfile"
+                component={SignupProfileScreen}
+                options={{
+                    headerShown: false,
                 }}
             />
         </Stack.Navigator>
