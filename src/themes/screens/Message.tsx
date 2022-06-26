@@ -1,13 +1,21 @@
 import {StyleSheet, Dimensions} from "react-native";
-import {width} from "../../constants/Layout";
+import colors from "../../constants/Colors";
+import {height, width} from "../../constants/Layout";
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingLeft: 10,
-        paddingTop: 40,
+        paddingTop: 30,
         alignItems: "center",
         backgroundColor: "#ffffff",
+    },
+    title: {
+        fontWeight: "600",
+        fontSize: 24,
+    },
+    messageView: {
+        width: width,
+        paddingHorizontal: 20,
     },
     card: {
         width: width,
@@ -21,9 +29,11 @@ const styles = StyleSheet.create({
         paddingBottom: 15,
     },
     image: {
-        width: 50,
-        height: 50,
-        borderRadius: 25,
+        width: 60,
+        height: 60,
+        borderRadius: 50,
+        borderWidth: 2,
+        borderColor: colors.redColor,
     },
     text_section: {
         flexDirection: "column",
