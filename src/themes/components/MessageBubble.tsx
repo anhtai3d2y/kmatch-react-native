@@ -8,11 +8,11 @@ const styles = StyleSheet.create({
         marginVertical: moderateScale(7, 2),
     },
     mine: {
-        marginLeft: 20,
-    },
-    not_mine: {
         alignSelf: "flex-end",
         marginRight: 20,
+    },
+    not_mine: {
+        marginLeft: 20,
     },
     cloud: {
         maxWidth: moderateScale(250, 2),
