@@ -1,45 +1,65 @@
-import {StyleSheet, Dimensions} from "react-native";
-import {width} from "../../constants/Layout";
-
-const {height} = Dimensions.get("window");
+import {StyleSheet} from "react-native";
+import colors from "../../constants/Colors";
+import {width, height} from "../../constants/Layout";
 
 const styles = StyleSheet.create({
     scroll_view: {
         backgroundColor: "#fff",
         marginBottom: 60,
     },
-    user_name: {
+    userHeader: {
         position: "absolute",
         top: 20,
-        left: width / 2,
+        height: 50,
+        width: width,
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    headerImage: {
+        borderWidth: 1,
+        borderColor: colors.redColor,
+        borderRadius: 20,
+        height: 35,
+        width: 35,
     },
     container: {
         backgroundColor: "#fff",
-        paddingTop: 40,
+        paddingTop: 65,
+        position: "relative",
     },
-    box_chat: {
-        backgroundColor: "rgba(0,0,0,0.5)",
+    containerMessage: {
+        backgroundColor: "#fff",
+        paddingTop: 10,
+        marginBottom: 65,
+    },
+    messageHeader: {
+        alignItems: "center",
+        width: width,
+    },
+    boxChat: {
         flexDirection: "row",
         width: width,
         height: 60,
         position: "absolute",
         zIndex: 2,
         bottom: 0,
+        justifyContent: "center",
+        alignItems: "center",
+        marginHorizontal: 10,
+        paddingRight: 10,
     },
     input: {
-        width: width * 0.7,
+        marginLeft: 15,
+        width: width * 0.8,
         height: 40,
-        backgroundColor: "rgba(0,0,0,0.5)",
+        backgroundColor: "#ccc",
         borderRadius: 20,
-        margin: 12,
-        borderWidth: 1,
         padding: 10,
-        color: "#fff",
     },
     send: {
-        width: width * 0.3,
-        backgroundColor: "#ccc",
+        width: width * 0.2,
         height: 60,
+        alignSelf: "center",
         alignItems: "center",
         justifyContent: "center",
     },
