@@ -1,11 +1,11 @@
 import axios from "axios";
 import {API_URL, EndpointApi} from "../../constants";
-import {setToken} from "../../helpers";
+import {getToken, setToken} from "../../helpers";
 import axiosClient from "../../utils/axios";
 import StoreSlice from "./storeSlice";
 import Toast from "react-native-toast-message";
 interface LoginState {
-    token: string;
+    token: any;
     user: object;
     isLoginLoading: boolean;
     isSignupLoading: boolean;
@@ -16,7 +16,7 @@ interface LoginState {
 }
 
 const createAuth: StoreSlice<LoginState> = (set, get) => ({
-    token: "",
+    token: getToken(),
     user: {},
     isLoginLoading: false,
     isSignupLoading: false,
