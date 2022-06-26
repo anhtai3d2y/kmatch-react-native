@@ -5,7 +5,7 @@ const {height} = Dimensions.get("window");
 const styles = StyleSheet.create({
     container: {
         position: "absolute",
-        top: 45,
+        top: 60,
     },
     image: {
         width: CARD.WIDTH,

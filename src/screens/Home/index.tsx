@@ -6,6 +6,7 @@ import Footer from "../../components/Footer";
 import styles from "../../themes/screens/Home";
 import {Animated, PanResponder} from "react-native";
 import {ACTION_X_OFFSET, ACTION_Y_OFFSET, CARD} from "../../constants/Layout";
+import TinyLogo from "../../components/TinyLogo";
 export default function HomeScreen() {
     const [pets, setPets] = useState(petsArray.reverse());
     const swipe = useRef(new Animated.ValueXY()).current;
@@ -81,6 +82,7 @@ export default function HomeScreen() {
 
     return (
         <View style={styles.container}>
+            <TinyLogo />
             {pets
                 .map(({name, age, source}, index) => {
                     const isFirst = index === 0;
