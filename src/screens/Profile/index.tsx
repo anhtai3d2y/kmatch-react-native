@@ -1,13 +1,6 @@
 import {Entypo, Ionicons, MaterialCommunityIcons} from "@expo/vector-icons";
-import {useState} from "react";
-import {
-    View,
-    Text,
-    TouchableOpacity,
-    Image,
-    Modal,
-    Pressable,
-} from "react-native";
+import {useEffect, useState} from "react";
+import {View, Text, TouchableOpacity, Image} from "react-native";
 import TinyLogo from "../../components/TinyLogo";
 import colors from "../../constants/Colors";
 import {setToken} from "../../helpers";
@@ -15,17 +8,32 @@ import useStore from "../../stores/store";
 import styles from "../../themes/screens/Profile";
 import SettingModal from "../SettingModal";
 import Swiper from "react-native-swiper";
+import shallow from "zustand/shallow";
+import * as Linking from "expo-linking";
+import * as WebBrowser from "expo-web-browser";
 
 export default function ProfileScreen({navigation}) {
     const setTokenStore = useStore(state => state.setToken);
     const getUser = useStore(state => state.getUser);
+    const userAuth = useStore(state => state.userAuth);
+    const token = useStore(state => state.token);
+    const getUserNewsFeed = useStore(state => state.getUserNewsFeed);
+    const paypal = useStore(state => state.paypal, shallow);
+
     const handleLogout = async () => {
         await setToken("");
         setTokenStore("");
     };
 
-    const handleGetUser = async () => {
-        await getUser();
+    useEffect(() => {
+        if (paypal) {
+            // Linking.openURL(paypal);
+            WebBrowser.openBrowserAsync(paypal);
+        }
+    });
+    const handelEditProfile = async () => {
+        // await getUser();
+        await getUserNewsFeed();
     };
 
     const [modalVisible, setModalVisible] = useState(false);
@@ -52,7 +60,9 @@ export default function ProfileScreen({navigation}) {
                         }}>
                         <Image
                             source={{
-                                uri: "https://scontent.fhan14-2.fna.fbcdn.net/v/t1.6435-9/76714112_2463775960534937_8739041008815177728_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=174925&_nc_ohc=l5Qta76QWE0AX-N4OV1&_nc_ht=scontent.fhan14-2.fna&oh=00_AT_-sjENN5Vk2-z0WY-N_OnPjXBKrSqPF-dFjY8WnJz9xg&oe=62D88D22",
+                                uri:
+                                    userAuth?.avatar?.secureURL ||
+                                    "https://scontent.fhan14-2.fna.fbcdn.net/v/t1.6435-9/76714112_2463775960534937_8739041008815177728_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=174925&_nc_ohc=l5Qta76QWE0AX-N4OV1&_nc_ht=scontent.fhan14-2.fna&oh=00_AT_-sjENN5Vk2-z0WY-N_OnPjXBKrSqPF-dFjY8WnJz9xg&oe=62D88D22",
                             }}
                             style={{
                                 width: 130,
@@ -87,7 +97,7 @@ export default function ProfileScreen({navigation}) {
                         <Text style={styles.actionName}>SETTINGS</Text>
                     </View>
                     <View>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={handelEditProfile}>
                             <View style={styles.action}>
                                 <MaterialCommunityIcons
                                     name="lead-pencil"

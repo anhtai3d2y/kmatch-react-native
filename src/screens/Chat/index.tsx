@@ -90,6 +90,10 @@ export default function ChatScreen({route, navigation}) {
                 },
             ];
         });
+        socket.emit("events", {
+            id,
+            message: "Hello",
+        });
     };
 
     return (

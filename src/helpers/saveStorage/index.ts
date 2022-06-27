@@ -3,6 +3,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const token = "token";
+const userAuth = "userAuth";
 const tokenDevice = "tokenDevice";
 
 const storeData = async (key: string, value: string) => {
@@ -30,6 +31,8 @@ const setToken = (newToken?: string) => {
 
 const getToken = () => getData(token);
 
+const getUserAuth = () => getData(userAuth);
+
 const setEnvironment = (environment?: string) => {
     storeData("environment", environment || "");
 };
@@ -47,8 +50,10 @@ const getTokenDevice = async () => AsyncStorage.getItem(tokenDevice);
 export {
     setToken,
     getToken,
+    getUserAuth,
     setDataUser,
     getData,
+    storeData,
     setTokenDevice,
     getTokenDevice,
     setEnvironment,
