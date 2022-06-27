@@ -1,12 +1,18 @@
 import axios from "axios";
 import {API_URL, EndpointApi} from "../../constants";
-import {getToken, setToken} from "../../helpers";
+import {
+    getData,
+    getToken,
+    getUserAuth,
+    setToken,
+    storeData,
+} from "../../helpers";
 import axiosClient from "../../utils/axios";
 import StoreSlice from "./storeSlice";
 import Toast from "react-native-toast-message";
 interface LoginState {
     token: any;
-    user: object;
+    userAuth: object;
     isLoginLoading: boolean;
     isSignupLoading: boolean;
     isSignupSuccess: boolean;
@@ -17,7 +23,7 @@ interface LoginState {
 
 const createAuth: StoreSlice<LoginState> = (set, get) => ({
     token: getToken(),
-    user: {},
+    userAuth: getUserAuth(),
     isLoginLoading: false,
     isSignupLoading: false,
     isSignupSuccess: false,
@@ -33,10 +39,23 @@ const createAuth: StoreSlice<LoginState> = (set, get) => ({
                 email,
                 password,
             });
-            const token = res.data.data.accessToken;
+            const data = res.data.data;
+            const token = data.accessToken;
+            const user = {
+                id: data.data._id,
+                avatar: data.data.avatar,
+                email: data.data.email,
+                name: data.data.name,
+                gender: data.data.gender,
+                birthday: data.data.birthday,
+                phonenumber: data.data.phonenumber,
+                role: data.data.role,
+            };
             setToken(token);
+            storeData("userAuth", user.toString());
             set({
                 token: token,
+                userAuth: user,
                 isLoginLoading: false,
             });
             // console.log("res: ", res.data.data);

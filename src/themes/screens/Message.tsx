@@ -14,8 +14,9 @@ const styles = StyleSheet.create({
         fontSize: 24,
     },
     messageView: {
-        width: width,
-        paddingHorizontal: 20,
+        // width: width,
+        // paddingHorizontal: 20,
+        // marginHorizontal: 10,
     },
     card: {
         width: width,
@@ -25,6 +26,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
     },
     user_img_wrapper: {
+        marginLeft: 10,
         paddingTop: 15,
         paddingBottom: 15,
     },
@@ -55,6 +57,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
     post_time: {
+        marginRight: 10,
         fontSize: 12,
         color: "#666",
     },
