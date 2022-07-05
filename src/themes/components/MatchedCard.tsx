@@ -10,6 +10,22 @@ const styles = StyleSheet.create({
         width: 140,
         borderRadius: 10,
     },
+    gradient: {
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: 100,
+        borderRadius: 10,
+    },
+    name: {
+        position: "absolute",
+        bottom: 35,
+        left: 5,
+        fontSize: 16,
+        fontWeight: "bold",
+        color: "#fff",
+    },
     actionContainer: {
         position: "absolute",
         bottom: 0,
@@ -20,7 +36,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "rgba(0,0,0,0.6)",
+        backgroundColor: "rgba(0,0,0,0.2)",
     },
     dislike: {
         paddingRight: 20,

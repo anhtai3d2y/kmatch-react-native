@@ -1,4 +1,5 @@
 import {StyleSheet, Dimensions} from "react-native";
+import colors from "../../constants/Colors";
 import {width} from "../../constants/Layout";
 
 const {height} = Dimensions.get("window");
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#9DD6EB",
+        backgroundColor: colors.grayColor,
     },
     slide2: {
         flex: 1,
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#92BBD9",
     },
     text: {
-        color: "#fff",
+        color: "#000",
         fontSize: 30,
         fontWeight: "bold",
     },

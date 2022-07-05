@@ -22,7 +22,12 @@ const createLikeUser: StoreSlice<LikeUserState> = (set, get) => ({
             set({
                 likeUsers: data,
             });
-            console.log("res: ", data);
+            // console.log("res: ", data);
+            // Toast.show({
+            //     type: "message",
+            //     text1: "Like User Success!",
+            //     text2: data,
+            // });
         } catch (error: any) {
             Toast.show({
                 type: "error",
@@ -35,7 +40,9 @@ const createLikeUser: StoreSlice<LikeUserState> = (set, get) => ({
         try {
             const res = await axiosClient.get(API_URL + EndpointApi.likeUsers);
             const data = res.data.data;
-            console.log("res: ", data);
+            set({
+                likeUsers: data,
+            });
         } catch (error: any) {
             Toast.show({
                 type: "error",
