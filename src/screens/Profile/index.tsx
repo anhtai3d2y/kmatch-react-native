@@ -14,11 +14,9 @@ import * as WebBrowser from "expo-web-browser";
 
 export default function ProfileScreen({navigation}) {
     const setTokenStore = useStore(state => state.setToken);
-    const getUser = useStore(state => state.getUser);
-    const userAuth = useStore(state => state.userAuth);
-    const token = useStore(state => state.token);
-    const getUserNewsFeed = useStore(state => state.getUserNewsFeed);
+    const userAuth = useStore(state => state.userAuth, shallow);
     const paypal = useStore(state => state.paypal, shallow);
+    const [user, setUser] = useState({});
 
     const handleLogout = async () => {
         await setToken("");
@@ -26,15 +24,16 @@ export default function ProfileScreen({navigation}) {
     };
 
     useEffect(() => {
+        setUser(userAuth);
+    }, [userAuth]);
+
+    useEffect(() => {
         if (paypal) {
             // Linking.openURL(paypal);
             WebBrowser.openBrowserAsync(paypal);
         }
     });
-    const handelEditProfile = async () => {
-        // await getUser();
-        await getUserNewsFeed();
-    };
+    const handelEditProfile = async () => {};
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -61,7 +60,7 @@ export default function ProfileScreen({navigation}) {
                         <Image
                             source={{
                                 uri:
-                                    userAuth?.avatar?.secureURL ||
+                                    user?.avatar?.secureURL ||
                                     "https://scontent.fhan14-2.fna.fbcdn.net/v/t1.6435-9/76714112_2463775960534937_8739041008815177728_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=174925&_nc_ohc=l5Qta76QWE0AX-N4OV1&_nc_ht=scontent.fhan14-2.fna&oh=00_AT_-sjENN5Vk2-z0WY-N_OnPjXBKrSqPF-dFjY8WnJz9xg&oe=62D88D22",
                             }}
                             style={{
@@ -75,8 +74,8 @@ export default function ProfileScreen({navigation}) {
                     </View>
                 </View>
                 <View style={styles.info}>
-                    <Text style={styles.textInfo}>Tai, </Text>
-                    <Text style={styles.textInfo}>21</Text>
+                    <Text style={styles.textInfo}>{user.name}</Text>
+                    <Text style={styles.textInfo}>,{" " + user.age}</Text>
                     <Ionicons
                         name="ios-checkmark-circle"
                         size={24}

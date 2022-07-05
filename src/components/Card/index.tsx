@@ -14,6 +14,7 @@ export default function Card({
     name,
     age,
     source,
+    distance,
     isFirst,
     swipe,
     tiltSign,
@@ -88,7 +89,7 @@ export default function Card({
         <Animated.View
             style={[styles.container, isFirst && animatedCardStyle]}
             {...rest}>
-            <Image source={source} style={styles.image} />
+            <Image source={{uri: source}} style={styles.image} />
             <LinearGradient
                 colors={["transparent", "rgba(0,0,0,0.9)"]}
                 style={styles.gradient}
@@ -96,6 +97,7 @@ export default function Card({
             <Text style={styles.name}>
                 {name}, {age}
             </Text>
+            <Text style={styles.distance}>{distance}</Text>
             {isFirst && renderChoice()}
         </Animated.View>
     );

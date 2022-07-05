@@ -6,10 +6,58 @@ import AppStack from "./AppStack";
 import StartStack from "./StartStack";
 import useStore from "../stores/store";
 import shallow from "zustand/shallow";
-import {LogBox, SafeAreaView} from "react-native";
-import Toast from "react-native-toast-message";
+import {LogBox, SafeAreaView, Text, View} from "react-native";
+import Toast, {BaseToast, ErrorToast} from "react-native-toast-message";
 import {StatusBar} from "expo-status-bar";
+import colors from "../constants/Colors";
 Logs.enableExpoCliLogging();
+
+const toastConfig = {
+    /*
+    Overwrite 'success' type,
+    by modifying the existing `BaseToast` component
+  */
+    message: props => (
+        <BaseToast
+            {...props}
+            style={{borderLeftColor: colors.redColor}}
+            contentContainerStyle={{paddingHorizontal: 15}}
+            text1Style={{
+                fontSize: 15,
+                fontWeight: "400",
+            }}
+        />
+    ),
+    /*
+    Overwrite 'error' type,
+    by modifying the existing `ErrorToast` component
+  */
+    error: props => (
+        <ErrorToast
+            {...props}
+            text1Style={{
+                fontSize: 17,
+            }}
+            text2Style={{
+                fontSize: 15,
+            }}
+        />
+    ),
+
+    /*
+    Or create a completely new type - `tomatoToast`,
+    building the layout from scratch.
+
+    I can consume any custom `props` I want.
+    They will be passed when calling the `show` method (see below)
+  */
+    tomatoToast: ({text1, props}) => (
+        <View style={{height: 60, width: "100%", backgroundColor: "tomato"}}>
+            <Text>{text1}</Text>
+            <Text>{props.uuid}</Text>
+        </View>
+    ),
+};
 
 LogBox.ignoreLogs(["Remote debugger"]);
 export default function Routes() {
@@ -20,7 +68,7 @@ export default function Routes() {
                 <NavigationContainer>
                     <StatusBar style="dark" />
                     {token ? <AppStack /> : <StartStack />}
-                    <Toast />
+                    <Toast config={toastConfig} />
                 </NavigationContainer>
             </ThemeProvider>
         </SafeAreaProvider>

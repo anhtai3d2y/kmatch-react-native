@@ -17,6 +17,7 @@ interface LoginState {
     isSignupLoading: boolean;
     isSignupSuccess: boolean;
     setToken: (token: string) => void;
+    setUserAuth: () => void;
     loginEmail: (email: string, password: string) => void;
     signup: (body: any) => void;
 }
@@ -30,6 +31,11 @@ const createAuth: StoreSlice<LoginState> = (set, get) => ({
     setToken: (token: string) => {
         set({token: token});
     },
+    setUserAuth: () => {
+        set({
+            userAuth: getUserAuth(),
+        });
+    },
     loginEmail: async (email: string, password: string) => {
         try {
             set({
@@ -41,6 +47,9 @@ const createAuth: StoreSlice<LoginState> = (set, get) => ({
             });
             const data = res.data.data;
             const token = data.accessToken;
+            const age =
+                new Date().getFullYear() -
+                parseInt(data.data.birthday.split("/")[0]);
             const user = {
                 id: data.data._id,
                 avatar: data.data.avatar,
@@ -50,6 +59,7 @@ const createAuth: StoreSlice<LoginState> = (set, get) => ({
                 birthday: data.data.birthday,
                 phonenumber: data.data.phonenumber,
                 role: data.data.role,
+                age: age,
             };
             setToken(token);
             storeData("userAuth", user.toString());

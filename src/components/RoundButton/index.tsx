@@ -1,6 +1,6 @@
 import React, {useCallback, useRef} from "react";
 import {Animated, TouchableWithoutFeedback, View} from "react-native";
-import {FontAwesome, AntDesign} from "@expo/vector-icons";
+import {FontAwesome, AntDesign, MaterialIcons} from "@expo/vector-icons";
 import styles from "../../themes/components/RoundButton";
 
 export default function RoundButton({name, size, color, onPress}) {
@@ -32,6 +32,8 @@ export default function RoundButton({name, size, color, onPress}) {
                 ) : (
                     <FontAwesome name={name} size={size} color={color} />
                 )}
+
+                {/* <MaterialIcons name="bolt" size={24} color="black" /> */}
             </Animated.View>
         </TouchableWithoutFeedback>
     );

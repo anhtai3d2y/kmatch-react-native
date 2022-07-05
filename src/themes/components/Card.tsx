@@ -28,6 +28,14 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: "#fff",
     },
+    distance: {
+        position: "absolute",
+        bottom: 70,
+        left: 22,
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "#fff",
+    },
     choiceContainer: {
         position: "absolute",
         top: 100,
