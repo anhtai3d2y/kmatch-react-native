@@ -22,7 +22,7 @@ const createDislikeUser: StoreSlice<DislikeUserState> = (set, get) => ({
             set({
                 dislikeUsers: data,
             });
-            console.log("res: ", data);
+            // console.log("res: ", data);
         } catch (error: any) {
             Toast.show({
                 type: "error",

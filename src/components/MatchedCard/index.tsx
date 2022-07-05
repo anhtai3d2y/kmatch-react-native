@@ -1,16 +1,23 @@
 import {FontAwesome, Ionicons} from "@expo/vector-icons";
+import {LinearGradient} from "expo-linear-gradient";
 import React from "react";
 import {Image, Text, TouchableOpacity, View} from "react-native";
 import styles from "../../themes/components/MatchedCard";
-export default function MatchedCard() {
+export default function MatchedCard({name, avatar}) {
     return (
         <View style={styles.container}>
             <Image
                 source={{
-                    uri: "https://scontent.fhan14-2.fna.fbcdn.net/v/t1.6435-9/76714112_2463775960534937_8739041008815177728_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=174925&_nc_ohc=l5Qta76QWE0AX-N4OV1&_nc_ht=scontent.fhan14-2.fna&oh=00_AT_-sjENN5Vk2-z0WY-N_OnPjXBKrSqPF-dFjY8WnJz9xg&oe=62D88D22",
+                    uri: avatar,
                 }}
                 style={{height: 200, width: 140, borderRadius: 10}}
             />
+            <LinearGradient
+                colors={["transparent", "rgba(0,0,0,0.9)"]}
+                style={styles.gradient}
+            />
+            <Text style={styles.name}>{name}, 20</Text>
+
             <View style={styles.actionContainer}>
                 <TouchableOpacity>
                     <View style={styles.dislike}>

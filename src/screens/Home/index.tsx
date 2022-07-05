@@ -1,23 +1,36 @@
 import React, {useState, useRef, useCallback, useEffect} from "react";
-import {View, Text} from "react-native";
-import {pets as petsArray} from "../../assets/data";
+import {View, Text, Image} from "react-native";
 import Card from "../../components/Card";
 import Footer from "../../components/Footer";
 import styles from "../../themes/screens/Home";
 import {Animated, PanResponder} from "react-native";
 import {ACTION_X_OFFSET, ACTION_Y_OFFSET, CARD} from "../../constants/Layout";
 import TinyLogo from "../../components/TinyLogo";
+import useStore from "../../stores/store";
+import shallow from "zustand/shallow";
+import {ActivityIndicator} from "react-native-paper";
+import colors from "../../constants/Colors";
+import PulseLoading from "../../components/PulseLoading";
+
 export default function HomeScreen() {
-    const [pets, setPets] = useState(petsArray.reverse());
+    const [users, setUsers] = useState([]);
+    const userNewsFeed = useStore(state => state.userNewsFeed, shallow);
+    const getUserNewsFeed = useStore(state => state.getUserNewsFeed);
+    const userAuth = useStore(state => state.userAuth);
+    const addLikeUser = useStore(state => state.addLikeUser);
+    const addDislikeUser = useStore(state => state.addDislikeUser);
+    const addSuperlikeUser = useStore(state => state.addSuperlikeUser);
     const swipe = useRef(new Animated.ValueXY()).current;
     const tiltSign = useRef(new Animated.Value(1)).current;
+    useEffect(() => {
+        if (!users.length) {
+            getUserNewsFeed();
+        }
+    }, [users.length]);
 
     useEffect(() => {
-        if (!pets.length) {
-            setPets(petsArray);
-        }
-    }, [pets.length]);
-
+        setUsers(userNewsFeed);
+    }, [userNewsFeed]);
     const panResponder = PanResponder.create({
         onMoveShouldSetPanResponder: () => true,
         onPanResponderMove: (_, {dx, dy, y0}) => {
@@ -37,8 +50,8 @@ export default function HomeScreen() {
                         y: dy,
                     },
                     useNativeDriver: true,
-                }).start(removeTopCard);
-            } else if (isActionYActive) {
+                }).start(() => removeTopCardLike(dx));
+            } else if (isActionYActive && dy < 0) {
                 Animated.timing(swipe, {
                     duration: 200,
                     toValue: {
@@ -46,7 +59,7 @@ export default function HomeScreen() {
                         y: direction * CARD.OUT_OF_HEIGHT,
                     },
                     useNativeDriver: true,
-                }).start(removeTopCard);
+                }).start(removeTopCardSuperLike);
             } else {
                 Animated.spring(swipe, {
                     toValue: {
@@ -59,13 +72,32 @@ export default function HomeScreen() {
             }
         },
     });
+    const removeTopCardLike = useCallback(
+        dx => {
+            setUsers(prevState => {
+                const user = [...prevState][0];
+                if (dx > 0) {
+                    addLikeUser(user._id);
+                } else {
+                    addDislikeUser(user._id);
+                }
+                return prevState.slice(1);
+            });
+            swipe.setValue({x: 0, y: 0});
+        },
+        [swipe],
+    );
 
-    const removeTopCard = useCallback(() => {
-        setPets(prevState => prevState.slice(1));
+    const removeTopCardSuperLike = useCallback(() => {
+        setUsers(prevState => {
+            const user = [...prevState][0];
+            addSuperlikeUser(user._id);
+            return prevState.slice(1);
+        });
         swipe.setValue({x: 0, y: 0});
     }, [swipe]);
 
-    const handleChoice = useCallback(
+    const handleChoiceLike = useCallback(
         direction => {
             const swipeXY = direction ? swipe.x : swipe.y;
             direction = direction
@@ -75,24 +107,50 @@ export default function HomeScreen() {
                 toValue: direction,
                 duration: 400,
                 useNativeDriver: true,
-            }).start(removeTopCard);
+            }).start(removeTopCardLike);
         },
-        [removeTopCard, swipe.y],
+        [removeTopCardLike, swipe.y],
+    );
+
+    const handleChoiceSuperlike = useCallback(
+        direction => {
+            const swipeXY = direction ? swipe.x : swipe.y;
+            direction = direction
+                ? direction * CARD.OUT_OF_WIDTH
+                : -1 * CARD.OUT_OF_HEIGHT;
+            Animated.timing(swipeXY, {
+                toValue: direction,
+                duration: 400,
+                useNativeDriver: true,
+            }).start(removeTopCardSuperLike);
+        },
+        [removeTopCardSuperLike, swipe.y],
     );
 
     return (
         <View style={styles.container}>
             <TinyLogo />
-            {pets
-                .map(({name, age, source}, index) => {
+            {/* <PulseLoading /> */}
+            <ActivityIndicator
+                size="large"
+                color={colors.redColor}
+                style={styles.loading}
+            />
+            {/* <Image
+                source={{uri: userAuth?.avatar?.secureURL}}
+                style={styles.avatar}
+            /> */}
+            {users
+                .map((user, index) => {
                     const isFirst = index === 0;
                     const dragHandles = isFirst ? panResponder.panHandlers : {};
                     return (
                         <Card
-                            key={name}
-                            name={name}
-                            age={age}
-                            source={source}
+                            key={user._id}
+                            name={user.name}
+                            age={user.age}
+                            distance={user.distance}
+                            source={user.avatar.secureURL}
                             isFirst={isFirst}
                             swipe={swipe}
                             tiltSign={tiltSign}
@@ -101,7 +159,10 @@ export default function HomeScreen() {
                     );
                 })
                 .reverse()}
-            <Footer handleChoice={handleChoice} />
+            <Footer
+                handleChoiceLike={handleChoiceLike}
+                handleChoiceSuperlike={handleChoiceSuperlike}
+            />
         </View>
     );
 }

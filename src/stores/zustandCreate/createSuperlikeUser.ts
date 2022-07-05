@@ -22,7 +22,7 @@ const createSuperlikeUser: StoreSlice<SuperlikeUserState> = (set, get) => ({
             set({
                 superlikeUsers: data,
             });
-            console.log("res: ", data);
+            // console.log("res: ", data);
         } catch (error: any) {
             Toast.show({
                 type: "error",

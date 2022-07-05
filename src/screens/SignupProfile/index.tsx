@@ -64,6 +64,7 @@ export default function SignupProfileScreen() {
             // aspect: [16, 9],
             quality: 1,
         });
+        console.log(result);
         if (!result.cancelled) {
             setImage(result);
         }
@@ -105,7 +106,6 @@ export default function SignupProfileScreen() {
                     password: password,
                     gender: gender,
                     phonenumber: phonenumber,
-                    role: "Kmatch Basic",
                     birthday: birthday,
                 }),
             );
