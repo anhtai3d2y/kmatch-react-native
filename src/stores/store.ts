@@ -2,6 +2,7 @@ import create, {GetState, SetState} from "zustand";
 import createAuth from "./zustandCreate/createAuth";
 import createDislikeUser from "./zustandCreate/createDislikeUser";
 import createLikeUser from "./zustandCreate/createLikeUser";
+import createLocation from "./zustandCreate/createLocation";
 import createMatches from "./zustandCreate/createMatches";
 import createMessages from "./zustandCreate/createMessages";
 import createPaypal from "./zustandCreate/createPaypal";
@@ -23,6 +24,7 @@ const createRootSlice = (set: SetState<any>, get: GetState<any>) => ({
     ...createThreads(set, get),
     ...createMessages(set, get),
     ...createPaypal(set, get),
+    ...createLocation(set, get),
 });
 
 const useStore = create(createRootSlice);

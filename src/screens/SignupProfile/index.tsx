@@ -33,6 +33,8 @@ export default function SignupProfileScreen() {
     const emailVerification = useStore(state => state.emailVerification);
     const isSignupSuccess = useStore(state => state.isSignupSuccess);
     const loginEmail = useStore(state => state.loginEmail);
+    const latitude = useStore(state => state.latitude);
+    const longitude = useStore(state => state.longitude);
 
     useEffect(() => {
         if (isSignupSuccess) {
@@ -107,6 +109,8 @@ export default function SignupProfileScreen() {
                     gender: gender,
                     phonenumber: phonenumber,
                     birthday: birthday,
+                    latitude: latitude,
+                    longitude: longitude,
                 }),
             );
         }

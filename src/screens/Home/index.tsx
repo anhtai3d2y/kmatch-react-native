@@ -11,6 +11,7 @@ import shallow from "zustand/shallow";
 import {ActivityIndicator} from "react-native-paper";
 import colors from "../../constants/Colors";
 import PulseLoading from "../../components/PulseLoading";
+import * as Location from "expo-location";
 
 export default function HomeScreen() {
     const [users, setUsers] = useState([]);
