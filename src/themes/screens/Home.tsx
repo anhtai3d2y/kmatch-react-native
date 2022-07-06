@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     },
     loading: {
         justifyContent: "center",
-        height: height - 100,
+        height: height - 150,
     },
     avatar: {
         position: "absolute",

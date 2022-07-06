@@ -10,6 +10,8 @@ import {LogBox, SafeAreaView, Text, View} from "react-native";
 import Toast, {BaseToast, ErrorToast} from "react-native-toast-message";
 import {StatusBar} from "expo-status-bar";
 import colors from "../constants/Colors";
+import {useEffect} from "react";
+import * as Location from "expo-location";
 Logs.enableExpoCliLogging();
 
 const toastConfig = {
@@ -62,6 +64,19 @@ const toastConfig = {
 LogBox.ignoreLogs(["Remote debugger"]);
 export default function Routes() {
     const token = useStore(state => state.token, shallow);
+    const userAuth = useStore(state => state.userAuth, shallow);
+    const setLocation = useStore(state => state.setLocation);
+    useEffect(() => {
+        const eventGetLocation = setInterval(async () => {
+            let location = await Location.getCurrentPositionAsync({});
+            const latitude = parseFloat(location.coords.latitude);
+            const longitude = parseFloat(location.coords.longitude);
+            setLocation(latitude, longitude);
+        }, 5000);
+        return () => {
+            clearInterval(eventGetLocation);
+        };
+    }, []);
     return (
         <SafeAreaProvider>
             <ThemeProvider>

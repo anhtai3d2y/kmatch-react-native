@@ -1,14 +1,11 @@
 import {
-    AntDesign,
-    Feather,
     FontAwesome,
     Ionicons,
     MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import React from "react";
-import {View} from "react-native";
+import React, {useEffect} from "react";
 import ChatScreen from "../screens/Chat";
 import EditProfileScreen from "../screens/EditProfile";
 import HomeScreen from "../screens/Home";
@@ -18,6 +15,7 @@ import MessagesScreen from "../screens/Message";
 import ProfileScreen from "../screens/Profile";
 import SettingProfileScreen from "../screens/SettingProfile";
 import SubscriptionScreen from "../screens/Subscription";
+import useStore from "../stores/store";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -29,26 +27,6 @@ const FeedStack = ({navigation}) => (
             component={HomeScreen}
             options={{
                 headerShown: false,
-                // headerTitleAlign: "center",
-                // headerTitleStyle: {
-                //     color: "#2e64e5",
-                //     fontFamily: "Kufam-SemiBoldItalic",
-                //     fontSize: 18,
-                // },
-                // headerStyle: {
-                //     backgroundColor: "#fff",
-                // },
-                // headerRight: () => (
-                //     <View style={{marginRight: 10}}>
-                //         <FontAwesome5.Button
-                //             name="plus"
-                //             size={22}
-                //             backgroundColor="#fff"
-                //             color="#2e64e5"
-                //             onPress={() => navigation.navigate("HomeModal")}
-                //         />
-                //     </View>
-                // ),
             }}
         />
         <Stack.Screen
@@ -56,19 +34,6 @@ const FeedStack = ({navigation}) => (
             component={HomeModal}
             options={{
                 headerShown: false,
-                // title: "",
-                // headerTitleAlign: "center",
-                // headerStyle: {
-                //     backgroundColor: "#2e64e515",
-                //     // shadowColor: "#2e64e515",
-                //     elevation: 0,
-                // },
-                // headerBackTitleVisible: false,
-                // headerBackImage: () => (
-                //     <View style={{marginLeft: 15}}>
-                //         <Ionicons name="arrow-back" size={25} color="#2e64e5" />
-                //     </View>
-                // ),
             }}
         />
     </Stack.Navigator>
@@ -81,15 +46,6 @@ const MatchesStack = ({navigation}) => (
             component={MatchesScreen}
             options={{
                 headerShown: false,
-                // headerTitleAlign: "center",
-                // headerTitleStyle: {
-                //     color: "#2e64e5",
-                //     fontFamily: "Kufam-SemiBoldItalic",
-                //     fontSize: 18,
-                // },
-                // headerStyle: {
-                //     backgroundColor: "#fff",
-                // },
             }}
         />
     </Stack.Navigator>
@@ -111,7 +67,6 @@ const MessageStack = ({navigation}) => (
                 return {
                     headerShown: false,
                     tabBarVisible: false,
-                    // title: route.params.userName,
                     headerBackTitleVisible: false,
                 };
             }}
@@ -151,6 +106,24 @@ const ProfileStack = ({navigation}) => (
     </Stack.Navigator>
 );
 export default function AppStack() {
+    const latitude = useStore(state => state.latitude);
+    const longitude = useStore(state => state.longitude);
+    const userAuth = useStore(state => state.userAuth);
+    const updateUser = useStore(state => state.updateUser);
+    useEffect(() => {
+        const eventUpdateLocation = setInterval(() => {
+            const body = {
+                ...userAuth,
+                latitude: latitude,
+                longitude: longitude,
+            };
+            updateUser(body);
+        }, 10000);
+        return () => {
+            clearInterval(eventUpdateLocation);
+        };
+    }, []);
+
     const getTabBarVisibility = route => {
         const routeName = route.state
             ? route.state.routes[route.state.index].name
@@ -172,9 +145,7 @@ export default function AppStack() {
                 component={FeedStack}
                 options={({route}) => ({
                     headerShown: false,
-                    // tabBarLabel: "Feeds",
                     tabBarShowLabel: false,
-                    // // tabBarVisible: route.state && route.state.index === 0,
                     tabBarIcon: ({color, size}) => (
                         <MaterialCommunityIcons
                             name="cards"
@@ -189,12 +160,8 @@ export default function AppStack() {
                 component={MatchesStack}
                 options={({route}) => ({
                     headerShown: false,
-                    // tabBarLabel: "Matches",
                     tabBarShowLabel: false,
                     tabBarVisible: getTabBarVisibility(route),
-                    // Or Hide tabbar when push!
-                    // https://github.com/react-navigation/react-navigation/issues/7677
-                    // tabBarVisible: route.state && route.state.index === 0,
                     tabBarIcon: ({color, size}) => (
                         <Ionicons name="md-heart" color={color} size={size} />
                     ),
@@ -206,10 +173,6 @@ export default function AppStack() {
                 options={({route}) => ({
                     headerShown: false,
                     tabBarVisible: false,
-                    // Or Hide tabbar when push!
-                    // https://github.com/react-navigation/react-navigation/issues/7677
-                    // tabBarVisible: route.state && route.state.index === 0,
-                    // tabBarLabel: "Message",
                     tabBarShowLabel: false,
                     tabBarIcon: ({color, size}) => (
                         <MaterialCommunityIcons
@@ -225,7 +188,6 @@ export default function AppStack() {
                 component={ProfileStack}
                 options={{
                     headerShown: false,
-                    // tabBarLabel: "Profile",
                     tabBarShowLabel: false,
                     tabBarIcon: ({color, size}) => (
                         <FontAwesome name="user" color={color} size={size} />
