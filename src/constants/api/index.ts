@@ -1,4 +1,4 @@
-const API_URL = "http://192.168.31.95:3000";
+const API_URL = "http://192.168.1.59:3000";
 // const API_URL = "http://www.kmatch.online";
 
 const EndpointApi = {
@@ -11,13 +11,17 @@ const EndpointApi = {
     signup: "/auth/signup",
     verificationSignup: "/verification",
     user: "/user",
+    userProfile: "/user/profile",
     newsfeed: "/user/news-feed",
+    ranking: "/user/ranking",
     permission: "/permission",
     groupPermission: "/groupPermission",
     likeUsers: "/like-users",
     dislikeUsers: "/dislike-users",
     superlikeUsers: "/superlike-users",
     superlikeStar: "/superlike-star",
+    boots: "/boots",
+    useBoots: "/boots/use-boots",
     matches: "/matches",
     threads: "/threads",
     messages: "/messages",

@@ -7,7 +7,7 @@ export interface UserState {
     isLoadingUserNewsFeed: boolean;
     setUserNewsFeed: (users: object[]) => void;
     getUserNewsFeed: () => void;
-    updateUser: () => void;
+    updateUser: (body: any) => void;
 }
 
 const createUser: StoreSlice<UserState> = (set, get) => ({
@@ -37,7 +37,18 @@ const createUser: StoreSlice<UserState> = (set, get) => ({
             });
         }
     },
-    updateUser: async () => {},
+    updateUser: async (body: any) => {
+        try {
+            const res = await axiosClient.put(API_URL + EndpointApi.user, body);
+            // console.log(res.data.data);
+        } catch (error: any) {
+            Toast.show({
+                type: "error",
+                text1: "Update User Error!",
+                text2: error.response.data.message,
+            });
+        }
+    },
 });
 
 export default createUser;
