@@ -64,7 +64,8 @@ export default function SigninScreen({navigation}) {
                         <Text style={styles.buttonOutlineText}>Sing in</Text>
                     )}
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("Forgotpassword")}>
                     <Text style={{color: colors.redColor, marginTop: 20}}>
                         Trouble Signing In?
                     </Text>
