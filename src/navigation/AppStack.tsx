@@ -110,7 +110,9 @@ export default function AppStack() {
     const longitude = useStore(state => state.longitude);
     const userAuth = useStore(state => state.userAuth);
     const updateUser = useStore(state => state.updateUser);
+    const getUserProfile = useStore(state => state.getUserProfile);
     useEffect(() => {
+        getUserProfile();
         const eventUpdateLocation = setInterval(() => {
             const body = {
                 ...userAuth,
@@ -119,8 +121,12 @@ export default function AppStack() {
             };
             updateUser(body);
         }, 10000);
+        // const eventGetProfileUser = setInterval(() => {
+        //     getUserProfile;
+        // }, 10000);
         return () => {
             clearInterval(eventUpdateLocation);
+            // clearInterval(eventGetProfileUser);
         };
     }, []);
 

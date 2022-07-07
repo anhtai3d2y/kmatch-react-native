@@ -15,6 +15,8 @@ import * as WebBrowser from "expo-web-browser";
 export default function ProfileScreen({navigation}) {
     const setTokenStore = useStore(state => state.setToken);
     const userAuth = useStore(state => state.userAuth, shallow);
+    const getUserProfile = useStore(state => state.getUserProfile);
+    const userProfile = useStore(state => state.userProfile, shallow);
     const paypal = useStore(state => state.paypal, shallow);
     const [user, setUser] = useState({});
 
@@ -24,8 +26,9 @@ export default function ProfileScreen({navigation}) {
     };
 
     useEffect(() => {
-        setUser(userAuth);
-    }, [userAuth]);
+        setUser(userProfile);
+        getUserProfile();
+    }, [userProfile]);
 
     useEffect(() => {
         if (paypal) {

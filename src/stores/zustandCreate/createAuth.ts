@@ -117,7 +117,6 @@ const createAuth: StoreSlice<LoginState> = (set, get) => ({
                 text2: res.data.message,
             });
         } catch (error: any) {
-            console.log(error.response.data);
             Toast.show({
                 type: "error",
                 text1: "Signup Error!",
