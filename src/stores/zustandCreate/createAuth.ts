@@ -16,10 +16,24 @@ interface LoginState {
     isLoginLoading: boolean;
     isSignupLoading: boolean;
     isSignupSuccess: boolean;
+    emailForgotpassword: string;
+    statusEmailForgotpassword: boolean;
+    statusVerificationForgotpassword: boolean;
+    isVerificationForgotpasswordLoading: boolean;
     setToken: (token: string) => void;
     setUserAuth: () => void;
     loginEmail: (email: string, password: string) => void;
     signup: (body: any) => void;
+    setEmailForgotpassword: (email: string) => void;
+    setStatusEmailForgotpassword: (status: boolean) => void;
+    setStatusVerificationForgotpassword: (status: boolean) => void;
+    addVerificationForgotpassword: (email: string) => void;
+    resetpassword: (
+        email: string,
+        verificationCode: string,
+        newPassword: string,
+        confirmNewPassword: string,
+    ) => void;
 }
 
 const createAuth: StoreSlice<LoginState> = (set, get) => ({
@@ -28,6 +42,10 @@ const createAuth: StoreSlice<LoginState> = (set, get) => ({
     isLoginLoading: false,
     isSignupLoading: false,
     isSignupSuccess: false,
+    emailForgotpassword: "",
+    statusEmailForgotpassword: false,
+    statusVerificationForgotpassword: false,
+    isVerificationForgotpasswordLoading: false,
     setToken: (token: string) => {
         set({token: token});
     },
@@ -107,6 +125,91 @@ const createAuth: StoreSlice<LoginState> = (set, get) => ({
             });
             set({
                 isSignupLoading: false,
+            });
+        }
+    },
+    setEmailForgotpassword: (email: string) => {
+        set({
+            emailForgotpassword: email,
+        });
+    },
+    setStatusEmailForgotpassword: (status: boolean) => {
+        set({
+            statusEmailForgotpassword: status,
+        });
+    },
+    setStatusVerificationForgotpassword: (status: boolean) => {
+        set({
+            statusVerificationForgotpassword: status,
+        });
+    },
+    addVerificationForgotpassword: async (email: string) => {
+        try {
+            set({
+                isVerificationForgotpasswordLoading: true,
+            });
+            const res = await axiosClient.post(
+                API_URL + EndpointApi.forgetPassword,
+                {
+                    email: email,
+                },
+            );
+            const data = res.data;
+            set({
+                emailForgotpassword: email,
+                statusEmailForgotpassword: true,
+                isVerificationForgotpasswordLoading: false,
+            });
+        } catch (error: any) {
+            Toast.show({
+                type: "error",
+                text1: "Verifition Error!",
+                text2: error.response.data.message,
+            });
+            set({
+                isVerificationForgotpasswordLoading: false,
+            });
+        }
+    },
+    resetpassword: async (
+        email: string,
+        verificationCode: string,
+        newPassword: string,
+        confirmNewPassword: string,
+    ) => {
+        try {
+            set({
+                isVerificationForgotpasswordLoading: true,
+            });
+            const res = await axiosClient.put(
+                API_URL + EndpointApi.resetPassword,
+                {
+                    email: email,
+                    verificationCode: verificationCode,
+                    newPassword: newPassword,
+                    confirmNewPassword: confirmNewPassword,
+                },
+            );
+            const data = res.data;
+            console.log(data);
+            Toast.show({
+                type: "success",
+                text1: "Reset password successfully!",
+                text2: data.message,
+            });
+            set({
+                isVerificationForgotpasswordLoading: false,
+                statusVerificationForgotpassword: true,
+            });
+        } catch (error: any) {
+            console.log(error);
+            Toast.show({
+                type: "error",
+                text1: "Verifition Error!",
+                text2: error.response.data.message,
+            });
+            set({
+                isVerificationForgotpasswordLoading: false,
             });
         }
     },
