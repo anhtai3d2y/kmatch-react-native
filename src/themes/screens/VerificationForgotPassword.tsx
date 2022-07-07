@@ -25,6 +25,9 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: colors.redColor,
     },
+    body: {
+        alignItems: "center",
+    },
     content: {
         marginTop: 20,
         alignItems: "center",
@@ -32,6 +35,7 @@ const styles = StyleSheet.create({
     inputCode: {
         marginTop: 50,
         flexDirection: "row",
+        alignSelf: "center",
     },
     inputBlock: {
         borderColor: "#ccc",
@@ -63,6 +67,39 @@ const styles = StyleSheet.create({
     },
     keyText: {
         fontSize: 30,
+    },
+    input: {
+        color: "black",
+        fontSize: 18,
+        width: width - 60,
+        paddingHorizontal: 15,
+        paddingVertical: 10,
+        borderColor: colors.redColor,
+        borderWidth: 1,
+        borderRadius: 15,
+        marginBottom: 10,
+        alignSelf: "center",
+    },
+    button: {
+        width: width - 50,
+        padding: 15,
+        borderRadius: 40,
+        borderWidth: 2,
+        borderColor: "#fff",
+        alignItems: "center",
+        marginBottom: 10,
+        alignSelf: "center",
+    },
+    buttonOutline: {
+        backgroundColor: colors.redColor,
+        marginTop: 5,
+        borderColor: colors.redColor,
+        borderWidth: 2,
+    },
+    buttonOutlineText: {
+        color: "white",
+        fontWeight: "600",
+        fontSize: 16,
     },
 });
 
