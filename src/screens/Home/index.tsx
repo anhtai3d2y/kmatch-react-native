@@ -25,7 +25,7 @@ export default function HomeScreen() {
     const tiltSign = useRef(new Animated.Value(1)).current;
     useEffect(() => {
         if (!users.length) {
-            getUserNewsFeed();
+            getUserNewsFeed("Both", 16, 30, 100);
         }
     }, [users.length]);
 

@@ -21,10 +21,6 @@ export default function MatchesScreen() {
         setUserLiked(likeUsers);
     }, [likeUsers]);
 
-    if (userLiked && userLiked.length) {
-        console.log(userLiked[0].user.avatar.secureURL);
-    }
-
     return (
         <View style={styles.container}>
             <View style={styles.header}>
