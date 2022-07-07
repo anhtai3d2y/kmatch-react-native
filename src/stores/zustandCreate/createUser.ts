@@ -8,12 +8,7 @@ export interface UserState {
     isLoadingUserNewsFeed: boolean;
     getUserProfile: () => void;
     setUserNewsFeed: (users: object[]) => void;
-    getUserNewsFeed: (
-        gender: string,
-        minAge: number,
-        maxAge: number,
-        distance: number,
-    ) => void;
+    getUserNewsFeed: (body: any) => void;
     updateUser: (body: any) => void;
 }
 
@@ -43,18 +38,13 @@ const createUser: StoreSlice<UserState> = (set, get) => ({
             userNewsFeed: users,
         });
     },
-    getUserNewsFeed: async (
-        gender: string,
-        minAge: number,
-        maxAge: number,
-        distance: number,
-    ) => {
+    getUserNewsFeed: async (body: any) => {
         try {
             set({
                 isLoadingUserNewsFeed: true,
             });
             const res = await axiosClient.get(API_URL + EndpointApi.newsfeed, {
-                params: {gender, minAge, maxAge, distance},
+                params: body,
             });
             const data = res.data.data.data;
             set({

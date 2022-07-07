@@ -25,7 +25,12 @@ export default function HomeScreen() {
     const tiltSign = useRef(new Animated.Value(1)).current;
     useEffect(() => {
         if (!users.length) {
-            getUserNewsFeed("Both", 16, 30, 100);
+            getUserNewsFeed({
+                gender: "Both",
+                minAge: 16,
+                maxAge: 30,
+                distance: 100,
+            });
         }
     }, [users.length]);
 

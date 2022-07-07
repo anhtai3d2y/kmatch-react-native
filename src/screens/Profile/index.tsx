@@ -7,7 +7,7 @@ import {setToken} from "../../helpers";
 import useStore from "../../stores/store";
 import styles from "../../themes/screens/Profile";
 import SettingModal from "../SettingModal";
-import Swiper from "react-native-swiper";
+import Swiper from "react-native-swiper/src";
 import shallow from "zustand/shallow";
 import * as Linking from "expo-linking";
 import * as WebBrowser from "expo-web-browser";

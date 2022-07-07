@@ -12,6 +12,7 @@ export default function VerificationScreen({navigation}) {
         state => state.statusVerification,
         shallow,
     );
+    const addVerification = useStore(state => state.addVerification);
     const setStatusEmail = useStore(state => state.setStatusEmail);
     const getVerification = useStore(state => state.getVerification);
     const [current, setCurrent] = useState(0);
@@ -57,6 +58,11 @@ export default function VerificationScreen({navigation}) {
             setCodeVerification(prev => codes);
             return state;
         });
+    };
+
+    const handelSendVerificationCodeAgain = () => {
+        addVerification(emailVerification);
+        setCountDown(900);
     };
     return (
         <View style={styles.container}>
@@ -147,7 +153,7 @@ export default function VerificationScreen({navigation}) {
                 </TouchableOpacity>
             </View>
             <View style={{marginBottom: 50}}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={handelSendVerificationCodeAgain}>
                     <Text style={{fontSize: 20, color: colors.redColor}}>
                         Send again
                     </Text>
