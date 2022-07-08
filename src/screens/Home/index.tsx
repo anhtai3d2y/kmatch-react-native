@@ -10,13 +10,10 @@ import useStore from "../../stores/store";
 import shallow from "zustand/shallow";
 import {ActivityIndicator} from "react-native-paper";
 import colors from "../../constants/Colors";
-import PulseLoading from "../../components/PulseLoading";
-import * as Location from "expo-location";
 
 export default function HomeScreen() {
     const [users, setUsers] = useState([]);
     const userNewsFeed = useStore(state => state.userNewsFeed, shallow);
-    const userProfile = useStore(state => state.userProfile, shallow);
     const getUserNewsFeed = useStore(state => state.getUserNewsFeed);
     const addLikeUser = useStore(state => state.addLikeUser);
     const addDislikeUser = useStore(state => state.addDislikeUser);
@@ -83,32 +80,28 @@ export default function HomeScreen() {
     });
     const removeTopCardLike = useCallback(
         dx => {
-            if (users.length > 0) {
-                setUsers(prevState => {
-                    const user = [...prevState][0];
-                    if (dx > 0) {
-                        addLikeUser(user._id);
-                    } else {
-                        addDislikeUser(user._id);
-                    }
-                    return prevState.slice(1);
-                });
-                swipe.setValue({x: 0, y: 0});
-            }
+            setUsers(prevState => {
+                const user = [...prevState][0];
+                if (dx > 0) {
+                    addLikeUser(user._id);
+                } else {
+                    addDislikeUser(user._id);
+                }
+                return prevState.slice(1);
+            });
+            swipe.setValue({x: 0, y: 0});
         },
         [swipe],
     );
 
-    const removeTopCardSuperLike = useCallback(async () => {
-        if (userProfile.starAmount > 0) {
-            await reduceSuperlikeStar();
-            setUsers(prevState => {
-                const user = [...prevState][0];
-                addSuperlikeUser(user._id);
-                return prevState.slice(1);
-            });
-            swipe.setValue({x: 0, y: 0});
-        }
+    const removeTopCardSuperLike = useCallback(() => {
+        setUsers(prevState => {
+            const user = [...prevState][0];
+            addSuperlikeUser(user._id);
+            reduceSuperlikeStar();
+            return prevState.slice(1);
+        });
+        swipe.setValue({x: 0, y: 0});
     }, [swipe]);
 
     const handleChoiceLike = useCallback(
@@ -128,24 +121,22 @@ export default function HomeScreen() {
 
     const handleChoiceSuperlike = useCallback(
         async direction => {
-            if (userProfile.starAmount > 0) {
-                const swipeXY = direction ? swipe.x : swipe.y;
-                direction = direction
-                    ? direction * CARD.OUT_OF_WIDTH
-                    : -1 * CARD.OUT_OF_HEIGHT;
-                Animated.timing(swipeXY, {
-                    toValue: direction,
-                    duration: 400,
-                    useNativeDriver: true,
-                }).start(removeTopCardSuperLike);
-            }
+            const swipeXY = direction ? swipe.x : swipe.y;
+            direction = direction
+                ? direction * CARD.OUT_OF_WIDTH
+                : -1 * CARD.OUT_OF_HEIGHT;
+            Animated.timing(swipeXY, {
+                toValue: direction,
+                duration: 400,
+                useNativeDriver: true,
+            }).start(removeTopCardSuperLike);
         },
         [removeTopCardSuperLike, swipe.y],
     );
 
-    const handleChoiceBoots = async () => {
-        await getUserProfile();
-        await useBoots();
+    const handleChoiceBoots = () => {
+        getUserProfile();
+        useBoots();
     };
     return (
         <View style={styles.container}>

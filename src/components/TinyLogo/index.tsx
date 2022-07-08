@@ -12,6 +12,8 @@ export default function TinyLogo() {
     const [bootsTime, setBootsTime] = useState(
         Math.round(userProfile.boots / 1000),
     );
+    const [starAmount, setStarAmount] = useState(userProfile.starAmount);
+    const [bootsAmount, setBootsAmount] = useState(userProfile.bootsAmount);
     const bootsTimeText = convertHMS(bootsTime);
     useEffect(() => {
         const interval = setInterval(() => {
@@ -24,21 +26,19 @@ export default function TinyLogo() {
         [];
     useEffect(() => {
         setBootsTime(Math.round(userProfile.boots / 1000));
+        setStarAmount(userProfile.starAmount);
+        setBootsAmount(userProfile.bootsAmount);
     }, [userProfile]);
     return (
         <View style={styles.container}>
             <View style={styles.amountContainer}>
                 <View style={styles.starContainer}>
                     <AntDesign name="star" size={15} color={colors.superlike} />
-                    <Text style={styles.amountStar}>
-                        {userProfile.starAmount}
-                    </Text>
+                    <Text style={styles.amountStar}>{starAmount}</Text>
                 </View>
                 <View style={styles.bootsContainer}>
                     <MaterialIcons name="bolt" size={20} color={colors.boots} />
-                    <Text style={styles.amountBoots}>
-                        {userProfile.bootsAmount}
-                    </Text>
+                    <Text style={styles.amountBoots}>{bootsAmount}</Text>
                 </View>
             </View>
             <View style={styles.logoContainer}>
