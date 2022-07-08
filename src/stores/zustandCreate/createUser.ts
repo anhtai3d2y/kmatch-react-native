@@ -6,6 +6,7 @@ export interface UserState {
     userProfile: object;
     userNewsFeed: object[];
     isLoadingUserNewsFeed: boolean;
+    reduceSuperlikeStar: () => void;
     getUserProfile: () => void;
     setUserNewsFeed: (users: object[]) => void;
     getUserNewsFeed: (body: any) => void;
@@ -16,6 +17,17 @@ const createUser: StoreSlice<UserState> = (set, get) => ({
     userProfile: {},
     userNewsFeed: [],
     isLoadingUserNewsFeed: false,
+    reduceSuperlikeStar: () => {
+        if (get().userProfile.starAmount > 0) {
+            const starAmount = get().userProfile.starAmount;
+            set({
+                userProfile: {
+                    ...get().userProfile,
+                    starAmount: starAmount - 1,
+                },
+            });
+        }
+    },
     getUserProfile: async () => {
         try {
             const res = await axiosClient.get(

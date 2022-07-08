@@ -17,10 +17,11 @@ export default function HomeScreen() {
     const [users, setUsers] = useState([]);
     const userNewsFeed = useStore(state => state.userNewsFeed, shallow);
     const getUserNewsFeed = useStore(state => state.getUserNewsFeed);
-    const userAuth = useStore(state => state.userAuth);
     const addLikeUser = useStore(state => state.addLikeUser);
     const addDislikeUser = useStore(state => state.addDislikeUser);
     const addSuperlikeUser = useStore(state => state.addSuperlikeUser);
+    const reduceSuperlikeStar = useStore(state => state.reduceSuperlikeStar);
+    const userProfile = useStore(state => state.userProfile, shallow);
     const swipe = useRef(new Animated.ValueXY()).current;
     const tiltSign = useRef(new Animated.Value(1)).current;
     useEffect(() => {
@@ -80,16 +81,18 @@ export default function HomeScreen() {
     });
     const removeTopCardLike = useCallback(
         dx => {
-            setUsers(prevState => {
-                const user = [...prevState][0];
-                if (dx > 0) {
-                    addLikeUser(user._id);
-                } else {
-                    addDislikeUser(user._id);
-                }
-                return prevState.slice(1);
-            });
-            swipe.setValue({x: 0, y: 0});
+            if (users.length > 0) {
+                setUsers(prevState => {
+                    const user = [...prevState][0];
+                    if (dx > 0) {
+                        addLikeUser(user._id);
+                    } else {
+                        addDislikeUser(user._id);
+                    }
+                    return prevState.slice(1);
+                });
+                swipe.setValue({x: 0, y: 0});
+            }
         },
         [swipe],
     );
@@ -98,6 +101,7 @@ export default function HomeScreen() {
         setUsers(prevState => {
             const user = [...prevState][0];
             addSuperlikeUser(user._id);
+            reduceSuperlikeStar();
             return prevState.slice(1);
         });
         swipe.setValue({x: 0, y: 0});
@@ -133,19 +137,17 @@ export default function HomeScreen() {
         [removeTopCardSuperLike, swipe.y],
     );
 
+    const handleChoiceBoots = () => {
+        console.log("boots");
+    };
     return (
         <View style={styles.container}>
             <TinyLogo />
-            {/* <PulseLoading /> */}
             <ActivityIndicator
                 size="large"
                 color={colors.redColor}
                 style={styles.loading}
             />
-            {/* <Image
-                source={{uri: userAuth?.avatar?.secureURL}}
-                style={styles.avatar}
-            /> */}
             {users
                 .map((user, index) => {
                     const isFirst = index === 0;
@@ -168,6 +170,9 @@ export default function HomeScreen() {
             <Footer
                 handleChoiceLike={handleChoiceLike}
                 handleChoiceSuperlike={handleChoiceSuperlike}
+                handleChoiceBoots={handleChoiceBoots}
+                starAmount={userProfile.starAmount}
+                bootsAmount={userProfile.bootsAmount}
             />
         </View>
     );
