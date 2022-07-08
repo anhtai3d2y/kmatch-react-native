@@ -8,8 +8,6 @@ export default function Footer({
     handleChoiceLike,
     handleChoiceSuperlike,
     handleChoiceBoots,
-    starAmount,
-    bootsAmount,
 }) {
     return (
         <View style={styles.container}>

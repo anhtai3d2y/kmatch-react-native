@@ -2,11 +2,13 @@ import {API_URL, EndpointApi} from "../../constants";
 import axiosClient from "../../utils/axios";
 import StoreSlice from "./storeSlice";
 import Toast from "react-native-toast-message";
+import {IUserProfile} from "../model/user";
 export interface UserState {
-    userProfile: object;
+    userProfile: IUserProfile;
     userNewsFeed: object[];
     isLoadingUserNewsFeed: boolean;
     reduceSuperlikeStar: () => void;
+    useBoots: () => void;
     getUserProfile: () => void;
     setUserNewsFeed: (users: object[]) => void;
     getUserNewsFeed: (body: any) => void;
@@ -14,7 +16,7 @@ export interface UserState {
 }
 
 const createUser: StoreSlice<UserState> = (set, get) => ({
-    userProfile: {},
+    userProfile: {} as IUserProfile,
     userNewsFeed: [],
     isLoadingUserNewsFeed: false,
     reduceSuperlikeStar: () => {
@@ -26,6 +28,31 @@ const createUser: StoreSlice<UserState> = (set, get) => ({
                     starAmount: starAmount - 1,
                 },
             });
+        }
+    },
+    useBoots: async () => {
+        if (get().userProfile.bootsAmount > 0) {
+            try {
+                const res = await axiosClient.post(
+                    API_URL + EndpointApi.useBoots,
+                );
+                const data = res.data;
+                const bootsAmount = get().userProfile.bootsAmount;
+                const bootsTime = get().userProfile.boots;
+                set({
+                    userProfile: {
+                        ...get().userProfile,
+                        bootsAmount: bootsAmount - 1,
+                        boots: bootsTime + 30 * 60 * 1000,
+                    },
+                });
+            } catch (error: any) {
+                Toast.show({
+                    type: "error",
+                    text1: "Use Boots Error!",
+                    text2: error.response.data.message,
+                });
+            }
         }
     },
     getUserProfile: async () => {
