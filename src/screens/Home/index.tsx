@@ -83,16 +83,18 @@ export default function HomeScreen() {
     });
     const removeTopCardLike = useCallback(
         dx => {
-            setUsers(prevState => {
-                const user = [...prevState][0];
-                if (dx > 0) {
-                    addLikeUser(user._id);
-                } else {
-                    addDislikeUser(user._id);
-                }
-                return prevState.slice(1);
-            });
-            swipe.setValue({x: 0, y: 0});
+            if (users.length > 0) {
+                setUsers(prevState => {
+                    const user = [...prevState][0];
+                    if (dx > 0) {
+                        addLikeUser(user._id);
+                    } else {
+                        addDislikeUser(user._id);
+                    }
+                    return prevState.slice(1);
+                });
+                swipe.setValue({x: 0, y: 0});
+            }
         },
         [swipe],
     );
@@ -148,16 +150,11 @@ export default function HomeScreen() {
     return (
         <View style={styles.container}>
             <TinyLogo />
-            {/* <PulseLoading /> */}
             <ActivityIndicator
                 size="large"
                 color={colors.redColor}
                 style={styles.loading}
             />
-            {/* <Image
-                source={{uri: userAuth?.avatar?.secureURL}}
-                style={styles.avatar}
-            /> */}
             {users
                 .map((user, index) => {
                     const isFirst = index === 0;
