@@ -20,12 +20,12 @@ const createUser: StoreSlice<UserState> = (set, get) => ({
     userNewsFeed: [],
     isLoadingUserNewsFeed: false,
     reduceSuperlikeStar: () => {
-        if (get().userProfile.starAmount > 0) {
-            const starAmount = get().userProfile.starAmount;
+        const userProfile = get().userProfile;
+        if (userProfile.starAmount > 0) {
             set({
                 userProfile: {
-                    ...get().userProfile,
-                    starAmount: starAmount - 1,
+                    ...userProfile,
+                    starAmount: userProfile.starAmount - 1,
                 },
             });
         }
