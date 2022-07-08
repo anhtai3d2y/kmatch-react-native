@@ -1,9 +1,10 @@
 const tintColorLight = "#2f95dc";
 const tintColorDark = "#fff";
 const colors = {
-    like: "#00eda6",
+    like: "#00db51",
     nope: "#ff006f",
     superlike: "#42a4f5",
+    boots: "#6500ec",
     light: {
         text: "#000",
         background: "#fff",
