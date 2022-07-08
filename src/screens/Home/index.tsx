@@ -16,12 +16,14 @@ import * as Location from "expo-location";
 export default function HomeScreen() {
     const [users, setUsers] = useState([]);
     const userNewsFeed = useStore(state => state.userNewsFeed, shallow);
+    const userProfile = useStore(state => state.userProfile, shallow);
     const getUserNewsFeed = useStore(state => state.getUserNewsFeed);
     const addLikeUser = useStore(state => state.addLikeUser);
     const addDislikeUser = useStore(state => state.addDislikeUser);
     const addSuperlikeUser = useStore(state => state.addSuperlikeUser);
+    const getUserProfile = useStore(state => state.getUserProfile);
     const reduceSuperlikeStar = useStore(state => state.reduceSuperlikeStar);
-    const userProfile = useStore(state => state.userProfile, shallow);
+    const useBoots = useStore(state => state.useBoots);
     const swipe = useRef(new Animated.ValueXY()).current;
     const tiltSign = useRef(new Animated.Value(1)).current;
     useEffect(() => {
@@ -97,14 +99,16 @@ export default function HomeScreen() {
         [swipe],
     );
 
-    const removeTopCardSuperLike = useCallback(() => {
-        setUsers(prevState => {
-            const user = [...prevState][0];
-            addSuperlikeUser(user._id);
-            reduceSuperlikeStar();
-            return prevState.slice(1);
-        });
-        swipe.setValue({x: 0, y: 0});
+    const removeTopCardSuperLike = useCallback(async () => {
+        if (userProfile.starAmount > 0) {
+            await reduceSuperlikeStar();
+            setUsers(prevState => {
+                const user = [...prevState][0];
+                addSuperlikeUser(user._id);
+                return prevState.slice(1);
+            });
+            swipe.setValue({x: 0, y: 0});
+        }
     }, [swipe]);
 
     const handleChoiceLike = useCallback(
@@ -123,22 +127,25 @@ export default function HomeScreen() {
     );
 
     const handleChoiceSuperlike = useCallback(
-        direction => {
-            const swipeXY = direction ? swipe.x : swipe.y;
-            direction = direction
-                ? direction * CARD.OUT_OF_WIDTH
-                : -1 * CARD.OUT_OF_HEIGHT;
-            Animated.timing(swipeXY, {
-                toValue: direction,
-                duration: 400,
-                useNativeDriver: true,
-            }).start(removeTopCardSuperLike);
+        async direction => {
+            if (userProfile.starAmount > 0) {
+                const swipeXY = direction ? swipe.x : swipe.y;
+                direction = direction
+                    ? direction * CARD.OUT_OF_WIDTH
+                    : -1 * CARD.OUT_OF_HEIGHT;
+                Animated.timing(swipeXY, {
+                    toValue: direction,
+                    duration: 400,
+                    useNativeDriver: true,
+                }).start(removeTopCardSuperLike);
+            }
         },
         [removeTopCardSuperLike, swipe.y],
     );
 
-    const handleChoiceBoots = () => {
-        console.log("boots");
+    const handleChoiceBoots = async () => {
+        await getUserProfile();
+        await useBoots();
     };
     return (
         <View style={styles.container}>
@@ -171,8 +178,6 @@ export default function HomeScreen() {
                 handleChoiceLike={handleChoiceLike}
                 handleChoiceSuperlike={handleChoiceSuperlike}
                 handleChoiceBoots={handleChoiceBoots}
-                starAmount={userProfile.starAmount}
-                bootsAmount={userProfile.bootsAmount}
             />
         </View>
     );

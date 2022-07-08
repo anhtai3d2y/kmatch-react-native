@@ -5,6 +5,7 @@ const colors = {
     nope: "#ff006f",
     superlike: "#42a4f5",
     boots: "#6500ec",
+    bootsTime: "#f7da00",
     light: {
         text: "#000",
         background: "#fff",
