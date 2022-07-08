@@ -4,7 +4,11 @@ import Colors from "../../constants/Colors";
 import RoundButton from "../RoundButton";
 import styles from "../../themes/components/Footer";
 
-export default function Footer({handleChoiceLike, handleChoiceSuperlike}) {
+export default function Footer({
+    handleChoiceLike,
+    handleChoiceSuperlike,
+    handleChoiceBoots,
+}) {
     return (
         <View style={styles.container}>
             <RoundButton
@@ -24,6 +28,12 @@ export default function Footer({handleChoiceLike, handleChoiceSuperlike}) {
                 size={26}
                 color={Colors.like}
                 onPress={() => handleChoiceLike(1)}
+            />
+            <RoundButton
+                name="boots"
+                size={40}
+                color={Colors.boots}
+                onPress={handleChoiceBoots}
             />
         </View>
     );
