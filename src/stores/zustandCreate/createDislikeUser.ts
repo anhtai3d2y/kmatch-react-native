@@ -19,9 +19,6 @@ const createDislikeUser: StoreSlice<DislikeUserState> = (set, get) => ({
                 },
             );
             const data = res.data.data;
-            set({
-                dislikeUsers: data,
-            });
             // console.log("res: ", data);
         } catch (error: any) {
             Toast.show({

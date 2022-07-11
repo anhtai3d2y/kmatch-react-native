@@ -16,6 +16,7 @@ export default function HomeScreen() {
     const userNewsFeed = useStore(state => state.userNewsFeed, shallow);
     const getUserNewsFeed = useStore(state => state.getUserNewsFeed);
     const addLikeUser = useStore(state => state.addLikeUser);
+    const getLikeUser = useStore(state => state.getLikeUser);
     const addDislikeUser = useStore(state => state.addDislikeUser);
     const addSuperlikeUser = useStore(state => state.addSuperlikeUser);
     const getUserProfile = useStore(state => state.getUserProfile);
@@ -84,6 +85,7 @@ export default function HomeScreen() {
                 const user = [...prevState][0];
                 if (dx > 0) {
                     addLikeUser(user._id);
+                    getLikeUser();
                 } else {
                     addDislikeUser(user._id);
                 }
