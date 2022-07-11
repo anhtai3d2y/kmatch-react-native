@@ -3,7 +3,7 @@ import {LinearGradient} from "expo-linear-gradient";
 import React from "react";
 import {Image, Text, TouchableOpacity, View} from "react-native";
 import styles from "../../themes/components/MatchedCard";
-export default function MatchedCard({name, avatar}) {
+export default function MatchedCard({name, avatar, age}) {
     return (
         <View style={styles.container}>
             <Image
@@ -16,7 +16,9 @@ export default function MatchedCard({name, avatar}) {
                 colors={["transparent", "rgba(0,0,0,0.9)"]}
                 style={styles.gradient}
             />
-            <Text style={styles.name}>{name}, 20</Text>
+            <Text style={styles.name}>
+                {name}, {age}
+            </Text>
 
             <View style={styles.actionContainer}>
                 <TouchableOpacity>
