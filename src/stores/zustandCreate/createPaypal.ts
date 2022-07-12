@@ -4,20 +4,27 @@ import Toast from "react-native-toast-message";
 import StoreSlice from "./storeSlice";
 export interface PaypalState {
     paypal: string;
-    addPaypal: (packageName: string) => void;
+    isLoadingCreatePaypal: boolean;
+    addPaypal: (type: string, packageName: string) => void;
     // getPaypal: (threadId: string) => void;
 }
 
 const createPaypal: StoreSlice<PaypalState> = (set, get) => ({
     paypal: "",
-    addPaypal: async (packageName: string) => {
+    isLoadingCreatePaypal: false,
+    addPaypal: async (type: string, packageName: string) => {
         try {
+            set({
+                isLoadingCreatePaypal: true,
+            });
             const res = await axiosClient.post(API_URL + EndpointApi.paypal, {
+                type: type,
                 package: packageName,
             });
             const data = res.data.data;
             set({
                 paypal: data.paypalLink,
+                isLoadingCreatePaypal: false,
             });
             console.log("res: ", data);
         } catch (error: any) {
