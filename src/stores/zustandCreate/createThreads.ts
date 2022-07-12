@@ -20,7 +20,6 @@ const createThreads: StoreSlice<ThreadsState> = (set, get) => ({
             set({
                 threads: data,
             });
-            console.log("res: ", data);
         } catch (error: any) {
             Toast.show({
                 type: "error",
@@ -33,7 +32,9 @@ const createThreads: StoreSlice<ThreadsState> = (set, get) => ({
         try {
             const res = await axiosClient.get(API_URL + EndpointApi.threads);
             const data = res.data.data;
-            console.log("res: ", data);
+            set({
+                threads: data,
+            });
         } catch (error: any) {
             Toast.show({
                 type: "error",
