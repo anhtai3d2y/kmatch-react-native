@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import {setToken} from "../../helpers";
 import useStore from "../../stores/store";
+import styles from "../../themes/modals/SettingModal";
 
 const SettingModal = ({visible, setVisible}) => {
     const setTokenStore = useStore(state => state.setToken);
@@ -18,7 +19,7 @@ const SettingModal = ({visible, setVisible}) => {
         setTokenStore("");
     };
     return (
-        <View style={styles.centeredView}>
+        <View style={styles.backgroundView}>
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -46,50 +47,5 @@ const SettingModal = ({visible, setVisible}) => {
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    centeredView: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 22,
-    },
-    modalView: {
-        margin: 20,
-        backgroundColor: "white",
-        borderRadius: 20,
-        padding: 35,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-    },
-    button: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2,
-        marginBottom: 20,
-    },
-    buttonOpen: {
-        backgroundColor: "#F194FF",
-    },
-    buttonClose: {
-        backgroundColor: "#2196F3",
-    },
-    textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center",
-    },
-    modalText: {
-        marginBottom: 15,
-        textAlign: "center",
-    },
-});
 
 export default SettingModal;
