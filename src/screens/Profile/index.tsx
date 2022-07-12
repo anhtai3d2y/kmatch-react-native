@@ -6,7 +6,7 @@ import colors from "../../constants/Colors";
 import {setToken} from "../../helpers";
 import useStore from "../../stores/store";
 import styles from "../../themes/screens/Profile";
-import SettingModal from "../SettingModal";
+import SettingModal from "../../modals/SettingModal";
 import Swiper from "react-native-swiper/src";
 import shallow from "zustand/shallow";
 import * as Linking from "expo-linking";
@@ -17,6 +17,7 @@ export default function ProfileScreen({navigation}) {
     const userAuth = useStore(state => state.userAuth, shallow);
     const getUserProfile = useStore(state => state.getUserProfile);
     const userProfile = useStore(state => state.userProfile, shallow);
+    const addPaypal = useStore(state => state.addPaypal);
     const paypal = useStore(state => state.paypal, shallow);
     const [user, setUser] = useState({});
 
@@ -31,12 +32,23 @@ export default function ProfileScreen({navigation}) {
     }, [userProfile]);
 
     useEffect(() => {
+        const callWebBrowser = async () => {
+            try {
+                const webBrowserStatus = await WebBrowser.openBrowserAsync(
+                    paypal,
+                );
+                await getUserProfile();
+            } catch (error) {
+                console.log(error);
+            }
+        };
         if (paypal) {
-            // Linking.openURL(paypal);
-            WebBrowser.openBrowserAsync(paypal);
+            callWebBrowser();
         }
-    });
-    const handelEditProfile = async () => {};
+    }, [paypal]);
+    const handelEditProfile = async () => {
+        await addPaypal("Boots", "Boots 1");
+    };
 
     const [modalVisible, setModalVisible] = useState(false);
 
