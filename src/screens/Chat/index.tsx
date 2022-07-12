@@ -20,78 +20,81 @@ import {
     Ionicons,
     MaterialCommunityIcons,
 } from "@expo/vector-icons";
+import useStore from "../../stores/store";
+import shallow from "zustand/shallow";
 const socket = io(API_URL);
 socket.on("connection", () => {
     console.log("Socket connected!");
     // socket.emit("message", "hello");
 });
 export default function ChatScreen({route, navigation}) {
-    const {id, userName} = route.params;
+    const {id, userId, otherUserId, userName, avatar, timeCreated} =
+        route.params;
+    const getMessages = useStore(state => state.getMessages);
+    const addMessages = useStore(state => state.addMessages);
+    const messagesStore = useStore(state => state.messages, shallow);
     const [message, setMessage] = useState("");
-    const [messages, setMessages] = useState([
-        // {
-        //     mine: false,
-        //     text: "Say something!",
-        //     image: null,
-        // },
-        // {
-        //     mine: false,
-        //     text: "Ok babe",
-        //     image: {
-        //         uri: "https://scontent.fhan14-2.fna.fbcdn.net/v/t1.6435-9/76714112_2463775960534937_8739041008815177728_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=174925&_nc_ohc=l5Qta76QWE0AX-N4OV1&_nc_ht=scontent.fhan14-2.fna&oh=00_AT_-sjENN5Vk2-z0WY-N_OnPjXBKrSqPF-dFjY8WnJz9xg&oe=62D88D22",
-        //     },
-        // },
-    ]);
-    const subscribeMessage = userName === "Tai" ? "2" : "1";
+    const [messages, setMessages] = useState(messagesStore);
+    useEffect(() => {
+        getMessages(id);
+    }, []);
+
+    useEffect(() => {
+        setMessages(messagesStore);
+    }, [messagesStore]);
+    const subscribeId = id + otherUserId;
+    const emitId = id + userId;
     const scrollViewRef = useRef();
     useEffect(() => {
-        socket.on(subscribeMessage, data => {
-            console.log(userName, id, ": ", data);
-            setMessages(prev => {
-                return [
-                    ...prev,
-                    {
-                        mine: false,
-                        text: data,
-                        image: null,
-                    },
-                ];
-            });
+        socket.on(subscribeId, data => {
+            // setMessages(prev => {
+            //     return [
+            //         ...prev,
+            //         {
+            //             mine: false,
+            //             messageBody: data,
+            //             image: null,
+            //         },
+            //     ];
+            // });
+            getMessages(id);
         });
     }, []);
-    const handleSendMessage = () => {
+    const handleSendMessage = async () => {
         if (message) {
+            await addMessages(id, otherUserId, "Text", message);
             setMessages(prev => {
                 return [
                     ...prev,
                     {
                         mine: true,
-                        text: message,
+                        messageBody: message,
                         image: null,
                     },
                 ];
             });
             setMessage("");
             socket.emit("events", {
-                id,
+                emitId,
                 message,
             });
         }
     };
 
-    const handleSayHello = () => {
+    const handleSayHello = async () => {
+        await addMessages(id, otherUserId, "Text", "Hello");
         setMessages(prev => {
             return [
                 ...prev,
                 {
                     mine: true,
-                    text: "Hello",
+                    messageBody: "Hello",
                     image: null,
                 },
             ];
         });
         socket.emit("events", {
-            id,
+            emitId,
             message: "Hello",
         });
     };
@@ -116,7 +119,7 @@ export default function ChatScreen({route, navigation}) {
                         <Image
                             style={styles.headerImage}
                             source={{
-                                uri: "https://scontent.fhan14-2.fna.fbcdn.net/v/t1.6435-9/76714112_2463775960534937_8739041008815177728_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=174925&_nc_ohc=l5Qta76QWE0AX-N4OV1&_nc_ht=scontent.fhan14-2.fna&oh=00_AT_-sjENN5Vk2-z0WY-N_OnPjXBKrSqPF-dFjY8WnJz9xg&oe=62D88D22",
+                                uri: avatar,
                             }}
                         />
                     </View>
@@ -134,10 +137,12 @@ export default function ChatScreen({route, navigation}) {
                                 })
                             }>
                             <View style={styles.messageHeader}>
-                                <Text style={{marginBottom: 20, fontSize: 32}}>
-                                    You matched with Tai.
+                                <Text style={{marginBottom: 20, fontSize: 25}}>
+                                    You matched with {userName}.
                                 </Text>
-                                <Text style={{fontSize: 16}}>1 day ago</Text>
+                                <Text style={{fontSize: 16}}>
+                                    {timeCreated}
+                                </Text>
                                 <View
                                     style={{
                                         borderWidth: 5,
@@ -148,7 +153,7 @@ export default function ChatScreen({route, navigation}) {
                                     }}>
                                     <Image
                                         source={{
-                                            uri: "https://scontent.fhan14-2.fna.fbcdn.net/v/t1.6435-9/76714112_2463775960534937_8739041008815177728_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=174925&_nc_ohc=l5Qta76QWE0AX-N4OV1&_nc_ht=scontent.fhan14-2.fna&oh=00_AT_-sjENN5Vk2-z0WY-N_OnPjXBKrSqPF-dFjY8WnJz9xg&oe=62D88D22",
+                                            uri: avatar,
                                         }}
                                         style={{
                                             width: 200,
@@ -170,7 +175,7 @@ export default function ChatScreen({route, navigation}) {
                                     />
                                 </View>
                                 <Text style={{marginBottom: 20, fontSize: 16}}>
-                                    Know when Tai has read your message.
+                                    Know when {userName} has read your message.
                                 </Text>
                                 <View
                                     style={{
@@ -219,14 +224,15 @@ export default function ChatScreen({route, navigation}) {
                                     </View>
                                 </TouchableOpacity>
                             </View>
-                            {messages.map((message, index) => (
-                                <MessageBubble
-                                    mine={message.mine}
-                                    image={message.image}
-                                    text={message.text}
-                                    key={index}
-                                />
-                            ))}
+                            {messages &&
+                                messages.map((message, index) => (
+                                    <MessageBubble
+                                        mine={message.mine}
+                                        image={message.image}
+                                        text={message.messageBody}
+                                        key={index}
+                                    />
+                                ))}
                         </ScrollView>
                     </View>
                     <View style={styles.boxChat}>
