@@ -29,10 +29,6 @@ const createMessages: StoreSlice<MessagesState> = (set, get) => ({
                 messageBody,
             });
             const data = res.data.data;
-            set({
-                messages: data,
-            });
-            console.log("res: ", data);
         } catch (error: any) {
             Toast.show({
                 type: "error",
@@ -47,7 +43,9 @@ const createMessages: StoreSlice<MessagesState> = (set, get) => ({
                 params: {threadId},
             });
             const data = res.data.data;
-            console.log("res: ", data);
+            set({
+                messages: data,
+            });
         } catch (error: any) {
             Toast.show({
                 type: "error",
