@@ -81,13 +81,20 @@ export default function HomeScreen() {
     });
     const removeTopCardLike = useCallback(
         dx => {
+            const addLike = async user => {
+                await addLikeUser(user._id);
+                await getLikeUser();
+            };
+            const addDislike = async user => {
+                await addDislikeUser(user._id);
+                // await getLikeUser();
+            };
             setUsers(prevState => {
                 const user = [...prevState][0];
                 if (dx > 0) {
-                    addLikeUser(user._id);
-                    getLikeUser();
+                    addLike(user);
                 } else {
-                    addDislikeUser(user._id);
+                    addDislike(user);
                 }
                 return prevState.slice(1);
             });
@@ -98,8 +105,12 @@ export default function HomeScreen() {
 
     const removeTopCardSuperLike = useCallback(() => {
         setUsers(prevState => {
+            const addSuperlike = async (user: any) => {
+                await addSuperlikeUser(user._id);
+                // await getLikeUser();
+            };
             const user = [...prevState][0];
-            addSuperlikeUser(user._id);
+            addSuperlike(user);
             reduceSuperlikeStar();
             return prevState.slice(1);
         });
