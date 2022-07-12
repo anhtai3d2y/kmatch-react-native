@@ -19,9 +19,6 @@ const createLikeUser: StoreSlice<LikeUserState> = (set, get) => ({
                 },
             );
             const data = res.data.data;
-            set({
-                likeUsers: data,
-            });
             // console.log("res: ", data);
             // Toast.show({
             //     type: "message",
