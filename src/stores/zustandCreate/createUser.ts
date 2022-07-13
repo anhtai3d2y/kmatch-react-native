@@ -6,18 +6,23 @@ import {IUserProfile} from "../model/user";
 export interface UserState {
     userProfile: IUserProfile;
     userNewsFeed: object[];
+    userRanking: object[];
+    isLoadingUserRanking: boolean;
     isLoadingUserNewsFeed: boolean;
     reduceSuperlikeStar: () => void;
     useBoots: () => void;
     getUserProfile: () => void;
     setUserNewsFeed: (users: object[]) => void;
     getUserNewsFeed: (body: any) => void;
+    getUserRanking: (body: any) => void;
     updateUser: (body: any) => void;
 }
 
 const createUser: StoreSlice<UserState> = (set, get) => ({
     userProfile: {} as IUserProfile,
     userNewsFeed: [],
+    userRanking: [],
+    isLoadingUserRanking: false,
     isLoadingUserNewsFeed: false,
     reduceSuperlikeStar: () => {
         const userProfile = get().userProfile;
@@ -95,6 +100,27 @@ const createUser: StoreSlice<UserState> = (set, get) => ({
             Toast.show({
                 type: "error",
                 text1: "Get News Feed Error!",
+                text2: error.response.data.message,
+            });
+        }
+    },
+    getUserRanking: async (body: any) => {
+        try {
+            set({
+                isLoadingUserRanking: true,
+            });
+            const res = await axiosClient.get(API_URL + EndpointApi.ranking, {
+                params: body,
+            });
+            const data = res.data.data.data;
+            set({
+                userRanking: data,
+                isLoadingUserRanking: false,
+            });
+        } catch (error: any) {
+            Toast.show({
+                type: "error",
+                text1: "Get Ranking Error!",
                 text2: error.response.data.message,
             });
         }

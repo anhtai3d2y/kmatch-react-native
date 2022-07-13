@@ -1,27 +1,21 @@
-import {useEffect, useState} from "react";
-import {View, Text, ScrollView, TouchableOpacity} from "react-native";
-import shallow from "zustand/shallow";
-import MatchedCard from "../../components/MatchedCard";
+import {useState} from "react";
+import {View, Text, TouchableOpacity} from "react-native";
+import LikeTab from "../../components/LikeTab";
+import MatchesTab from "../../components/MatchesTab";
+import NopeTab from "../../components/NopeTab";
+import SuperlikeTab from "../../components/SuperlikeTab";
 import TinyLogo from "../../components/TinyLogo";
-import colors from "../../constants/Colors";
-import {height} from "../../constants/Layout";
-import useStore from "../../stores/store";
 import styles from "../../themes/screens/Matches";
 
 export default function MatchesScreen() {
     const [selectedTab, setSelectedTab] = useState("matches");
 
-    const getLikeUser = useStore(state => state.getLikeUser);
-    const likeUsers = useStore(state => state.likeUsers, shallow);
-    const [userLiked, setUserLiked] = useState(likeUsers);
-
-    useEffect(() => {
-        getLikeUser();
-    }, []);
-
-    useEffect(() => {
-        setUserLiked(likeUsers);
-    }, [likeUsers]);
+    const tabs = {
+        matches: <MatchesTab />,
+        like: <LikeTab />,
+        nope: <NopeTab />,
+        superlike: <SuperlikeTab />,
+    };
 
     const handleTabChange = (tab: string) => {
         setSelectedTab(tab);
@@ -85,21 +79,7 @@ export default function MatchesScreen() {
                     </View>
                 </TouchableOpacity>
             </View>
-            <ScrollView style={{height: height - 170}}>
-                <View style={styles.matches}>
-                    {userLiked &&
-                        userLiked.map(user => {
-                            return (
-                                <MatchedCard
-                                    name={user.user.name}
-                                    avatar={user?.user.avatar?.secureURL}
-                                    age={user.user.age}
-                                    key={user._id}
-                                />
-                            );
-                        })}
-                </View>
-            </ScrollView>
+            {tabs[selectedTab]}
         </View>
     );
 }

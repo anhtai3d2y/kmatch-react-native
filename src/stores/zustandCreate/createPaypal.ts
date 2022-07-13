@@ -5,6 +5,7 @@ import StoreSlice from "./storeSlice";
 export interface PaypalState {
     paypal: string;
     isLoadingCreatePaypal: boolean;
+    clearPaypal: () => void;
     addPaypal: (type: string, packageName: string) => void;
     // getPaypal: (threadId: string) => void;
 }
@@ -12,6 +13,7 @@ export interface PaypalState {
 const createPaypal: StoreSlice<PaypalState> = (set, get) => ({
     paypal: "",
     isLoadingCreatePaypal: false,
+    clearPaypal: () => set({paypal: ""}),
     addPaypal: async (type: string, packageName: string) => {
         try {
             set({

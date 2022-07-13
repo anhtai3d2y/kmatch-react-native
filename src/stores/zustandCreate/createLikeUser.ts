@@ -4,12 +4,14 @@ import Toast from "react-native-toast-message";
 import StoreSlice from "./storeSlice";
 export interface LikeUserState {
     likeUsers: object[];
+    isLoadingLikeUsers: boolean;
     addLikeUser: (userLikedId: string) => void;
     getLikeUser: () => void;
 }
 
 const createLikeUser: StoreSlice<LikeUserState> = (set, get) => ({
     likeUsers: [],
+    isLoadingLikeUsers: false,
     addLikeUser: async (userLikedId: string) => {
         try {
             const res = await axiosClient.post(
@@ -35,10 +37,14 @@ const createLikeUser: StoreSlice<LikeUserState> = (set, get) => ({
     },
     getLikeUser: async () => {
         try {
+            set({
+                isLoadingLikeUsers: true,
+            });
             const res = await axiosClient.get(API_URL + EndpointApi.likeUsers);
             const data = res.data.data;
             set({
                 likeUsers: data,
+                isLoadingLikeUsers: false,
             });
         } catch (error: any) {
             Toast.show({

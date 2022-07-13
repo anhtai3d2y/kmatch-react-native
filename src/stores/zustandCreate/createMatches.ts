@@ -4,12 +4,14 @@ import Toast from "react-native-toast-message";
 import StoreSlice from "./storeSlice";
 export interface MatchesState {
     matches: object[];
+    isLoadingMatches: boolean;
     addMatches: (userId: string, otherUserId: string) => void;
     getMatches: () => void;
 }
 
 const createMatches: StoreSlice<MatchesState> = (set, get) => ({
     matches: [],
+    isLoadingMatches: false,
     addMatches: async (userId: string, otherUserId: string) => {
         try {
             const res = await axiosClient.post(API_URL + EndpointApi.matches, {
@@ -31,9 +33,15 @@ const createMatches: StoreSlice<MatchesState> = (set, get) => ({
     },
     getMatches: async () => {
         try {
+            set({
+                isLoadingMatches: true,
+            });
             const res = await axiosClient.get(API_URL + EndpointApi.matches);
             const data = res.data.data;
-            console.log("res: ", data);
+            set({
+                matches: data,
+                isLoadingMatches: false,
+            });
         } catch (error: any) {
             Toast.show({
                 type: "error",

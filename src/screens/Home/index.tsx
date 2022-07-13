@@ -17,6 +17,8 @@ export default function HomeScreen() {
     const getUserNewsFeed = useStore(state => state.getUserNewsFeed);
     const addLikeUser = useStore(state => state.addLikeUser);
     const getLikeUser = useStore(state => state.getLikeUser);
+    const getDislikeUser = useStore(state => state.getDislikeUser);
+    const getSuperlikeUser = useStore(state => state.getSuperlikeUser);
     const addDislikeUser = useStore(state => state.addDislikeUser);
     const addSuperlikeUser = useStore(state => state.addSuperlikeUser);
     const getUserProfile = useStore(state => state.getUserProfile);
@@ -25,13 +27,17 @@ export default function HomeScreen() {
     const swipe = useRef(new Animated.ValueXY()).current;
     const tiltSign = useRef(new Animated.Value(1)).current;
     useEffect(() => {
-        if (!users.length) {
-            getUserNewsFeed({
+        const getUser = async () => {
+            await getUserNewsFeed({
                 gender: "Both",
                 minAge: 16,
                 maxAge: 30,
                 distance: 100,
             });
+        };
+
+        if (!users.length) {
+            getUser();
         }
     }, [users.length]);
 
@@ -81,13 +87,13 @@ export default function HomeScreen() {
     });
     const removeTopCardLike = useCallback(
         dx => {
-            const addLike = async user => {
+            const addLike = async (user: any) => {
                 await addLikeUser(user._id);
                 await getLikeUser();
             };
-            const addDislike = async user => {
+            const addDislike = async (user: any) => {
                 await addDislikeUser(user._id);
-                // await getLikeUser();
+                await getDislikeUser();
             };
             setUsers(prevState => {
                 const user = [...prevState][0];
@@ -107,7 +113,7 @@ export default function HomeScreen() {
         setUsers(prevState => {
             const addSuperlike = async (user: any) => {
                 await addSuperlikeUser(user._id);
-                // await getLikeUser();
+                await getSuperlikeUser();
             };
             const user = [...prevState][0];
             addSuperlike(user);
@@ -160,7 +166,7 @@ export default function HomeScreen() {
                 style={styles.loading}
             />
             {users
-                .map((user, index) => {
+                .map((user: any, index) => {
                     const isFirst = index === 0;
                     const dragHandles = isFirst ? panResponder.panHandlers : {};
                     return (
