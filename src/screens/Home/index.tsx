@@ -91,17 +91,26 @@ export default function HomeScreen() {
                 await addLikeUser(user._id);
                 await getLikeUser();
             };
+
+            setUsers(prevState => {
+                const user = [...prevState][0];
+                addLike(user);
+                return prevState.slice(1);
+            });
+            swipe.setValue({x: 0, y: 0});
+        },
+        [swipe],
+    );
+
+    const removeTopCardDislike = useCallback(
+        dx => {
             const addDislike = async (user: any) => {
                 await addDislikeUser(user._id);
                 await getDislikeUser();
             };
             setUsers(prevState => {
                 const user = [...prevState][0];
-                if (dx > 0) {
-                    addLike(user);
-                } else {
-                    addDislike(user);
-                }
+                addDislike(user);
                 return prevState.slice(1);
             });
             swipe.setValue({x: 0, y: 0});
@@ -134,6 +143,21 @@ export default function HomeScreen() {
                 duration: 400,
                 useNativeDriver: true,
             }).start(removeTopCardLike);
+        },
+        [removeTopCardLike, swipe.y],
+    );
+
+    const handleChoiceDislike = useCallback(
+        direction => {
+            const swipeXY = direction ? swipe.x : swipe.y;
+            direction = direction
+                ? direction * CARD.OUT_OF_WIDTH
+                : -1 * CARD.OUT_OF_HEIGHT;
+            Animated.timing(swipeXY, {
+                toValue: direction,
+                duration: 400,
+                useNativeDriver: true,
+            }).start(removeTopCardDislike);
         },
         [removeTopCardLike, swipe.y],
     );
@@ -186,6 +210,7 @@ export default function HomeScreen() {
                 .reverse()}
             <Footer
                 handleChoiceLike={handleChoiceLike}
+                handleChoiceDislike={handleChoiceDislike}
                 handleChoiceSuperlike={handleChoiceSuperlike}
                 handleChoiceBoots={handleChoiceBoots}
             />
