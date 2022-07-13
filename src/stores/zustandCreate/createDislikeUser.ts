@@ -34,7 +34,9 @@ const createDislikeUser: StoreSlice<DislikeUserState> = (set, get) => ({
                 API_URL + EndpointApi.dislikeUsers,
             );
             const data = res.data.data;
-            console.log("res: ", data);
+            set({
+                dislikeUsers: data,
+            });
         } catch (error: any) {
             Toast.show({
                 type: "error",

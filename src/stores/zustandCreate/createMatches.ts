@@ -33,7 +33,9 @@ const createMatches: StoreSlice<MatchesState> = (set, get) => ({
         try {
             const res = await axiosClient.get(API_URL + EndpointApi.matches);
             const data = res.data.data;
-            console.log("res: ", data);
+            set({
+                matches: data,
+            });
         } catch (error: any) {
             Toast.show({
                 type: "error",

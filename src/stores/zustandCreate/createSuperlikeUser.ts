@@ -34,7 +34,9 @@ const createSuperlikeUser: StoreSlice<SuperlikeUserState> = (set, get) => ({
                 API_URL + EndpointApi.superlikeUsers,
             );
             const data = res.data.data;
-            console.log("res: ", data);
+            set({
+                superlikeUsers: data,
+            });
         } catch (error: any) {
             Toast.show({
                 type: "error",
