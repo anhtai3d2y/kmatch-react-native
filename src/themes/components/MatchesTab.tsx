@@ -1,6 +1,6 @@
 import {StyleSheet} from "react-native";
 import colors from "../../constants/Colors";
-import {width} from "../../constants/Layout";
+import {height, width} from "../../constants/Layout";
 
 const styles = StyleSheet.create({
     matches: {
@@ -9,6 +9,10 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         flexDirection: "row",
         flexWrap: "wrap",
+    },
+    loading: {
+        justifyContent: "center",
+        height: height - 150,
     },
 });
 

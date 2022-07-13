@@ -27,13 +27,17 @@ export default function HomeScreen() {
     const swipe = useRef(new Animated.ValueXY()).current;
     const tiltSign = useRef(new Animated.Value(1)).current;
     useEffect(() => {
-        if (!users.length) {
-            getUserNewsFeed({
+        const getUser = async () => {
+            await getUserNewsFeed({
                 gender: "Both",
                 minAge: 16,
                 maxAge: 30,
                 distance: 100,
             });
+        };
+
+        if (!users.length) {
+            getUser();
         }
     }, [users.length]);
 

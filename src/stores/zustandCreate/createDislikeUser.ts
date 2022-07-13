@@ -4,12 +4,14 @@ import Toast from "react-native-toast-message";
 import StoreSlice from "./storeSlice";
 export interface DislikeUserState {
     dislikeUsers: object[];
+    isLoadingDislikeUsers: boolean;
     addDislikeUser: (userId: string, userDislikedId: string) => void;
     getDislikeUser: () => void;
 }
 
 const createDislikeUser: StoreSlice<DislikeUserState> = (set, get) => ({
     dislikeUsers: [],
+    isLoadingDislikeUsers: false,
     addDislikeUser: async (userDislikedId: string) => {
         try {
             const res = await axiosClient.post(
@@ -30,12 +32,16 @@ const createDislikeUser: StoreSlice<DislikeUserState> = (set, get) => ({
     },
     getDislikeUser: async () => {
         try {
+            set({
+                isLoadingDislikeUsers: true,
+            });
             const res = await axiosClient.get(
                 API_URL + EndpointApi.dislikeUsers,
             );
             const data = res.data.data;
             set({
                 dislikeUsers: data,
+                isLoadingDislikeUsers: false,
             });
         } catch (error: any) {
             Toast.show({

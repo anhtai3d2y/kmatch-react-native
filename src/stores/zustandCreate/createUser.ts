@@ -7,6 +7,7 @@ export interface UserState {
     userProfile: IUserProfile;
     userNewsFeed: object[];
     userRanking: object[];
+    isLoadingUserRanking: boolean;
     isLoadingUserNewsFeed: boolean;
     reduceSuperlikeStar: () => void;
     useBoots: () => void;
@@ -21,6 +22,7 @@ const createUser: StoreSlice<UserState> = (set, get) => ({
     userProfile: {} as IUserProfile,
     userNewsFeed: [],
     userRanking: [],
+    isLoadingUserRanking: false,
     isLoadingUserNewsFeed: false,
     reduceSuperlikeStar: () => {
         const userProfile = get().userProfile;
@@ -104,12 +106,16 @@ const createUser: StoreSlice<UserState> = (set, get) => ({
     },
     getUserRanking: async (body: any) => {
         try {
+            set({
+                isLoadingUserRanking: true,
+            });
             const res = await axiosClient.get(API_URL + EndpointApi.ranking, {
                 params: body,
             });
             const data = res.data.data.data;
             set({
                 userRanking: data,
+                isLoadingUserRanking: false,
             });
         } catch (error: any) {
             Toast.show({
