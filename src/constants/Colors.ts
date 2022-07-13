@@ -26,5 +26,7 @@ const colors = {
     redColor: "#e94057",
     redOpacityColor: "#ffe9ee",
     grayColor: "#f5f6fb",
+    // goldColor: "#af7c00",
+    goldColor: "#c69d2d",
 };
 export default colors;

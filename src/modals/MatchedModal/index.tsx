@@ -1,19 +1,8 @@
 import {FontAwesome} from "@expo/vector-icons";
-import React, {useState} from "react";
-import {
-    Alert,
-    Modal,
-    StyleSheet,
-    Text,
-    Pressable,
-    View,
-    TouchableOpacity,
-    Image,
-} from "react-native";
+import React from "react";
+import {Modal, Text, Pressable, View, Image} from "react-native";
 import colors from "../../constants/Colors";
 import {height, width} from "../../constants/Layout";
-import {setToken} from "../../helpers";
-import useStore from "../../stores/store";
 import styles from "../../themes/modals/MatchedModal";
 
 const MatchedModal = ({visible, setVisible}) => {

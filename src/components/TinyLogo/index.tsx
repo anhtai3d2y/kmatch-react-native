@@ -1,4 +1,4 @@
-import {AntDesign, MaterialIcons} from "@expo/vector-icons";
+import {AntDesign, Ionicons, MaterialIcons} from "@expo/vector-icons";
 import React, {useEffect, useState} from "react";
 import {Image, Text, View} from "react-native";
 import shallow from "zustand/shallow";
@@ -42,9 +42,14 @@ export default function TinyLogo() {
                 </View>
             </View>
             <View style={styles.logoContainer}>
-                <Image
+                {/* <Image
                     style={styles.logo}
                     source={require("../../assets/logo/kmatch.png")}
+                /> */}
+                <Ionicons
+                    name="logo-web-component"
+                    size={20}
+                    color={colors.redColor}
                 />
                 <Text style={styles.title}>kmatch</Text>
             </View>

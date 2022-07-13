@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 2,
         borderBottomColor: "#ccc",
         width: width - 40,
+        backgroundColor: "#fff",
     },
     selectBox: {
         alignSelf: "center",
