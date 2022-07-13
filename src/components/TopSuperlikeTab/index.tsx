@@ -2,6 +2,7 @@ import {AntDesign, Octicons} from "@expo/vector-icons";
 import {useEffect, useState} from "react";
 import {FlatList, Image, ScrollView, Text, View} from "react-native";
 import {ActivityIndicator} from "react-native-paper";
+import {color} from "react-native-reanimated";
 import shallow from "zustand/shallow";
 import colors from "../../constants/Colors";
 import {height} from "../../constants/Layout";
@@ -39,7 +40,15 @@ export default function TopSuperlikeTab() {
                             data={ranking}
                             keyExtractor={item => item._id}
                             renderItem={({item, index}) => (
-                                <View style={styles.user_info}>
+                                <View
+                                    style={[
+                                        styles.user_info,
+                                        {
+                                            backgroundColor: item.isMe
+                                                ? colors.redOpacityColor
+                                                : "#fff",
+                                        },
+                                    ]}>
                                     <View style={styles.user_img_wrapper}>
                                         <Text style={styles.indexRanking}>
                                             {index + 1}

@@ -66,17 +66,17 @@ export default function Routes() {
     const token = useStore(state => state.token, shallow);
     const userAuth = useStore(state => state.userAuth, shallow);
     const setLocation = useStore(state => state.setLocation);
-    // useEffect(() => {
-    //     const eventGetLocation = setInterval(async () => {
-    //         let location = await Location.getCurrentPositionAsync({});
-    //         const latitude = parseFloat(location.coords.latitude);
-    //         const longitude = parseFloat(location.coords.longitude);
-    //         setLocation(latitude, longitude);
-    //     }, 5000);
-    //     return () => {
-    //         clearInterval(eventGetLocation);
-    //     };
-    // }, []);
+    useEffect(() => {
+        const eventGetLocation = setInterval(async () => {
+            let location = await Location.getCurrentPositionAsync({});
+            const latitude = parseFloat(location.coords.latitude);
+            const longitude = parseFloat(location.coords.longitude);
+            setLocation(latitude, longitude);
+        }, 5000);
+        return () => {
+            clearInterval(eventGetLocation);
+        };
+    }, []);
     return (
         <SafeAreaProvider>
             <ThemeProvider>

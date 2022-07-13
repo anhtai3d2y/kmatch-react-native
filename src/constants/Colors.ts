@@ -24,6 +24,7 @@ const colors = {
     black: "#000",
     heartColor: "#d66070",
     redColor: "#e94057",
+    redOpacityColor: "#ffe9ee",
     grayColor: "#f5f6fb",
 };
 export default colors;
