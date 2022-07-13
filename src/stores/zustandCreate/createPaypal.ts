@@ -28,7 +28,6 @@ const createPaypal: StoreSlice<PaypalState> = (set, get) => ({
                 paypal: data.paypalLink,
                 isLoadingCreatePaypal: false,
             });
-            console.log("res: ", data);
         } catch (error: any) {
             Toast.show({
                 type: "error",
@@ -43,7 +42,6 @@ const createPaypal: StoreSlice<PaypalState> = (set, get) => ({
                 params: {threadId},
             });
             const data = res.data.data;
-            console.log("res: ", data);
         } catch (error: any) {
             Toast.show({
                 type: "error",

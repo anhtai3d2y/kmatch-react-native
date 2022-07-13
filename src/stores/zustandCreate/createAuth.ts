@@ -190,7 +190,6 @@ const createAuth: StoreSlice<LoginState> = (set, get) => ({
                 },
             );
             const data = res.data;
-            console.log(data);
             Toast.show({
                 type: "success",
                 text1: "Reset password successfully!",
@@ -201,7 +200,6 @@ const createAuth: StoreSlice<LoginState> = (set, get) => ({
                 statusVerificationForgotpassword: true,
             });
         } catch (error: any) {
-            console.log(error);
             Toast.show({
                 type: "error",
                 text1: "Verifition Error!",
