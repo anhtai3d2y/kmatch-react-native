@@ -16,7 +16,6 @@ import MessagesScreen from "../screens/Message";
 import ProfileScreen from "../screens/Profile";
 import RankingScreen from "../screens/Ranking";
 import SettingProfileScreen from "../screens/SettingProfile";
-import SubscriptionScreen from "../screens/Subscription";
 import useStore from "../stores/store";
 
 const Stack = createNativeStackNavigator();
@@ -110,20 +109,13 @@ const ProfileStack = ({navigation}) => (
                 headerShown: false,
             }}
         />
-        <Stack.Screen
-            name="Subscription"
-            component={SubscriptionScreen}
-            options={{
-                headerShown: false,
-            }}
-        />
     </Stack.Navigator>
 );
 export default function AppStack() {
     const latitude = useStore(state => state.latitude);
     const longitude = useStore(state => state.longitude);
     const userAuth = useStore(state => state.userAuth);
-    const updateUser = useStore(state => state.updateUser);
+    const updateUserLocation = useStore(state => state.updateUserLocation);
     const getUserProfile = useStore(state => state.getUserProfile);
     useEffect(() => {
         getUserProfile();
@@ -133,8 +125,8 @@ export default function AppStack() {
                 latitude: latitude,
                 longitude: longitude,
             };
-            updateUser(body);
-        }, 10000);
+            updateUserLocation(body);
+        }, 60000);
         // const eventGetProfileUser = setInterval(() => {
         //     getUserProfile;
         // }, 10000);

@@ -9,13 +9,15 @@ export interface UserState {
     userRanking: object[];
     isLoadingUserRanking: boolean;
     isLoadingUserNewsFeed: boolean;
+    isLoadingUpdateUser: boolean;
     reduceSuperlikeStar: () => void;
     useBoots: () => void;
     getUserProfile: () => void;
     setUserNewsFeed: (users: object[]) => void;
     getUserNewsFeed: (body: any) => void;
     getUserRanking: (body: any) => void;
-    updateUser: (body: any) => void;
+    updateUserLocation: (body: any) => void;
+    updateUserProfile: (body: any) => void;
 }
 
 const createUser: StoreSlice<UserState> = (set, get) => ({
@@ -24,6 +26,7 @@ const createUser: StoreSlice<UserState> = (set, get) => ({
     userRanking: [],
     isLoadingUserRanking: false,
     isLoadingUserNewsFeed: false,
+    isLoadingUpdateUser: false,
     reduceSuperlikeStar: () => {
         const userProfile = get().userProfile;
         if (userProfile.starAmount > 0) {
@@ -96,7 +99,6 @@ const createUser: StoreSlice<UserState> = (set, get) => ({
                 isLoadingUserNewsFeed: false,
             });
         } catch (error: any) {
-            console.log(error);
             Toast.show({
                 type: "error",
                 text1: "Get News Feed Error!",
@@ -125,11 +127,36 @@ const createUser: StoreSlice<UserState> = (set, get) => ({
             });
         }
     },
-    updateUser: async (body: any) => {
+    updateUserLocation: async (body: any) => {
         try {
             const res = await axiosClient.put(API_URL + EndpointApi.user, body);
-            // console.log(res.data.data);
         } catch (error: any) {
+            Toast.show({
+                type: "error",
+                text1: "Update User Error!",
+                text2: error.response.data.message,
+            });
+        }
+    },
+    updateUserProfile: async (body: any) => {
+        try {
+            set({
+                isLoadingUpdateUser: true,
+            });
+            const res = await axiosClient.put(API_URL + EndpointApi.user, body);
+            const data = res.data.data;
+            Toast.show({
+                type: "success",
+                text1: "Update Success!",
+                text2: `Update User ${data.name}  Success!`,
+            });
+            set({
+                isLoadingUpdateUser: false,
+            });
+        } catch (error: any) {
+            set({
+                isLoadingUpdateUser: false,
+            });
             Toast.show({
                 type: "error",
                 text1: "Update User Error!",

@@ -22,7 +22,6 @@ const createMatches: StoreSlice<MatchesState> = (set, get) => ({
             set({
                 matches: data,
             });
-            console.log("res: ", data);
         } catch (error: any) {
             Toast.show({
                 type: "error",
