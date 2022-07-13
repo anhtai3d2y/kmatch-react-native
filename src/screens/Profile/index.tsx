@@ -50,6 +50,10 @@ export default function ProfileScreen({navigation}) {
         }
     }, [paypal]);
     const handelEditProfile = async () => {
+        navigation.navigate("EditProfile");
+    };
+
+    const handleCreatePayment = async () => {
         await addPaypal(PackageType.Star, Package.SuperLike3);
     };
 
@@ -130,8 +134,8 @@ export default function ProfileScreen({navigation}) {
             <View style={styles.swiperPackage}>
                 <SwiperSlide />
             </View>
-            {/* <SettingModal visible={modalVisible} setVisible={setModalVisible} /> */}
-            <MatchedModal visible={modalVisible} setVisible={setModalVisible} />
+            <SettingModal visible={modalVisible} setVisible={setModalVisible} />
+            {/* <MatchedModal visible={modalVisible} setVisible={setModalVisible} /> */}
         </View>
     );
 }

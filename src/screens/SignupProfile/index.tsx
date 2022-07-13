@@ -66,7 +66,6 @@ export default function SignupProfileScreen() {
             // aspect: [16, 9],
             quality: 1,
         });
-        console.log(result);
         if (!result.cancelled) {
             setImage(result);
         }
@@ -176,60 +175,68 @@ export default function SignupProfileScreen() {
                                 size={24}
                                 color={colors.redColor}
                             />
-                            <TextInput
-                                value={name}
-                                placeholder="Name"
-                                placeholderTextColor="#ccc"
-                                style={[styles.input, {color: "#000"}]}
-                                inlineImageLeft="username"
-                                inlineImagePadding={2}
-                                onChangeText={text => setName(text)}
-                            />
+                            <Text style={styles.textField}>Your Name</Text>
                         </View>
+                        <TextInput
+                            value={name}
+                            placeholder="Name"
+                            placeholderTextColor="#ccc"
+                            style={[styles.input, {color: "#000"}]}
+                            inlineImageLeft="username"
+                            inlineImagePadding={2}
+                            onChangeText={text => setName(text)}
+                        />
                         <View style={styles.textInput}>
                             <FontAwesome5
                                 name="transgender"
                                 size={24}
                                 color={colors.redColor}
                             />
-                            {isSelectGender ? (
-                                <Picker
-                                    selectedValue={gender}
-                                    style={styles.input}
-                                    onValueChange={(itemValue, itemIndex) => {
-                                        setGender(itemValue);
-                                        setIsSelectGender(prev => !prev);
-                                    }}>
-                                    <Picker.Item label="Man" value="Male" />
-                                    <Picker.Item label="Woman" value="Female" />
-                                    <Picker.Item label="Other" value="Other" />
-                                </Picker>
-                            ) : (
-                                <Text
-                                    style={styles.input}
-                                    onPress={() =>
-                                        setIsSelectGender(prev => !prev)
-                                    }>
-                                    {gender}
-                                </Text>
-                            )}
+                            <Text style={styles.textField}>Gender</Text>
                         </View>
+                        {isSelectGender ? (
+                            <Picker
+                                selectedValue={gender}
+                                style={styles.inputSelect}
+                                onValueChange={(itemValue, itemIndex) => {
+                                    setGender(itemValue);
+                                    setIsSelectGender(prev => !prev);
+                                }}>
+                                <Picker.Item label="Man" value="Male" />
+                                <Picker.Item label="Woman" value="Female" />
+                                <Picker.Item label="Other" value="Other" />
+                            </Picker>
+                        ) : (
+                            <Text
+                                style={styles.inputSelect}
+                                onPress={() =>
+                                    setIsSelectGender(prev => !prev)
+                                }>
+                                {gender}
+                            </Text>
+                        )}
                         <View style={styles.textInput}>
                             <MaterialIcons
                                 name="today"
                                 size={24}
                                 color={colors.redColor}
                             />
-                            <View style={{width: width}}>
-                                <DateTimePicker
-                                    testID="dateTimePicker"
-                                    value={date}
-                                    mode={"date"}
-                                    maximumDate={new Date()}
-                                    is24Hour={true}
-                                    onChange={onChangeBirthday}
-                                />
-                            </View>
+                            <Text style={styles.textField}>Birthday</Text>
+                        </View>
+                        <View
+                            style={{
+                                width: width,
+                                marginLeft: 120,
+                                marginVertical: 10,
+                            }}>
+                            <DateTimePicker
+                                testID="dateTimePicker"
+                                value={date}
+                                mode={"date"}
+                                maximumDate={new Date()}
+                                is24Hour={true}
+                                onChange={onChangeBirthday}
+                            />
                         </View>
                         <View style={styles.textInput}>
                             <FontAwesome
@@ -237,50 +244,55 @@ export default function SignupProfileScreen() {
                                 size={24}
                                 color={colors.redColor}
                             />
-                            <TextInput
-                                value={phonenumber}
-                                placeholder="Phonenumber"
-                                placeholderTextColor="#ccc"
-                                style={[styles.input, {color: "#000"}]}
-                                inlineImageLeft="username"
-                                inlineImagePadding={2}
-                                onChangeText={text => setPhonenumber(text)}
-                            />
+                            <Text style={styles.textField}>Phone number</Text>
                         </View>
+                        <TextInput
+                            value={phonenumber}
+                            placeholder="Phonenumber"
+                            placeholderTextColor="#ccc"
+                            style={[styles.input, {color: "#000"}]}
+                            inlineImageLeft="username"
+                            inlineImagePadding={2}
+                            onChangeText={text => setPhonenumber(text)}
+                        />
                         <View style={styles.textInput}>
                             <Entypo
                                 name="lock"
                                 size={24}
                                 color={colors.redColor}
                             />
-                            <TextInput
-                                value={password}
-                                placeholder="Password"
-                                placeholderTextColor="#ccc"
-                                style={[styles.input, {color: "#000"}]}
-                                inlineImageLeft="username"
-                                inlineImagePadding={2}
-                                onChangeText={text => setPassword(text)}
-                                secureTextEntry={true}
-                            />
+                            <Text style={styles.textField}>Password</Text>
                         </View>
+                        <TextInput
+                            value={password}
+                            placeholder="Password"
+                            placeholderTextColor="#ccc"
+                            style={[styles.input, {color: "#000"}]}
+                            inlineImageLeft="username"
+                            inlineImagePadding={2}
+                            onChangeText={text => setPassword(text)}
+                            secureTextEntry={true}
+                        />
                         <View style={styles.textInput}>
                             <MaterialCommunityIcons
                                 name="form-textbox-password"
                                 size={24}
                                 color={colors.redColor}
                             />
-                            <TextInput
-                                value={confirmPassword}
-                                placeholder="Confirm password"
-                                placeholderTextColor="#ccc"
-                                style={[styles.input, {color: "#000"}]}
-                                inlineImageLeft="username"
-                                inlineImagePadding={2}
-                                onChangeText={text => setConfirmPassword(text)}
-                                secureTextEntry={true}
-                            />
+                            <Text style={styles.textField}>
+                                Confirm password
+                            </Text>
                         </View>
+                        <TextInput
+                            value={confirmPassword}
+                            placeholder="Confirm password"
+                            placeholderTextColor="#ccc"
+                            style={[styles.input, {color: "#000"}]}
+                            inlineImageLeft="username"
+                            inlineImagePadding={2}
+                            onChangeText={text => setConfirmPassword(text)}
+                            secureTextEntry={true}
+                        />
                     </View>
                 </KeyboardAvoidingView>
                 <View style={{alignItems: "center", marginTop: 20}}>
