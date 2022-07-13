@@ -1,4 +1,4 @@
-import {Entypo, Ionicons, MaterialCommunityIcons} from "@expo/vector-icons";
+import {Ionicons, MaterialCommunityIcons} from "@expo/vector-icons";
 import {useEffect, useState} from "react";
 import {View, Text, TouchableOpacity, Image} from "react-native";
 import TinyLogo from "../../components/TinyLogo";
@@ -6,14 +6,13 @@ import colors from "../../constants/Colors";
 import {setToken} from "../../helpers";
 import useStore from "../../stores/store";
 import styles from "../../themes/screens/Profile";
-import SettingModal from "../../modals/SettingModal";
-import Swiper from "react-native-swiper/src";
 import shallow from "zustand/shallow";
-import * as Linking from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
 import {PackageType} from "../../constants/packageType";
 import {Package} from "../../constants/package";
 import MatchedModal from "../../modals/MatchedModal";
+import SwiperSlide from "../../components/Swiper";
+import SettingModal from "../../modals/SettingModal";
 
 export default function ProfileScreen({navigation}) {
     const setTokenStore = useStore(state => state.setToken);
@@ -129,17 +128,7 @@ export default function ProfileScreen({navigation}) {
                 </View>
             </View>
             <View style={styles.swiperPackage}>
-                <Swiper style={styles.wrapper}>
-                    <View style={styles.slide1}>
-                        <Text style={styles.text}>Hello Swiper</Text>
-                    </View>
-                    <View style={styles.slide2}>
-                        <Text style={styles.text}>Beautiful</Text>
-                    </View>
-                    <View style={styles.slide3}>
-                        <Text style={styles.text}>And simple</Text>
-                    </View>
-                </Swiper>
+                <SwiperSlide />
             </View>
             {/* <SettingModal visible={modalVisible} setVisible={setModalVisible} /> */}
             <MatchedModal visible={modalVisible} setVisible={setModalVisible} />

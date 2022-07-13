@@ -59,28 +59,56 @@ const styles = StyleSheet.create({
         height: 300,
     },
     wrapper: {},
-    slide1: {
+    slideHeader: {
+        flexDirection: "row",
+    },
+    slide: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: colors.grayColor,
-    },
-    slide2: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#97CAE5",
-    },
-    slide3: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#92BBD9",
+        marginTop: 50,
     },
     text: {
+        marginLeft: 10,
+        marginBottom: 10,
         color: "#000",
-        fontSize: 30,
+        fontSize: 24,
         fontWeight: "bold",
+    },
+    button: {
+        backgroundColor: "#fff",
+        borderRadius: 30,
+        width: 240,
+        height: 40,
+        alignItems: "center",
+        justifyContent: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 0,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 8,
+    },
+    textButton: {
+        fontWeight: "bold",
+        fontSize: 16,
+    },
+    roundIcon: {
+        backgroundColor: "#fff",
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        alignItems: "center",
+        justifyContent: "center",
+        marginHorizontal: 5,
+        shadowOffset: {
+            width: 0,
+            height: 0,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 8,
     },
 });
 

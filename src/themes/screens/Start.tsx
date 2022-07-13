@@ -36,12 +36,10 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     button: {
-        backgroundColor: "white",
+        backgroundColor: colors.redOpacityColor,
         width: width - 50,
         padding: 15,
         borderRadius: 40,
-        borderWidth: 2,
-        borderColor: colors.redColor,
         alignItems: "center",
         marginBottom: 10,
     },

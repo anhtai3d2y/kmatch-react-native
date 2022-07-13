@@ -22,11 +22,11 @@ const styles = StyleSheet.create({
         width: width - 60,
         paddingHorizontal: 15,
         paddingVertical: 10,
-        borderColor: colors.redColor,
-        borderWidth: 1,
+        backgroundColor: colors.redOpacityColor,
         borderRadius: 15,
         marginTop: 30,
         marginBottom: 30,
+        height: 50,
     },
     button: {
         width: width - 50,
