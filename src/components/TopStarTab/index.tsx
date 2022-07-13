@@ -19,7 +19,7 @@ export default function TopStarTab() {
     const [ranking, setRanking] = useState(userRanking);
 
     useEffect(() => {
-        getUserRanking({sortBy: '{"superlikeStar": -1}'});
+        getUserRanking({sortBy: '{"superlikeStar": -1, "superlikes": -1}'});
     }, []);
 
     useEffect(() => {

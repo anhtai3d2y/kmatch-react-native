@@ -6,6 +6,7 @@ import styles from "../../themes/components/Footer";
 
 export default function Footer({
     handleChoiceLike,
+    handleChoiceDislike,
     handleChoiceSuperlike,
     handleChoiceBoots,
 }) {
@@ -15,7 +16,7 @@ export default function Footer({
                 name="times"
                 size={30}
                 color={Colors.nope}
-                onPress={() => handleChoiceLike(-1)}
+                onPress={() => handleChoiceDislike(-1)}
             />
             <RoundButton
                 name="star"
