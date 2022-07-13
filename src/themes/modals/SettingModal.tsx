@@ -9,8 +9,11 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginTop: 22,
+        backgroundColor: "rgba(0,0,0,0.8)",
     },
     modalView: {
+        width: width - 10,
+        height: height - 100,
         margin: 20,
         backgroundColor: "white",
         borderRadius: 20,

@@ -40,7 +40,15 @@ export default function TopStarTab() {
                             data={ranking}
                             keyExtractor={item => item._id}
                             renderItem={({item, index}) => (
-                                <View style={styles.user_info}>
+                                <View
+                                    style={[
+                                        styles.user_info,
+                                        {
+                                            backgroundColor: item.isMe
+                                                ? colors.redOpacityColor
+                                                : "#fff",
+                                        },
+                                    ]}>
                                     <View style={styles.user_img_wrapper}>
                                         <Text style={styles.indexRanking}>
                                             {index + 1}
