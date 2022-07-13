@@ -4,12 +4,14 @@ import Toast from "react-native-toast-message";
 import StoreSlice from "./storeSlice";
 export interface SuperlikeUserState {
     superlikeUsers: object[];
+    isLoadongSuperlikeUsers: boolean;
     addSuperlikeUser: (userSuperlikedId: string) => void;
     getSuperlikeUser: () => void;
 }
 
 const createSuperlikeUser: StoreSlice<SuperlikeUserState> = (set, get) => ({
     superlikeUsers: [],
+    isLoadongSuperlikeUsers: false,
     addSuperlikeUser: async (userSuperlikedId: string) => {
         try {
             const res = await axiosClient.post(
@@ -30,11 +32,17 @@ const createSuperlikeUser: StoreSlice<SuperlikeUserState> = (set, get) => ({
     },
     getSuperlikeUser: async () => {
         try {
+            set({
+                isLoadongSuperlikeUsers: true,
+            });
             const res = await axiosClient.get(
                 API_URL + EndpointApi.superlikeUsers,
             );
             const data = res.data.data;
-            console.log("res: ", data);
+            set({
+                superlikeUsers: data,
+                isLoadongSuperlikeUsers: false,
+            });
         } catch (error: any) {
             Toast.show({
                 type: "error",

@@ -2,6 +2,7 @@ import {
     FontAwesome,
     Ionicons,
     MaterialCommunityIcons,
+    MaterialIcons,
 } from "@expo/vector-icons";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
@@ -13,6 +14,7 @@ import HomeModal from "../screens/HomeModal";
 import MatchesScreen from "../screens/Matches";
 import MessagesScreen from "../screens/Message";
 import ProfileScreen from "../screens/Profile";
+import RankingScreen from "../screens/Ranking";
 import SettingProfileScreen from "../screens/SettingProfile";
 import SubscriptionScreen from "../screens/Subscription";
 import useStore from "../stores/store";
@@ -32,6 +34,18 @@ const FeedStack = ({navigation}) => (
         <Stack.Screen
             name="HomeModal"
             component={HomeModal}
+            options={{
+                headerShown: false,
+            }}
+        />
+    </Stack.Navigator>
+);
+
+const RankingStack = ({navigation}) => (
+    <Stack.Navigator initialRouteName="Ranking">
+        <Stack.Screen
+            name="Ranking"
+            component={RankingScreen}
             options={{
                 headerShown: false,
             }}
@@ -157,6 +171,22 @@ export default function AppStack() {
                             name="cards"
                             color={color}
                             size={size}
+                        />
+                    ),
+                })}
+            />
+            <Tab.Screen
+                name="RankingTab"
+                component={RankingStack}
+                options={({route}) => ({
+                    headerShown: false,
+                    tabBarShowLabel: false,
+                    tabBarVisible: getTabBarVisibility(route),
+                    tabBarIcon: ({color, size}) => (
+                        <MaterialIcons
+                            name="bar-chart"
+                            size={size + 10}
+                            color={color}
                         />
                     ),
                 })}

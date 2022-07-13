@@ -11,6 +11,8 @@ import Swiper from "react-native-swiper/src";
 import shallow from "zustand/shallow";
 import * as Linking from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
+import {PackageType} from "../../constants/packageType";
+import {Package} from "../../constants/package";
 
 export default function ProfileScreen({navigation}) {
     const setTokenStore = useStore(state => state.setToken);
@@ -18,6 +20,7 @@ export default function ProfileScreen({navigation}) {
     const getUserProfile = useStore(state => state.getUserProfile);
     const userProfile = useStore(state => state.userProfile, shallow);
     const addPaypal = useStore(state => state.addPaypal);
+    const clearPaypal = useStore(state => state.clearPaypal);
     const paypal = useStore(state => state.paypal, shallow);
     const [user, setUser] = useState({});
 
@@ -28,7 +31,6 @@ export default function ProfileScreen({navigation}) {
 
     useEffect(() => {
         setUser(userProfile);
-        getUserProfile();
     }, [userProfile]);
 
     useEffect(() => {
@@ -38,6 +40,7 @@ export default function ProfileScreen({navigation}) {
                     paypal,
                 );
                 await getUserProfile();
+                await clearPaypal();
             } catch (error) {
                 console.log(error);
             }
@@ -47,7 +50,7 @@ export default function ProfileScreen({navigation}) {
         }
     }, [paypal]);
     const handelEditProfile = async () => {
-        await addPaypal("Boots", "Boots 1");
+        await addPaypal(PackageType.Star, Package.SuperLike3);
     };
 
     const [modalVisible, setModalVisible] = useState(false);
