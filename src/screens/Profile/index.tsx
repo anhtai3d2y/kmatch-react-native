@@ -13,6 +13,7 @@ import * as Linking from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
 import {PackageType} from "../../constants/packageType";
 import {Package} from "../../constants/package";
+import MatchedModal from "../../modals/MatchedModal";
 
 export default function ProfileScreen({navigation}) {
     const setTokenStore = useStore(state => state.setToken);
@@ -140,10 +141,8 @@ export default function ProfileScreen({navigation}) {
                     </View>
                 </Swiper>
             </View>
-            {/* <TouchableOpacity style={{paddingTop: 50}} onPress={handleGetUser}>
-                <Text style={{fontSize: 30}}>Get user</Text>
-            </TouchableOpacity> */}
-            <SettingModal visible={modalVisible} setVisible={setModalVisible} />
+            {/* <SettingModal visible={modalVisible} setVisible={setModalVisible} /> */}
+            <MatchedModal visible={modalVisible} setVisible={setModalVisible} />
         </View>
     );
 }
