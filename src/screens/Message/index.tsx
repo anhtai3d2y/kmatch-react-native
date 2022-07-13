@@ -1,33 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {
-    View,
-    Text,
-    FlatList,
-    TouchableOpacity,
-    Image,
-    ScrollView,
-} from "react-native";
+import {View, Text, FlatList, TouchableOpacity, Image} from "react-native";
 import shallow from "zustand/shallow";
 import TinyLogo from "../../components/TinyLogo";
 import useStore from "../../stores/store";
 import styles from "../../themes/screens/Message";
-
-const Messages = [
-    {
-        id: "1",
-        userName: "Tai",
-        userImg: require("../../assets/images/users/user-2.jpg"),
-        messageTime: "4 mins ago",
-        messageText: "Hello Dong!",
-    },
-    {
-        id: "2",
-        userName: "Đỗ Tuấn Anh",
-        userImg: require("../../assets/images/users/user-1.jpg"),
-        messageTime: "2 hours ago",
-        messageText: "Hello Tai",
-    },
-];
 
 export default function MessagesScreen({navigation}) {
     const getThreads = useStore(state => state.getThreads);
