@@ -1,7 +1,12 @@
 import React from "react";
 import {Modal, Text, View, TouchableOpacity} from "react-native";
 import colors from "../../constants/Colors";
-import {AntDesign, Ionicons, MaterialIcons} from "@expo/vector-icons";
+import {
+    AntDesign,
+    FontAwesome5,
+    Ionicons,
+    MaterialIcons,
+} from "@expo/vector-icons";
 import Swiper from "react-native-swiper/src";
 import styles from "../../themes/modals/KmatchGold";
 import useStore from "../../stores/store";
@@ -74,6 +79,21 @@ const KmatchGoldModal = ({visible, setVisible}) => {
                             }
                             loop={true}
                             autoplay={true}>
+                            <View style={styles.slide}>
+                                <View style={styles.roundIcon}>
+                                    <FontAwesome5
+                                        name="kiss-wink-heart"
+                                        size={40}
+                                        color={colors.goldColor}
+                                    />
+                                </View>
+                                <Text style={styles.title}>
+                                    Some people already like you!
+                                </Text>
+                                <Text style={styles.desciption}>
+                                    Match with them instantly
+                                </Text>
+                            </View>
                             <View style={styles.slide}>
                                 <View style={styles.roundIcon}>
                                     <MaterialIcons
