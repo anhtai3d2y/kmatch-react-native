@@ -1,11 +1,15 @@
-import {MaterialCommunityIcons} from "@expo/vector-icons";
+import {
+    FontAwesome,
+    Ionicons,
+    MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import {LinearGradient} from "expo-linear-gradient";
 import React from "react";
 import {Image, Text, TouchableOpacity, View} from "react-native";
 import shallow from "zustand/shallow";
 import useStore from "../../stores/store";
-import styles from "../../themes/components/MatchedCard";
-export default function MatchedCard({name, avatar, age, userId, navigation}) {
+import styles from "../../themes/components/SuperlikeCard";
+export default function SuperlikeCard({name, avatar, age, userId, navigation}) {
     const getThreads = useStore(state => state.getThreads);
     const userProfile = useStore(state => state.userProfile, shallow);
     const addThreads = useStore(state => state.addThreads);
@@ -17,7 +21,6 @@ export default function MatchedCard({name, avatar, age, userId, navigation}) {
         };
         handle();
     };
-
     return (
         <View style={styles.container}>
             <Image

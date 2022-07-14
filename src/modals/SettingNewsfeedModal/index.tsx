@@ -138,7 +138,7 @@ const SettingNewsfeedModal = ({visible, setVisible}) => {
                         />
                         <View style={styles.textInput}>
                             <MaterialCommunityIcons
-                                name="map-marker-distance"
+                                name="timeline-minus"
                                 size={24}
                                 color={colors.redColor}
                             />
@@ -165,7 +165,7 @@ const SettingNewsfeedModal = ({visible, setVisible}) => {
                         >
                             <View style={styles.textInput}>
                                 <MaterialCommunityIcons
-                                    name="map-marker-distance"
+                                    name="timeline-plus"
                                     size={24}
                                     color={colors.redColor}
                                 />

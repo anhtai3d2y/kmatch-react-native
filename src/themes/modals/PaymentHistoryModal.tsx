@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     paymentBox: {
         flexDirection: "row",
         justifyContent: "space-between",
+        alignItems: "center",
         width: width * 0.8,
         marginBottom: 10,
     },

@@ -18,6 +18,7 @@ const EndpointApi = {
     groupPermission: "/groupPermission",
     likeUsers: "/like-users",
     userLikeMe: "/like-users/see-who-like-me",
+    removeUserLikeMe: "/like-users/user-like-me",
     dislikeUsers: "/dislike-users",
     superlikeUsers: "/superlike-users",
     superlikeStar: "/superlike-star",

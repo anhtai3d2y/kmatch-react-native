@@ -1,5 +1,12 @@
-import React, {useEffect, useState} from "react";
-import {View, Text, FlatList, TouchableOpacity, Image} from "react-native";
+import React, {useCallback, useEffect, useState} from "react";
+import {
+    View,
+    Text,
+    FlatList,
+    TouchableOpacity,
+    Image,
+    RefreshControl,
+} from "react-native";
 import shallow from "zustand/shallow";
 import TinyLogo from "../../components/TinyLogo";
 import useStore from "../../stores/store";
@@ -8,7 +15,13 @@ import styles from "../../themes/screens/Message";
 export default function MessagesScreen({navigation}) {
     const getThreads = useStore(state => state.getThreads);
     const threads = useStore(state => state.threads, shallow);
+    const isLoadingThreads = useStore(state => state.isLoadingThreads, shallow);
     const [messages, setMessages] = useState(threads);
+
+    const onRefresh = useCallback(() => {
+        getThreads();
+    }, []);
+
     useEffect(() => {
         getThreads();
     }, []);
@@ -65,6 +78,12 @@ export default function MessagesScreen({navigation}) {
                                 </View>
                             </TouchableOpacity>
                         )}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={isLoadingThreads}
+                                onRefresh={onRefresh}
+                            />
+                        }
                     />
                 )}
             </View>

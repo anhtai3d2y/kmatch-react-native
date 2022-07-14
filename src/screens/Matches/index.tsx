@@ -8,14 +8,14 @@ import SuperlikeTab from "../../components/SuperlikeTab";
 import TinyLogo from "../../components/TinyLogo";
 import styles from "../../themes/screens/Matches";
 
-export default function MatchesScreen() {
+export default function MatchesScreen({navigation}) {
     const [selectedTab, setSelectedTab] = useState("matches");
 
     const tabs = {
-        matches: <MatchesTab />,
-        like: <LikeTab />,
+        matches: <MatchesTab navigation={navigation} />,
+        like: <LikeTab navigation={navigation} />,
         nope: <NopeTab />,
-        superlike: <SuperlikeTab />,
+        superlike: <SuperlikeTab navigation={navigation} />,
     };
 
     const handleTabChange = (tab: string) => {

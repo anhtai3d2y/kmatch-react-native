@@ -4,23 +4,20 @@ import Toast from "react-native-toast-message";
 import StoreSlice from "./storeSlice";
 export interface ThreadsState {
     threads: object[];
-    addThreads: (userId: string, otherUserId: string) => void;
+    isLoadingThreads: boolean;
+    addThreads: (otherUserId: string) => void;
     getThreads: () => void;
 }
 
 const createThreads: StoreSlice<ThreadsState> = (set, get) => ({
     threads: [],
-    addThreads: async (userId: string, otherUserId: string) => {
+    isLoadingThreads: false,
+    addThreads: async (otherUserId: string) => {
         try {
-            console.log("userId", userId);
-            console.log("otherUserId", otherUserId);
             const res = await axiosClient.post(API_URL + EndpointApi.threads, {
                 otherUserId: otherUserId,
             });
             const data = res.data.data;
-            set({
-                threads: data,
-            });
         } catch (error: any) {
             Toast.show({
                 type: "error",
@@ -31,10 +28,13 @@ const createThreads: StoreSlice<ThreadsState> = (set, get) => ({
     },
     getThreads: async () => {
         try {
-            console.log("get thread");
+            set({
+                isLoadingThreads: true,
+            });
             const res = await axiosClient.get(API_URL + EndpointApi.threads);
             const data = res.data.data;
             set({
+                isLoadingThreads: false,
                 threads: data,
             });
         } catch (error: any) {

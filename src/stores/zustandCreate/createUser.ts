@@ -11,7 +11,7 @@ export interface UserState {
     isLoadingUserNewsFeed: boolean;
     isLoadingUpdateUser: boolean;
     reduceSuperlikeStar: () => void;
-    useBoots: () => void;
+    useBoots: (setIsBootsItemModalVisible: any) => void;
     getUserProfile: () => void;
     setUserNewsFeed: (users: object[]) => void;
     getUserNewsFeed: (body: any) => void;
@@ -38,30 +38,26 @@ const createUser: StoreSlice<UserState> = (set, get) => ({
             });
         }
     },
-    useBoots: async () => {
-        if (get().userProfile.bootsAmount > 0) {
-            try {
-                const res = await axiosClient.post(
-                    API_URL + EndpointApi.useBoots,
-                );
-                const data = res.data;
-                const bootsAmount = get().userProfile.bootsAmount;
-                const bootsTime = get().userProfile.boots;
-                set({
-                    userProfile: {
-                        ...get().userProfile,
-                        bootsAmount: bootsAmount - 1,
-                        boots: bootsTime + 30 * 60 * 1000,
-                    },
-                });
-            } catch (error: any) {
-                Toast.show({
-                    type: "error",
-                    text1: "Use Boots Error!",
-                    text2: error.response.data.message,
-                });
-            }
+    useBoots: async setIsBootsItemModalVisible => {
+        // if (get().userProfile.bootsAmount > 0) {
+        try {
+            const res = await axiosClient.post(API_URL + EndpointApi.useBoots);
+            const data = res.data;
+            const bootsAmount = get().userProfile.bootsAmount;
+            const bootsTime = get().userProfile.boots;
+            set({
+                userProfile: {
+                    ...get().userProfile,
+                    bootsAmount: bootsAmount - 1,
+                    boots: bootsTime + 30 * 60 * 1000,
+                },
+            });
+        } catch (error: any) {
+            setIsBootsItemModalVisible(true);
         }
+        // } else {
+        //     console.log("nap coin di m");
+        // }
     },
     getUserProfile: async () => {
         try {

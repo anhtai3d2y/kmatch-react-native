@@ -13,6 +13,9 @@ import colors from "../../constants/Colors";
 import io from "socket.io-client";
 import {API_URL} from "../../constants";
 import MatchedModal from "../../modals/MatchedModal";
+import BootsItemModal from "../../modals/BootsItemModal";
+import SuperLikeStarModal from "../../modals/SuperLikeStarModal";
+import * as WebBrowser from "expo-web-browser";
 const socket = io(API_URL);
 socket.on("connection", () => {
     console.log("Socket connected!");
@@ -34,7 +37,13 @@ export default function HomeScreen({navigation}) {
     const useBoots = useStore(state => state.useBoots);
     const swipe = useRef(new Animated.ValueXY()).current;
     const tiltSign = useRef(new Animated.Value(1)).current;
+    const clearPaypal = useStore(state => state.clearPaypal);
+    const paypal = useStore(state => state.paypal, shallow);
 
+    const [isBootsItemModalVisible, setIsBootsItemModalVisible] =
+        useState(false);
+    const [isSuperLikeStarModalVisible, setIsSuperLikeStarModalVisible] =
+        useState(false);
     const [isMatchedModalVisible, setIsMatchedModalVisible] = useState(false);
     useEffect(() => {
         const getUser = async () => {
@@ -64,6 +73,23 @@ export default function HomeScreen({navigation}) {
     useEffect(() => {
         setUsers(userNewsFeed);
     }, [userNewsFeed]);
+
+    useEffect(() => {
+        const callWebBrowser = async () => {
+            try {
+                const webBrowserStatus = await WebBrowser.openBrowserAsync(
+                    paypal,
+                );
+                await getUserProfile();
+                await clearPaypal();
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        if (paypal) {
+            callWebBrowser();
+        }
+    }, [paypal]);
     const panResponder = PanResponder.create({
         onMoveShouldSetPanResponder: () => true,
         onPanResponderMove: (_, {dx, dy, y0}) => {
@@ -149,9 +175,13 @@ export default function HomeScreen({navigation}) {
     const removeTopCardSuperLike = useCallback(() => {
         setUsers(prevState => {
             const addSuperlike = async (user: any) => {
-                console.log("add super like");
-                await addSuperlikeUser(user._id, setIsMatchedModalVisible);
+                await addSuperlikeUser(
+                    user._id,
+                    setIsMatchedModalVisible,
+                    setIsSuperLikeStarModalVisible,
+                );
                 await getSuperlikeUser();
+                await getUserProfile();
             };
             const user = [...prevState][0];
             addSuperlike(user);
@@ -208,7 +238,7 @@ export default function HomeScreen({navigation}) {
 
     const handleChoiceBoots = () => {
         getUserProfile();
-        useBoots();
+        useBoots(setIsBootsItemModalVisible);
     };
     return (
         <View style={styles.container}>
@@ -252,6 +282,14 @@ export default function HomeScreen({navigation}) {
                 handleChoiceDislike={handleChoiceDislike}
                 handleChoiceSuperlike={handleChoiceSuperlike}
                 handleChoiceBoots={handleChoiceBoots}
+            />
+            <BootsItemModal
+                visible={isBootsItemModalVisible}
+                setVisible={setIsBootsItemModalVisible}
+            />
+            <SuperLikeStarModal
+                visible={isSuperLikeStarModalVisible}
+                setVisible={setIsSuperLikeStarModalVisible}
             />
         </View>
     );
