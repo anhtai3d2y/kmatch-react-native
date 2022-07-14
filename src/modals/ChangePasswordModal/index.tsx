@@ -1,4 +1,8 @@
-import {FontAwesome5, MaterialCommunityIcons} from "@expo/vector-icons";
+import {
+    FontAwesome5,
+    Ionicons,
+    MaterialCommunityIcons,
+} from "@expo/vector-icons";
 import React, {useState} from "react";
 import {
     Alert,
@@ -17,6 +21,7 @@ import styles from "../../themes/modals/ChangePassword";
 import shallow from "zustand/shallow";
 import {ActivityIndicator} from "react-native-paper";
 import {setToken} from "../../helpers";
+import {ColorSpace} from "react-native-reanimated";
 
 const ChangePasswordModal = ({visible, setVisible}) => {
     const [oldPassword, setOldPassword] = useState("");
@@ -69,7 +74,7 @@ const ChangePasswordModal = ({visible, setVisible}) => {
                         <Text style={styles.modalText}>Change password</Text>
                         <View style={styles.textInput}>
                             <MaterialCommunityIcons
-                                name="map-marker-distance"
+                                name="onepassword"
                                 size={24}
                                 color={colors.redColor}
                             />
@@ -84,8 +89,8 @@ const ChangePasswordModal = ({visible, setVisible}) => {
                             secureTextEntry={true}
                         />
                         <View style={styles.textInput}>
-                            <MaterialCommunityIcons
-                                name="map-marker-distance"
+                            <Ionicons
+                                name="lock-closed"
                                 size={24}
                                 color={colors.redColor}
                             />
@@ -107,7 +112,7 @@ const ChangePasswordModal = ({visible, setVisible}) => {
                         >
                             <View style={styles.textInput}>
                                 <MaterialCommunityIcons
-                                    name="map-marker-distance"
+                                    name="form-textbox-password"
                                     size={24}
                                     color={colors.redColor}
                                 />

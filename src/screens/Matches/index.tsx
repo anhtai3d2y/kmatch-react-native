@@ -3,6 +3,7 @@ import {View, Text, TouchableOpacity} from "react-native";
 import LikeTab from "../../components/LikeTab";
 import MatchesTab from "../../components/MatchesTab";
 import NopeTab from "../../components/NopeTab";
+import SeeWhoLikeMeTab from "../../components/SeeWhoLikeMeTab";
 import SuperlikeTab from "../../components/SuperlikeTab";
 import TinyLogo from "../../components/TinyLogo";
 import styles from "../../themes/screens/Matches";

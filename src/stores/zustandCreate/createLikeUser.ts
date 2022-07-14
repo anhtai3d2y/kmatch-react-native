@@ -4,15 +4,20 @@ import Toast from "react-native-toast-message";
 import StoreSlice from "./storeSlice";
 export interface LikeUserState {
     likeUsers: object[];
+    userLikeMe: object[];
     isLoadingLikeUsers: boolean;
+    isLoadingUserLikeMe: boolean;
     matchedData: object;
     addLikeUser: (userLikedId: string, setIsMatchedModalVisible: any) => void;
     getLikeUser: () => void;
+    getUserLikeMe: (setIsKmatchGoldModalVisible: any) => void;
 }
 
 const createLikeUser: StoreSlice<LikeUserState> = (set, get) => ({
     likeUsers: [],
+    userLikeMe: [],
     isLoadingLikeUsers: false,
+    isLoadingUserLikeMe: false,
     matchedData: {},
     addLikeUser: async (userLikedId: string, setIsMatchedModalVisible: any) => {
         try {
@@ -63,6 +68,26 @@ const createLikeUser: StoreSlice<LikeUserState> = (set, get) => ({
             Toast.show({
                 type: "error",
                 text1: "Get Like Users Error!",
+                text2: error.response.data.message,
+            });
+        }
+    },
+    getUserLikeMe: async setIsKmatchGoldModalVisible => {
+        try {
+            set({
+                isLoadingUserLikeMe: true,
+            });
+            const res = await axiosClient.get(API_URL + EndpointApi.userLikeMe);
+            const data = res.data.data;
+            set({
+                userLikeMe: data,
+                isLoadingUserLikeMe: false,
+            });
+        } catch (error: any) {
+            setIsKmatchGoldModalVisible(true);
+            Toast.show({
+                type: "error",
+                text1: "Get User Like Me Error!",
                 text2: error.response.data.message,
             });
         }

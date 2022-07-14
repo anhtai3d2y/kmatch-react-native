@@ -20,6 +20,7 @@ import KmatchGoldModal from "../../modals/KmatchGoldModal";
 import KmatchPlatinumModal from "../../modals/KmatchPlatinumModal";
 import BootsItemModal from "../../modals/BootsItemModal";
 import SuperLikeStarModal from "../../modals/SuperLikeStarModal";
+import PaymentHistoryModal from "../../modals/PaymentHistoryModal";
 
 export default function SettingProfileScreen({navigation}) {
     const [settingNewsfeedModalVisible, setSettingNewsfeedModalVisible] =
@@ -36,6 +37,8 @@ export default function SettingProfileScreen({navigation}) {
     const [isBootsItemModalVisible, setIsBootsItemModalVisible] =
         useState(false);
     const [isSuperLikeStarModalVisible, setIsSuperLikeStarModalVisible] =
+        useState(false);
+    const [isPaymentHistoryModalVisible, setIsPaymentHistoryModalVisible] =
         useState(false);
 
     const setTokenStore = useStore(state => state.setToken);
@@ -254,6 +257,18 @@ export default function SettingProfileScreen({navigation}) {
                             <Text>{">"}</Text>
                         </View>
                     </TouchableOpacity>
+                    <Text style={{marginTop: 20, marginLeft: 15}}>
+                        PAYMENT HISTORY
+                    </Text>
+                    <TouchableOpacity
+                        onPress={() => {
+                            setIsPaymentHistoryModalVisible(true);
+                        }}>
+                        <View style={styles.infoView}>
+                            <Text>Get payment history</Text>
+                            <Text>{">"}</Text>
+                        </View>
+                    </TouchableOpacity>
                     <View style={styles.buttonContainer}>
                         <TouchableOpacity
                             style={styles.button}
@@ -289,6 +304,10 @@ export default function SettingProfileScreen({navigation}) {
                 <SuperLikeStarModal
                     visible={isSuperLikeStarModalVisible}
                     setVisible={setIsSuperLikeStarModalVisible}
+                />
+                <PaymentHistoryModal
+                    visible={isPaymentHistoryModalVisible}
+                    setVisible={setIsPaymentHistoryModalVisible}
                 />
             </ScrollView>
         </TouchableWithoutFeedback>

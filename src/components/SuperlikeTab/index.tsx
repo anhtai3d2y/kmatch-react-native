@@ -11,8 +11,8 @@ import MatchedCard from "../MatchedCard";
 export default function SuperlikeTab() {
     const getSuperlikeUser = useStore(state => state.getSuperlikeUser);
     const superlikeUsers = useStore(state => state.superlikeUsers, shallow);
-    const isLoadongSuperlikeUsers = useStore(
-        state => state.isLoadongSuperlikeUsers,
+    const isLoadingSuperlikeUsers = useStore(
+        state => state.isLoadingSuperlikeUsers,
         shallow,
     );
     const [userSuperliked, setUserSuperliked] = useState(superlikeUsers);
@@ -26,7 +26,7 @@ export default function SuperlikeTab() {
     }, [superlikeUsers]);
     return (
         <ScrollView style={{height: height - 170}}>
-            {isLoadongSuperlikeUsers ? (
+            {isLoadingSuperlikeUsers ? (
                 <ActivityIndicator
                     size="large"
                     color={colors.redColor}

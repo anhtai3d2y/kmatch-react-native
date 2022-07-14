@@ -1,15 +1,19 @@
 import {useState} from "react";
 import {View, Text, TouchableOpacity} from "react-native";
+import SeeWhoLikeMeTab from "../../components/SeeWhoLikeMeTab";
 import TinyLogo from "../../components/TinyLogo";
 import TopStarTab from "../../components/TopStarTab";
 import TopSuperlikeTab from "../../components/TopSuperlikeTab";
+import KmatchGoldModal from "../../modals/KmatchGoldModal";
 import styles from "../../themes/screens/Ranking";
 
 export default function RankingScreen() {
     const [selectedTab, setSelectedTab] = useState("star");
+
     const tabs = {
         star: <TopStarTab />,
         superlike: <TopSuperlikeTab />,
+        seewholikeme: <SeeWhoLikeMeTab />,
     };
     const handleTabChange = (tab: string) => {
         setSelectedTab(tab);
@@ -43,6 +47,20 @@ export default function RankingScreen() {
                                     : styles.tabText
                             }>
                             Top super like
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+                <View style={styles.verticalLine}></View>
+                <TouchableOpacity
+                    onPress={() => handleTabChange("seewholikeme")}>
+                    <View style={styles.selectBox}>
+                        <Text
+                            style={
+                                selectedTab === "seewholikeme"
+                                    ? styles.selectedTab
+                                    : styles.tabText
+                            }>
+                            Likes
                         </Text>
                     </View>
                 </TouchableOpacity>

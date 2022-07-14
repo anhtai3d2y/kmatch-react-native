@@ -5,14 +5,18 @@ import StoreSlice from "./storeSlice";
 export interface PaypalState {
     paypal: string;
     isLoadingCreatePaypal: boolean;
+    paymentHistory: object[];
+    isLoadingPaymentHistory: boolean;
     clearPaypal: () => void;
     addPaypal: (type: string, packageName: string) => void;
-    // getPaypal: (threadId: string) => void;
+    getPaypal: () => void;
 }
 
 const createPaypal: StoreSlice<PaypalState> = (set, get) => ({
     paypal: "",
     isLoadingCreatePaypal: false,
+    paymentHistory: [],
+    isLoadingPaymentHistory: false,
     clearPaypal: () => set({paypal: ""}),
     addPaypal: async (type: string, packageName: string) => {
         try {
@@ -40,16 +44,17 @@ const createPaypal: StoreSlice<PaypalState> = (set, get) => ({
             });
         }
     },
-    getPaypal: async (threadId: string) => {
+    getPaypal: async () => {
         try {
-            const res = await axiosClient.get(API_URL + EndpointApi.paypal, {
-                params: {threadId},
-            });
+            const res = await axiosClient.get(API_URL + EndpointApi.paypal);
             const data = res.data.data;
+            set({
+                paymentHistory: data,
+            });
         } catch (error: any) {
             Toast.show({
                 type: "error",
-                text1: "Get Paypal Error!",
+                text1: "Get Payment History Error!",
                 text2: error.response.data.message,
             });
         }
