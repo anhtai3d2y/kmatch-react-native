@@ -10,6 +10,7 @@ import {
 import axiosClient from "../../utils/axios";
 import StoreSlice from "./storeSlice";
 import Toast from "react-native-toast-message";
+import {Alert} from "react-native";
 interface LoginState {
     token: any;
     userAuth: object;
@@ -20,6 +21,7 @@ interface LoginState {
     statusEmailForgotpassword: boolean;
     statusVerificationForgotpassword: boolean;
     isVerificationForgotpasswordLoading: boolean;
+    isLoadingChangePassword: boolean;
     setToken: (token: string) => void;
     setUserAuth: () => void;
     loginEmail: (email: string, password: string) => void;
@@ -34,6 +36,12 @@ interface LoginState {
         newPassword: string,
         confirmNewPassword: string,
     ) => void;
+    changePassword: (
+        oldPassword: string,
+        newPassword: string,
+        confirmNewPassword: string,
+        setVisible: () => void,
+    ) => void;
 }
 
 const createAuth: StoreSlice<LoginState> = (set, get) => ({
@@ -46,6 +54,7 @@ const createAuth: StoreSlice<LoginState> = (set, get) => ({
     statusEmailForgotpassword: false,
     statusVerificationForgotpassword: false,
     isVerificationForgotpasswordLoading: false,
+    isLoadingChangePassword: false,
     setToken: (token: string) => {
         set({token: token});
     },
@@ -207,6 +216,46 @@ const createAuth: StoreSlice<LoginState> = (set, get) => ({
             });
             set({
                 isVerificationForgotpasswordLoading: false,
+            });
+        }
+    },
+    changePassword: async (
+        oldPassword: string,
+        newPassword: string,
+        confirmNewPassword: string,
+        setVisible: () => void,
+    ) => {
+        try {
+            set({
+                isLoadingChangePassword: true,
+            });
+            const res = await axiosClient.put(
+                API_URL + EndpointApi.changePassword,
+                {
+                    oldPassword: oldPassword,
+                    newPassword: newPassword,
+                    confirmNewPassword: confirmNewPassword,
+                },
+            );
+            const data = res.data;
+            Toast.show({
+                type: "success",
+                text1: "Change password successfully!",
+                text2: data.message,
+            });
+            set({
+                isLoadingChangePassword: false,
+            });
+            setVisible(false);
+        } catch (error: any) {
+            Toast.show({
+                type: "error",
+                text1: "Verifition Error!",
+                text2: error.response.data.message,
+            });
+            Alert.alert("Error", error.response.data.message);
+            set({
+                isLoadingChangePassword: false,
             });
         }
     },

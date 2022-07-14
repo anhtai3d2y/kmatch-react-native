@@ -14,6 +14,7 @@ import colors from "../../constants/Colors";
 export default function HomeScreen() {
     const [users, setUsers] = useState([]);
     const userNewsFeed = useStore(state => state.userNewsFeed, shallow);
+    const userProfile = useStore(state => state.userProfile, shallow);
     const getUserNewsFeed = useStore(state => state.getUserNewsFeed);
     const addLikeUser = useStore(state => state.addLikeUser);
     const getLikeUser = useStore(state => state.getLikeUser);
@@ -28,12 +29,22 @@ export default function HomeScreen() {
     const tiltSign = useRef(new Animated.Value(1)).current;
     useEffect(() => {
         const getUser = async () => {
-            await getUserNewsFeed({
-                gender: "Both",
-                minAge: 16,
-                maxAge: 30,
-                distance: 100,
-            });
+            if (!userProfile.genderShow) {
+                const user = await getUserProfile();
+                await getUserNewsFeed({
+                    gender: user.genderShow,
+                    minAge: user.minAge,
+                    maxAge: user.maxAge,
+                    distance: user.distance,
+                });
+            } else {
+                await getUserNewsFeed({
+                    gender: userProfile.genderShow,
+                    minAge: userProfile.minAge,
+                    maxAge: userProfile.maxAge,
+                    distance: userProfile.distance,
+                });
+            }
         };
 
         if (!users.length) {

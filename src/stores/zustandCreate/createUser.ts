@@ -72,6 +72,7 @@ const createUser: StoreSlice<UserState> = (set, get) => ({
             set({
                 userProfile: data,
             });
+            return data;
         } catch (error: any) {
             Toast.show({
                 type: "error",
