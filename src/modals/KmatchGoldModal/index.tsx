@@ -3,8 +3,10 @@ import {Modal, Text, View, TouchableOpacity} from "react-native";
 import colors from "../../constants/Colors";
 import {
     AntDesign,
+    FontAwesome,
     FontAwesome5,
     Ionicons,
+    MaterialCommunityIcons,
     MaterialIcons,
 } from "@expo/vector-icons";
 import Swiper from "react-native-swiper/src";
@@ -88,12 +90,45 @@ const KmatchGoldModal = ({visible, setVisible}) => {
                                     />
                                 </View>
                                 <Text style={styles.title}>
-                                    Some people already like you!
+                                    Some People Already Like You
                                 </Text>
                                 <Text style={styles.desciption}>
                                     Match with them instantly
                                 </Text>
                             </View>
+
+                            <View style={styles.slide}>
+                                <View style={styles.roundIcon}>
+                                    <FontAwesome
+                                        name="times"
+                                        size={40}
+                                        color={colors.like}
+                                    />
+                                </View>
+                                <Text style={styles.title}>
+                                    Delete User You Liked
+                                </Text>
+                                <Text style={styles.desciption}>
+                                    Remove user you don't want to wait a match!
+                                </Text>
+                            </View>
+
+                            <View style={styles.slide}>
+                                <View style={styles.roundIcon}>
+                                    <MaterialCommunityIcons
+                                        name="delete-empty"
+                                        size={40}
+                                        color={colors.redColor}
+                                    />
+                                </View>
+                                <Text style={styles.title}>
+                                    Remove User You Disliked
+                                </Text>
+                                <Text style={styles.desciption}>
+                                    Make a change for user you're disliked!
+                                </Text>
+                            </View>
+
                             <View style={styles.slide}>
                                 <View style={styles.roundIcon}>
                                     <MaterialIcons
