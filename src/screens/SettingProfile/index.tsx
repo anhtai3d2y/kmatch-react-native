@@ -262,17 +262,6 @@ export default function SettingProfileScreen({navigation}) {
                         </TouchableOpacity>
                     </View>
                 </KeyboardAvoidingView>
-                {/* <View style={{alignItems: "center", marginTop: 20}}>
-                    <TouchableOpacity
-                        style={[styles.button, styles.buttonOutline]}
-                        onPress={handleUpdateUser}>
-                        {isLoadingUpdateUser ? (
-                            <ActivityIndicator size="small" color="#fff" />
-                        ) : (
-                            <Text style={styles.buttonOutlineText}>Save</Text>
-                        )}
-                    </TouchableOpacity>
-                </View> */}
                 <SettingNewsfeedModal
                     visible={settingNewsfeedModalVisible}
                     setVisible={setSettingNewsfeedModalVisible}

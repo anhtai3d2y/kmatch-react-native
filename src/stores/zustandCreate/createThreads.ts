@@ -12,9 +12,10 @@ const createThreads: StoreSlice<ThreadsState> = (set, get) => ({
     threads: [],
     addThreads: async (userId: string, otherUserId: string) => {
         try {
+            console.log("userId", userId);
+            console.log("otherUserId", otherUserId);
             const res = await axiosClient.post(API_URL + EndpointApi.threads, {
-                userId,
-                otherUserId,
+                otherUserId: otherUserId,
             });
             const data = res.data.data;
             set({
@@ -30,6 +31,7 @@ const createThreads: StoreSlice<ThreadsState> = (set, get) => ({
     },
     getThreads: async () => {
         try {
+            console.log("get thread");
             const res = await axiosClient.get(API_URL + EndpointApi.threads);
             const data = res.data.data;
             set({

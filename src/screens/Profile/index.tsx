@@ -25,10 +25,25 @@ export default function ProfileScreen({navigation}) {
     const paypal = useStore(state => state.paypal, shallow);
     const [user, setUser] = useState({});
 
+    const badge = {
+        KmatchBasic: "superlike",
+        KmatchPlus: "redColor",
+        KmatchGold: "goldColor",
+        KmatchPlatinum: "black",
+    };
+
+    const chooseBadge = user.role
+        ? badge[user.role.split(" ").join("")]
+        : "superlike";
+
     const handleLogout = async () => {
         await setToken("");
         setTokenStore("");
     };
+
+    useEffect(() => {
+        getUserProfile();
+    }, []);
 
     useEffect(() => {
         setUser(userProfile);
@@ -69,7 +84,7 @@ export default function ProfileScreen({navigation}) {
             <View
                 style={{
                     alignItems: "center",
-                    paddingBottom: 60,
+                    paddingBottom: 20,
                     borderBottomStartRadius: 400,
                     borderBottomEndRadius: 400,
                     width: 600,
@@ -98,6 +113,22 @@ export default function ProfileScreen({navigation}) {
                             }}
                         />
                     </View>
+                </View>
+                <View
+                    style={[
+                        styles.badge,
+                        {
+                            backgroundColor: colors[chooseBadge],
+                        },
+                    ]}>
+                    <Text
+                        style={{
+                            color: colors.white,
+                            fontSize: 16,
+                            paddingHorizontal: 10,
+                        }}>
+                        {user.role}
+                    </Text>
                 </View>
                 <View style={styles.info}>
                     <Text style={styles.textInfo}>{user.name}</Text>

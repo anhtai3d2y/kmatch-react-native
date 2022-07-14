@@ -5,14 +5,22 @@ import StoreSlice from "./storeSlice";
 export interface SuperlikeUserState {
     superlikeUsers: object[];
     isLoadongSuperlikeUsers: boolean;
-    addSuperlikeUser: (userSuperlikedId: string) => void;
+    matchedData: object;
+    addSuperlikeUser: (
+        userSuperlikedId: string,
+        setIsMatchedModalVisible: any,
+    ) => void;
     getSuperlikeUser: () => void;
 }
 
 const createSuperlikeUser: StoreSlice<SuperlikeUserState> = (set, get) => ({
     superlikeUsers: [],
     isLoadongSuperlikeUsers: false,
-    addSuperlikeUser: async (userSuperlikedId: string) => {
+    matchedData: {},
+    addSuperlikeUser: async (
+        userSuperlikedId: string,
+        setIsMatchedModalVisible: any,
+    ) => {
         try {
             const res = await axiosClient.post(
                 API_URL + EndpointApi.superlikeUsers,
@@ -21,7 +29,19 @@ const createSuperlikeUser: StoreSlice<SuperlikeUserState> = (set, get) => ({
                 },
             );
             const data = res.data.data;
-            // console.log("res: ", data);
+            set({
+                matchedData: {
+                    userName: data.userName,
+                    userAvatar: data.userAvatar.secureURL,
+                    otherUserAvatar: data.otherUserAvatar.secureURL,
+                    userId: data.userId,
+                    otherUserId: data.userLikedId,
+                },
+            });
+            console.log("asdj");
+            if (data.isMatched) {
+                setIsMatchedModalVisible(data.isMatched);
+            }
         } catch (error: any) {
             Toast.show({
                 type: "error",
