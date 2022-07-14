@@ -5,24 +5,19 @@ import StoreSlice from "./storeSlice";
 export interface ThreadsState {
     threads: object[];
     isLoadingThreads: boolean;
-    addThreads: (userId: string, otherUserId: string) => void;
+    addThreads: (otherUserId: string) => void;
     getThreads: () => void;
 }
 
 const createThreads: StoreSlice<ThreadsState> = (set, get) => ({
     threads: [],
     isLoadingThreads: false,
-    addThreads: async (userId: string, otherUserId: string) => {
+    addThreads: async (otherUserId: string) => {
         try {
-            console.log("userId", userId);
-            console.log("otherUserId", otherUserId);
             const res = await axiosClient.post(API_URL + EndpointApi.threads, {
                 otherUserId: otherUserId,
             });
             const data = res.data.data;
-            set({
-                threads: data,
-            });
         } catch (error: any) {
             Toast.show({
                 type: "error",

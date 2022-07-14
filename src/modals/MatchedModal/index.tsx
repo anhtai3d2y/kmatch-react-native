@@ -20,7 +20,7 @@ const MatchedModal = ({
     const addThreads = useStore(state => state.addThreads);
     const handleGoToChat = () => {
         const handle = async () => {
-            await addThreads(userId, otherUserId);
+            await addThreads(otherUserId);
             await getThreads();
             setVisible(!visible);
             navigation.navigate("MessagesTab");

@@ -7,10 +7,17 @@ export interface LikeUserState {
     userLikeMe: object[];
     isLoadingLikeUsers: boolean;
     isLoadingUserLikeMe: boolean;
+    isLoadingRemoveLikedUser: boolean;
+    isLoadingRemoveUserLikeMe: boolean;
     matchedData: object;
     addLikeUser: (userLikedId: string, setIsMatchedModalVisible: any) => void;
     getLikeUser: () => void;
     getUserLikeMe: (setIsKmatchGoldModalVisible: any) => void;
+    removeLikedUser: (userId: string, setIsKmatchPlusModalVisible: any) => void;
+    removeUserLikeMe: (
+        userId: string,
+        setIsKmatchPlatinumModalVisible: any,
+    ) => void;
 }
 
 const createLikeUser: StoreSlice<LikeUserState> = (set, get) => ({
@@ -18,6 +25,8 @@ const createLikeUser: StoreSlice<LikeUserState> = (set, get) => ({
     userLikeMe: [],
     isLoadingLikeUsers: false,
     isLoadingUserLikeMe: false,
+    isLoadingRemoveLikedUser: false,
+    isLoadingRemoveUserLikeMe: false,
     matchedData: {},
     addLikeUser: async (userLikedId: string, setIsMatchedModalVisible: any) => {
         try {
@@ -88,11 +97,38 @@ const createLikeUser: StoreSlice<LikeUserState> = (set, get) => ({
                 isLoadingUserLikeMe: false,
             });
             setIsKmatchGoldModalVisible(true);
-            Toast.show({
-                type: "error",
-                text1: "Get User Like Me Error!",
-                text2: error.response.data.message,
+        }
+    },
+    removeLikedUser: async (userId, setIsKmatchPlusModalVisible) => {
+        try {
+            set({
+                isLoadingRemoveLikedUser: true,
             });
+            const res = await axiosClient.delete(
+                API_URL + EndpointApi.likeUsers + "/" + userId,
+            );
+            const data = res.data.data;
+        } catch (error: any) {
+            set({
+                isLoadingRemoveLikedUser: false,
+            });
+            setIsKmatchPlusModalVisible(true);
+        }
+    },
+    removeUserLikeMe: async (userId, setIsKmatchPlatinumModalVisible) => {
+        try {
+            set({
+                isLoadingRemoveUserLikeMe: true,
+            });
+            const res = await axiosClient.delete(
+                API_URL + EndpointApi.removeUserLikeMe + "/" + userId,
+            );
+            const data = res.data;
+        } catch (error: any) {
+            set({
+                isLoadingRemoveUserLikeMe: false,
+            });
+            setIsKmatchPlatinumModalVisible(true);
         }
     },
 });

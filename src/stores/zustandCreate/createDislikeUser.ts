@@ -5,13 +5,19 @@ import StoreSlice from "./storeSlice";
 export interface DislikeUserState {
     dislikeUsers: object[];
     isLoadingDislikeUsers: boolean;
+    isLoadingRemoveDislikedUser: boolean;
     addDislikeUser: (userId: string, userDislikedId: string) => void;
     getDislikeUser: () => void;
+    removeDislikedUser: (
+        userId: string,
+        setIsKmatchPlusModalVisible: any,
+    ) => void;
 }
 
 const createDislikeUser: StoreSlice<DislikeUserState> = (set, get) => ({
     dislikeUsers: [],
     isLoadingDislikeUsers: false,
+    isLoadingRemoveDislikedUser: false,
     addDislikeUser: async (userDislikedId: string) => {
         try {
             const res = await axiosClient.post(
@@ -49,6 +55,22 @@ const createDislikeUser: StoreSlice<DislikeUserState> = (set, get) => ({
                 text1: "Get Dislike Users Error!",
                 text2: error.response.data.message,
             });
+        }
+    },
+    removeDislikedUser: async (userId, setIsKmatchPlusModalVisible) => {
+        try {
+            set({
+                isLoadingRemoveDislikedUser: true,
+            });
+            const res = await axiosClient.delete(
+                API_URL + EndpointApi.dislikeUsers + "/" + userId,
+            );
+            const data = res.data.data;
+        } catch (error: any) {
+            set({
+                isLoadingRemoveDislikedUser: false,
+            });
+            setIsKmatchPlusModalVisible(true);
         }
     },
 });

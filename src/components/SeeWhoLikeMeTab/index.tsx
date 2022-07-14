@@ -7,9 +7,12 @@ import {height} from "../../constants/Layout";
 import KmatchGoldModal from "../../modals/KmatchGoldModal";
 import useStore from "../../stores/store";
 import styles from "../../themes/components/SeeWhoLikeMeTab";
-import MatchedCard from "../MatchedCard";
+import LikeMeCard from "../LikeMeCard";
 
-export default function SeeWhoLikeMeTab() {
+export default function SeeWhoLikeMeTab({
+    setIsMatchedModalVisible,
+    setIsSuperLikeStarModalVisible,
+}) {
     const getUserLikeMe = useStore(state => state.getUserLikeMe);
     const userLikeMe = useStore(state => state.userLikeMe, shallow);
     const isLoadingUserLikeMe = useStore(
@@ -29,7 +32,7 @@ export default function SeeWhoLikeMeTab() {
     }, [userLikeMe]);
 
     const onRefresh = useCallback(() => {
-        getUserLikeMe();
+        getUserLikeMe(setIsKmatchGoldModalVisible);
     }, []);
     return (
         <ScrollView
@@ -44,10 +47,17 @@ export default function SeeWhoLikeMeTab() {
                 {userLike &&
                     userLike.map((user: any) => {
                         return (
-                            <MatchedCard
+                            <LikeMeCard
                                 name={user.user.name}
                                 avatar={user?.user.avatar?.secureURL}
                                 age={user.user.age}
+                                userId={user.user._id}
+                                setIsMatchedModalVisible={
+                                    setIsMatchedModalVisible
+                                }
+                                setIsSuperLikeStarModalVisible={
+                                    setIsSuperLikeStarModalVisible
+                                }
                                 key={user._id}
                             />
                         );

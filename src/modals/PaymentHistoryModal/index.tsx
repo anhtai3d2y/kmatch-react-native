@@ -1,4 +1,10 @@
-import {FontAwesome5, MaterialCommunityIcons} from "@expo/vector-icons";
+import {
+    AntDesign,
+    FontAwesome5,
+    Ionicons,
+    MaterialCommunityIcons,
+    MaterialIcons,
+} from "@expo/vector-icons";
 import React, {useCallback, useEffect, useState} from "react";
 import {
     Alert,
@@ -41,6 +47,42 @@ const PaymentHistoryModal = ({visible, setVisible}) => {
         SuperLike30: colors.superlike,
     };
 
+    const iconPick = {
+        KmatchPlus: (
+            <Ionicons
+                name="logo-web-component"
+                size={16}
+                color={colors.redColor}
+            />
+        ),
+        KmatchGold: (
+            <Ionicons
+                name="logo-web-component"
+                size={16}
+                color={colors.goldColor}
+            />
+        ),
+        kmatchPlatinum: (
+            <Ionicons
+                name="logo-web-component"
+                size={16}
+                color={colors.black}
+            />
+        ),
+        Boots1: <MaterialIcons name="bolt" size={18} color={colors.boots} />,
+        Boots5: <MaterialIcons name="bolt" size={18} color={colors.boots} />,
+        Boots10: <MaterialIcons name="bolt" size={18} color={colors.boots} />,
+        SuperLike3: (
+            <AntDesign name="star" size={16} color={colors.superlike} />
+        ),
+        SuperLike15: (
+            <AntDesign name="star" size={16} color={colors.superlike} />
+        ),
+        SuperLike30: (
+            <AntDesign name="star" size={16} color={colors.superlike} />
+        ),
+    };
+
     useEffect(() => {
         getPaypal();
     }, []);
@@ -74,19 +116,46 @@ const PaymentHistoryModal = ({visible, setVisible}) => {
                                     data={payments}
                                     keyExtractor={item => item._id}
                                     renderItem={({item}) => (
-                                        <View style={styles.paymentBox}>
-                                            <Text
-                                                style={{
-                                                    color: colorPick[
+                                        <View>
+                                            <View style={styles.paymentBox}>
+                                                {
+                                                    iconPick[
                                                         item.package
                                                             .split(" ")
                                                             .join("")
-                                                    ],
-                                                }}>
-                                                {item.package}
-                                            </Text>
-                                            <Text>{item.price}</Text>
-                                            <Text>{item.time}</Text>
+                                                    ]
+                                                }
+                                                <Text
+                                                    style={{
+                                                        color: colorPick[
+                                                            item.package
+                                                                .split(" ")
+                                                                .join("")
+                                                        ],
+                                                        fontSize: 14,
+                                                        fontWeight: "bold",
+                                                        minWidth: 100,
+                                                    }}>
+                                                    {item.package}
+                                                </Text>
+                                                <Text
+                                                    style={{
+                                                        fontSize: 14,
+                                                        fontWeight: "bold",
+                                                    }}>
+                                                    {item.price}$
+                                                </Text>
+                                                <Text style={{fontSize: 10}}>
+                                                    {item.time}
+                                                </Text>
+                                            </View>
+                                            <View
+                                                style={{
+                                                    backgroundColor: "#000",
+                                                    height: 2,
+                                                    width: 300,
+                                                    marginBottom: 10,
+                                                }}></View>
                                         </View>
                                     )}
                                     refreshControl={

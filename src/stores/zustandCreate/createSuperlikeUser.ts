@@ -9,6 +9,7 @@ export interface SuperlikeUserState {
     addSuperlikeUser: (
         userSuperlikedId: string,
         setIsMatchedModalVisible: any,
+        setIsSuperLikeStarModalVisible: any,
     ) => void;
     getSuperlikeUser: () => void;
 }
@@ -20,6 +21,7 @@ const createSuperlikeUser: StoreSlice<SuperlikeUserState> = (set, get) => ({
     addSuperlikeUser: async (
         userSuperlikedId: string,
         setIsMatchedModalVisible: any,
+        setIsSuperLikeStarModalVisible: any,
     ) => {
         try {
             const res = await axiosClient.post(
@@ -38,16 +40,11 @@ const createSuperlikeUser: StoreSlice<SuperlikeUserState> = (set, get) => ({
                     otherUserId: data.userLikedId,
                 },
             });
-            console.log("asdj");
             if (data.isMatched) {
                 setIsMatchedModalVisible(data.isMatched);
             }
         } catch (error: any) {
-            Toast.show({
-                type: "error",
-                text1: "Superlike User Error!",
-                text2: error.response.data.message,
-            });
+            setIsSuperLikeStarModalVisible(true);
         }
     },
     getSuperlikeUser: async () => {

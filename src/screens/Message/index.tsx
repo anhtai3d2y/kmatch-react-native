@@ -21,6 +21,7 @@ export default function MessagesScreen({navigation}) {
     const onRefresh = useCallback(() => {
         getThreads();
     }, []);
+
     useEffect(() => {
         getThreads();
     }, []);
