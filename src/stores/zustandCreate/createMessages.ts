@@ -4,6 +4,7 @@ import Toast from "react-native-toast-message";
 import StoreSlice from "./storeSlice";
 export interface MessagesState {
     messages: object[];
+    isLoadingMessages: boolean;
     addMessages: (
         threadId: string,
         receiverId: string,
@@ -15,6 +16,7 @@ export interface MessagesState {
 
 const createMessages: StoreSlice<MessagesState> = (set, get) => ({
     messages: [],
+    isLoadingMessages: false,
     addMessages: async (
         threadId: string,
         receiverId: string,
@@ -39,12 +41,16 @@ const createMessages: StoreSlice<MessagesState> = (set, get) => ({
     },
     getMessages: async (threadId: string) => {
         try {
+            set({
+                isLoadingMessages: true,
+            });
             const res = await axiosClient.get(API_URL + EndpointApi.messages, {
                 params: {threadId},
             });
             const data = res.data.data;
             set({
                 messages: data,
+                isLoadingMessages: false,
             });
         } catch (error: any) {
             Toast.show({

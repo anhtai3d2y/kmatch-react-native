@@ -84,6 +84,9 @@ const createLikeUser: StoreSlice<LikeUserState> = (set, get) => ({
                 isLoadingUserLikeMe: false,
             });
         } catch (error: any) {
+            set({
+                isLoadingUserLikeMe: false,
+            });
             setIsKmatchGoldModalVisible(true);
             Toast.show({
                 type: "error",

@@ -46,12 +46,19 @@ const createPaypal: StoreSlice<PaypalState> = (set, get) => ({
     },
     getPaypal: async () => {
         try {
+            set({
+                isLoadingPaymentHistory: true,
+            });
             const res = await axiosClient.get(API_URL + EndpointApi.paypal);
             const data = res.data.data;
             set({
+                isLoadingPaymentHistory: false,
                 paymentHistory: data,
             });
         } catch (error: any) {
+            set({
+                isLoadingPaymentHistory: false,
+            });
             Toast.show({
                 type: "error",
                 text1: "Get Payment History Error!",

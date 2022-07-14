@@ -1,5 +1,5 @@
 import {FontAwesome5, MaterialCommunityIcons} from "@expo/vector-icons";
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {
     Alert,
     Modal,
@@ -10,6 +10,7 @@ import {
     KeyboardAvoidingView,
     ScrollView,
     FlatList,
+    RefreshControl,
 } from "react-native";
 import colors from "../../constants/Colors";
 import useStore from "../../stores/store";
@@ -21,6 +22,10 @@ import {height} from "../../constants/Layout";
 
 const PaymentHistoryModal = ({visible, setVisible}) => {
     const paymentHistory = useStore(state => state.paymentHistory, shallow);
+    const isLoadingPaymentHistory = useStore(
+        state => state.isLoadingPaymentHistory,
+        shallow,
+    );
     const getPaypal = useStore(state => state.getPaypal);
     const [payments, setPayments] = useState(paymentHistory);
 
@@ -42,6 +47,10 @@ const PaymentHistoryModal = ({visible, setVisible}) => {
     useEffect(() => {
         setPayments(paymentHistory);
     }, [paymentHistory]);
+
+    const onRefresh = useCallback(() => {
+        getPaypal();
+    }, []);
 
     return (
         <View style={styles.backgroundView}>
@@ -80,6 +89,12 @@ const PaymentHistoryModal = ({visible, setVisible}) => {
                                             <Text>{item.time}</Text>
                                         </View>
                                     )}
+                                    refreshControl={
+                                        <RefreshControl
+                                            refreshing={isLoadingPaymentHistory}
+                                            onRefresh={onRefresh}
+                                        />
+                                    }
                                 />
                             )}
                         </View>

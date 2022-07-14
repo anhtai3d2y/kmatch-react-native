@@ -30,6 +30,7 @@ export default function ChatScreen({route, navigation}) {
     const {id, userId, otherUserId, userName, avatar, timeCreated} =
         route.params;
     const getMessages = useStore(state => state.getMessages);
+    const getThreads = useStore(state => state.getThreads);
     const addMessages = useStore(state => state.addMessages);
     const messagesStore = useStore(state => state.messages, shallow);
     const [message, setMessage] = useState("");
@@ -57,6 +58,7 @@ export default function ChatScreen({route, navigation}) {
             //     ];
             // });
             getMessages(id);
+            getThreads();
         });
     }, []);
     const handleSendMessage = async () => {

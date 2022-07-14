@@ -1,5 +1,5 @@
-import {useEffect, useState} from "react";
-import {ScrollView, Text, View} from "react-native";
+import {useCallback, useEffect, useState} from "react";
+import {RefreshControl, ScrollView, Text, View} from "react-native";
 import {ActivityIndicator} from "react-native-paper";
 import shallow from "zustand/shallow";
 import colors from "../../constants/Colors";
@@ -27,32 +27,32 @@ export default function SeeWhoLikeMeTab() {
     useEffect(() => {
         setUserLike(userLikeMe);
     }, [userLikeMe]);
+
+    const onRefresh = useCallback(() => {
+        getUserLikeMe();
+    }, []);
     return (
-        <ScrollView style={{height: height - 170}}>
-            {isLoadingUserLikeMe ? (
-                <View>
-                    <ActivityIndicator
-                        size="large"
-                        color={colors.redColor}
-                        style={styles.loading}
-                    />
-                    <Text>Get Kmatch Gold to see who like you!</Text>
-                </View>
-            ) : (
-                <View style={styles.matches}>
-                    {userLike &&
-                        userLike.map((user: any) => {
-                            return (
-                                <MatchedCard
-                                    name={user.user.name}
-                                    avatar={user?.user.avatar?.secureURL}
-                                    age={user.user.age}
-                                    key={user._id}
-                                />
-                            );
-                        })}
-                </View>
-            )}
+        <ScrollView
+            style={{height: height - 170}}
+            refreshControl={
+                <RefreshControl
+                    refreshing={isLoadingUserLikeMe}
+                    onRefresh={onRefresh}
+                />
+            }>
+            <View style={styles.matches}>
+                {userLike &&
+                    userLike.map((user: any) => {
+                        return (
+                            <MatchedCard
+                                name={user.user.name}
+                                avatar={user?.user.avatar?.secureURL}
+                                age={user.user.age}
+                                key={user._id}
+                            />
+                        );
+                    })}
+            </View>
             <KmatchGoldModal
                 visible={isKmatchGoldModalVisible}
                 setVisible={setIsKmatchGoldModalVisible}
