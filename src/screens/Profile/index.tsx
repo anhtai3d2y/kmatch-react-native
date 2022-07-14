@@ -12,7 +12,7 @@ import {PackageType} from "../../constants/packageType";
 import {Package} from "../../constants/package";
 import MatchedModal from "../../modals/MatchedModal";
 import SwiperSlide from "../../components/Swiper";
-import SettingModal from "../../modals/SettingModal";
+import SettingNewsfeedModal from "../../modals/SettingNewsfeedModal";
 
 export default function ProfileScreen({navigation}) {
     const setTokenStore = useStore(state => state.setToken);
@@ -49,6 +49,11 @@ export default function ProfileScreen({navigation}) {
             callWebBrowser();
         }
     }, [paypal]);
+
+    const handleSetting = async () => {
+        navigation.navigate("SettingProfile");
+    };
+
     const handelEditProfile = async () => {
         navigation.navigate("EditProfile");
     };
@@ -106,7 +111,8 @@ export default function ProfileScreen({navigation}) {
                 </View>
                 <View style={styles.actions}>
                     <View>
-                        <TouchableOpacity onPress={() => setModalVisible(true)}>
+                        {/* <TouchableOpacity onPress={() => setModalVisible(true)}> */}
+                        <TouchableOpacity onPress={handleSetting}>
                             <View style={styles.action}>
                                 <Ionicons
                                     name="ios-settings-sharp"
@@ -134,7 +140,10 @@ export default function ProfileScreen({navigation}) {
             <View style={styles.swiperPackage}>
                 <SwiperSlide />
             </View>
-            <SettingModal visible={modalVisible} setVisible={setModalVisible} />
+            <SettingNewsfeedModal
+                visible={modalVisible}
+                setVisible={setModalVisible}
+            />
             {/* <MatchedModal visible={modalVisible} setVisible={setModalVisible} /> */}
         </View>
     );
