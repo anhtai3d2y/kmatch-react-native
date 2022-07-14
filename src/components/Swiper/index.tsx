@@ -77,9 +77,6 @@ export default function SwiperSlide() {
                     <Text style={[styles.text, {color: colors.redColor}]}>
                         Kmatch Plus®
                     </Text>
-                    <TouchableOpacity>
-                        <Text style={styles.actionName}></Text>
-                    </TouchableOpacity>
                 </View>
                 <Text style={{marginBottom: 20}}>
                     Get unlimited likes, free star, boots item and more.
