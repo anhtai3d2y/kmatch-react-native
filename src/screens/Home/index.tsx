@@ -65,8 +65,7 @@ export default function HomeScreen() {
             const direction = Math.sign(dx);
             const isActionXActive = Math.abs(dx) > ACTION_X_OFFSET;
             const isActionYActive = Math.abs(dy) > ACTION_Y_OFFSET;
-
-            if (isActionXActive) {
+            if (isActionXActive && dx > 0) {
                 Animated.timing(swipe, {
                     duration: 200,
                     toValue: {
@@ -75,6 +74,15 @@ export default function HomeScreen() {
                     },
                     useNativeDriver: true,
                 }).start(() => removeTopCardLike(dx));
+            } else if (isActionXActive && dx < 0) {
+                Animated.timing(swipe, {
+                    duration: 200,
+                    toValue: {
+                        x: direction * CARD.OUT_OF_WIDTH,
+                        y: dy,
+                    },
+                    useNativeDriver: true,
+                }).start(() => removeTopCardDislike(dx));
             } else if (isActionYActive && dy < 0) {
                 Animated.timing(swipe, {
                     duration: 200,

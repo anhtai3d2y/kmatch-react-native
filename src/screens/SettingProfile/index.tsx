@@ -15,11 +15,27 @@ import {setToken} from "../../helpers";
 import {useState} from "react";
 import SettingNewsfeedModal from "../../modals/SettingNewsfeedModal";
 import ChangePasswordModal from "../../modals/ChangePasswordModal";
+import KmatchPlusModal from "../../modals/KmatchPlusModal";
+import KmatchGoldModal from "../../modals/KmatchGoldModal";
+import KmatchPlatinumModal from "../../modals/KmatchPlatinumModal";
+import BootsItemModal from "../../modals/BootsItemModal";
+import SuperLikeStarModal from "../../modals/SuperLikeStarModal";
 
 export default function SettingProfileScreen({navigation}) {
     const [settingNewsfeedModalVisible, setSettingNewsfeedModalVisible] =
         useState(false);
     const [changePasswordModalVisible, setChangePasswordModalVisible] =
+        useState(false);
+
+    const [isKmatchPlusModalVisible, setIsKmatchPlusModalVisible] =
+        useState(false);
+    const [isKmatchGoldModalVisible, setIsKmatchGoldModalVisible] =
+        useState(false);
+    const [isKmatchPlatinumModalVisible, setIsKmatchPlatinumModalVisible] =
+        useState(false);
+    const [isBootsItemModalVisible, setIsBootsItemModalVisible] =
+        useState(false);
+    const [isSuperLikeStarModalVisible, setIsSuperLikeStarModalVisible] =
         useState(false);
 
     const setTokenStore = useStore(state => state.setToken);
@@ -45,7 +61,10 @@ export default function SettingProfileScreen({navigation}) {
                     </View>
 
                     <View style={styles.packageView}>
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() =>
+                                setIsKmatchPlatinumModalVisible(true)
+                            }>
                             <View style={styles.package}>
                                 <View style={styles.slideHeader}>
                                     <Ionicons
@@ -80,7 +99,8 @@ export default function SettingProfileScreen({navigation}) {
                                 </Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => setIsKmatchGoldModalVisible(true)}>
                             <View style={styles.package}>
                                 <View style={styles.slideHeader}>
                                     <Ionicons
@@ -115,7 +135,8 @@ export default function SettingProfileScreen({navigation}) {
                                 </Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => setIsKmatchPlusModalVisible(true)}>
                             <View style={styles.package}>
                                 <View style={styles.slideHeader}>
                                     <Ionicons
@@ -151,7 +172,10 @@ export default function SettingProfileScreen({navigation}) {
                             </View>
                         </TouchableOpacity>
                         <View style={styles.packageItem}>
-                            <TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() =>
+                                    setIsSuperLikeStarModalVisible(true)
+                                }>
                                 <View style={styles.packageItemBox}>
                                     <View style={styles.roundIcon}>
                                         <AntDesign
@@ -171,7 +195,10 @@ export default function SettingProfileScreen({navigation}) {
                                     </Text>
                                 </View>
                             </TouchableOpacity>
-                            <TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() =>
+                                    setIsBootsItemModalVisible(true)
+                                }>
                                 <View style={styles.packageItemBox}>
                                     <View style={styles.roundIcon}>
                                         <MaterialIcons
@@ -187,7 +214,7 @@ export default function SettingProfileScreen({navigation}) {
                                                 color: colors.boots,
                                             },
                                         ]}>
-                                        Get Super Likes
+                                        Get Boots
                                     </Text>
                                 </View>
                             </TouchableOpacity>
@@ -253,6 +280,26 @@ export default function SettingProfileScreen({navigation}) {
                 <ChangePasswordModal
                     visible={changePasswordModalVisible}
                     setVisible={setChangePasswordModalVisible}
+                />
+                <KmatchPlusModal
+                    visible={isKmatchPlusModalVisible}
+                    setVisible={setIsKmatchPlusModalVisible}
+                />
+                <KmatchGoldModal
+                    visible={isKmatchGoldModalVisible}
+                    setVisible={setIsKmatchGoldModalVisible}
+                />
+                <KmatchPlatinumModal
+                    visible={isKmatchPlatinumModalVisible}
+                    setVisible={setIsKmatchPlatinumModalVisible}
+                />
+                <BootsItemModal
+                    visible={isBootsItemModalVisible}
+                    setVisible={setIsBootsItemModalVisible}
+                />
+                <SuperLikeStarModal
+                    visible={isSuperLikeStarModalVisible}
+                    setVisible={setIsSuperLikeStarModalVisible}
                 />
             </ScrollView>
         </TouchableWithoutFeedback>
