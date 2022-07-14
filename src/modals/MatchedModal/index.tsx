@@ -47,7 +47,7 @@ const MatchedModal = ({visible, setVisible}) => {
                                 </View>
                                 <Image
                                     source={{
-                                        uri: "https://res.cloudinary.com/anhtai3d2y/image/upload/v1656432808/kmatch/yit6ogf3clt1ppaoe5fg.jpg",
+                                        uri: "https://res.cloudinary.com/anhtai3d2y/image/upload/v1657735552/kmatch/bskcleem5bdowdah17w0.jpg",
                                     }}
                                     style={{
                                         width: width / 3,
