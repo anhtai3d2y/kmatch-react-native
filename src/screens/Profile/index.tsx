@@ -13,6 +13,7 @@ import {Package} from "../../constants/package";
 import MatchedModal from "../../modals/MatchedModal";
 import SwiperSlide from "../../components/Swiper";
 import SettingNewsfeedModal from "../../modals/SettingNewsfeedModal";
+import KmatchPlusModal from "../../modals/KmatchPlusModal";
 
 export default function ProfileScreen({navigation}) {
     const setTokenStore = useStore(state => state.setToken);
@@ -61,8 +62,6 @@ export default function ProfileScreen({navigation}) {
     const handleCreatePayment = async () => {
         await addPaypal(PackageType.Star, Package.SuperLike3);
     };
-
-    const [modalVisible, setModalVisible] = useState(false);
 
     return (
         <View style={styles.container}>
@@ -138,13 +137,12 @@ export default function ProfileScreen({navigation}) {
                 </View>
             </View>
             <View style={styles.swiperPackage}>
-                <SwiperSlide />
+                <SwiperSlide navigation={navigation} />
             </View>
-            <SettingNewsfeedModal
+            {/* <SettingNewsfeedModal
                 visible={modalVisible}
                 setVisible={setModalVisible}
-            />
-            {/* <MatchedModal visible={modalVisible} setVisible={setModalVisible} /> */}
+            /> */}
         </View>
     );
 }

@@ -34,6 +34,10 @@ const createPaypal: StoreSlice<PaypalState> = (set, get) => ({
                 text1: "Add Paypal Error!",
                 text2: error.response.data.message,
             });
+            set({
+                paypal: "",
+                isLoadingCreatePaypal: false,
+            });
         }
     },
     getPaypal: async (threadId: string) => {
