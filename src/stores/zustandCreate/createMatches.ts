@@ -5,6 +5,7 @@ import StoreSlice from "./storeSlice";
 export interface MatchesState {
     matches: object[];
     isLoadingMatches: boolean;
+    isLoadingAddMatches: boolean;
     addMatches: (userId: string, otherUserId: string) => void;
     getMatches: () => void;
 }
@@ -12,8 +13,12 @@ export interface MatchesState {
 const createMatches: StoreSlice<MatchesState> = (set, get) => ({
     matches: [],
     isLoadingMatches: false,
+    isLoadingAddMatches: false,
     addMatches: async (userId: string, otherUserId: string) => {
         try {
+            set({
+                isLoadingAddMatches: true,
+            });
             const res = await axiosClient.post(API_URL + EndpointApi.matches, {
                 userId,
                 otherUserId,
@@ -21,8 +26,12 @@ const createMatches: StoreSlice<MatchesState> = (set, get) => ({
             const data = res.data.data;
             set({
                 matches: data,
+                isLoadingAddMatches: false,
             });
         } catch (error: any) {
+            set({
+                isLoadingAddMatches: false,
+            });
             Toast.show({
                 type: "error",
                 text1: "Add Matches Error!",

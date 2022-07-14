@@ -111,6 +111,12 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 8,
     },
+    badge: {
+        marginTop: 10,
+        borderRadius: 10,
+        fontWeight: "bold",
+        fontStyle: "italic",
+    },
 });
 
 export default styles;

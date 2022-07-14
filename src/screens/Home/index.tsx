@@ -10,11 +10,18 @@ import useStore from "../../stores/store";
 import shallow from "zustand/shallow";
 import {ActivityIndicator} from "react-native-paper";
 import colors from "../../constants/Colors";
-
-export default function HomeScreen() {
+import io from "socket.io-client";
+import {API_URL} from "../../constants";
+import MatchedModal from "../../modals/MatchedModal";
+const socket = io(API_URL);
+socket.on("connection", () => {
+    console.log("Socket connected!");
+});
+export default function HomeScreen({navigation}) {
     const [users, setUsers] = useState([]);
     const userNewsFeed = useStore(state => state.userNewsFeed, shallow);
     const userProfile = useStore(state => state.userProfile, shallow);
+    const matchedData = useStore(state => state.matchedData, shallow);
     const getUserNewsFeed = useStore(state => state.getUserNewsFeed);
     const addLikeUser = useStore(state => state.addLikeUser);
     const getLikeUser = useStore(state => state.getLikeUser);
@@ -27,6 +34,8 @@ export default function HomeScreen() {
     const useBoots = useStore(state => state.useBoots);
     const swipe = useRef(new Animated.ValueXY()).current;
     const tiltSign = useRef(new Animated.Value(1)).current;
+
+    const [isMatchedModalVisible, setIsMatchedModalVisible] = useState(false);
     useEffect(() => {
         const getUser = async () => {
             if (!userProfile.genderShow) {
@@ -107,7 +116,7 @@ export default function HomeScreen() {
     const removeTopCardLike = useCallback(
         dx => {
             const addLike = async (user: any) => {
-                await addLikeUser(user._id);
+                await addLikeUser(user._id, setIsMatchedModalVisible);
                 await getLikeUser();
             };
 
@@ -140,7 +149,8 @@ export default function HomeScreen() {
     const removeTopCardSuperLike = useCallback(() => {
         setUsers(prevState => {
             const addSuperlike = async (user: any) => {
-                await addSuperlikeUser(user._id);
+                console.log("add super like");
+                await addSuperlikeUser(user._id, setIsMatchedModalVisible);
                 await getSuperlikeUser();
             };
             const user = [...prevState][0];
@@ -178,7 +188,7 @@ export default function HomeScreen() {
                 useNativeDriver: true,
             }).start(removeTopCardDislike);
         },
-        [removeTopCardLike, swipe.y],
+        [removeTopCardDislike, swipe.y],
     );
 
     const handleChoiceSuperlike = useCallback(
@@ -227,6 +237,16 @@ export default function HomeScreen() {
                     );
                 })
                 .reverse()}
+            <MatchedModal
+                visible={isMatchedModalVisible}
+                setVisible={setIsMatchedModalVisible}
+                userName={matchedData.userName}
+                userAvatar={matchedData.userAvatar}
+                otherUserAvatar={matchedData.otherUserAvatar}
+                userId={matchedData.userId}
+                otherUserId={matchedData.otherUserId}
+                navigation={navigation}
+            />
             <Footer
                 handleChoiceLike={handleChoiceLike}
                 handleChoiceDislike={handleChoiceDislike}

@@ -3,9 +3,30 @@ import React from "react";
 import {Modal, Text, Pressable, View, Image} from "react-native";
 import colors from "../../constants/Colors";
 import {height, width} from "../../constants/Layout";
+import useStore from "../../stores/store";
 import styles from "../../themes/modals/MatchedModal";
 
-const MatchedModal = ({visible, setVisible}) => {
+const MatchedModal = ({
+    visible,
+    setVisible,
+    userName,
+    userAvatar,
+    otherUserAvatar,
+    userId,
+    otherUserId,
+    navigation,
+}) => {
+    const getThreads = useStore(state => state.getThreads);
+    const addThreads = useStore(state => state.addThreads);
+    const handleGoToChat = () => {
+        const handle = async () => {
+            await addThreads(userId, otherUserId);
+            await getThreads();
+            setVisible(!visible);
+            navigation.navigate("MessagesTab");
+        };
+        handle();
+    };
     return (
         <View style={styles.backgroundView}>
             <Modal
@@ -28,7 +49,9 @@ const MatchedModal = ({visible, setVisible}) => {
                                 </View>
                                 <Image
                                     source={{
-                                        uri: "https://res.cloudinary.com/anhtai3d2y/image/upload/q_20/v1652849219/kmatch/j7shjf8griq3fwalvs2m.jpg",
+                                        uri:
+                                            otherUserAvatar ||
+                                            "https://res.cloudinary.com/anhtai3d2y/image/upload/q_20/v1652849219/kmatch/j7shjf8griq3fwalvs2m.jpg",
                                     }}
                                     style={{
                                         width: width / 3,
@@ -47,7 +70,9 @@ const MatchedModal = ({visible, setVisible}) => {
                                 </View>
                                 <Image
                                     source={{
-                                        uri: "https://res.cloudinary.com/anhtai3d2y/image/upload/v1657735552/kmatch/bskcleem5bdowdah17w0.jpg",
+                                        uri:
+                                            userAvatar ||
+                                            "https://res.cloudinary.com/anhtai3d2y/image/upload/v1657735552/kmatch/bskcleem5bdowdah17w0.jpg",
                                     }}
                                     style={{
                                         width: width / 3,
@@ -59,7 +84,7 @@ const MatchedModal = ({visible, setVisible}) => {
                         </View>
                         <View style={styles.matchedText}>
                             <Text style={styles.textTitle}>
-                                It’s a match, Jake!
+                                It’s a match, {userName}!
                             </Text>
                             <Text>
                                 Start a conversation now with each other
@@ -67,7 +92,7 @@ const MatchedModal = ({visible, setVisible}) => {
                         </View>
                         <Pressable
                             style={[styles.button, styles.buttonSayHello]}
-                            onPress={() => setVisible(!visible)}>
+                            onPress={handleGoToChat}>
                             <Text style={styles.textSayHello}>Say hello</Text>
                         </Pressable>
                         <Pressable

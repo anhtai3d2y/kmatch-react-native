@@ -10,7 +10,6 @@ import {
     Image,
 } from "react-native";
 import styles from "../../themes/screens/Chat";
-import io from "socket.io-client";
 import MessageBubble from "../../components/MessageBubble";
 import {API_URL} from "../../constants";
 import colors from "../../constants/Colors";
@@ -22,10 +21,10 @@ import {
 } from "@expo/vector-icons";
 import useStore from "../../stores/store";
 import shallow from "zustand/shallow";
+import io from "socket.io-client";
 const socket = io(API_URL);
 socket.on("connection", () => {
     console.log("Socket connected!");
-    // socket.emit("message", "hello");
 });
 export default function ChatScreen({route, navigation}) {
     const {id, userId, otherUserId, userName, avatar, timeCreated} =
