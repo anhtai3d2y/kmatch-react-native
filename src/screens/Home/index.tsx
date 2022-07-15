@@ -40,15 +40,27 @@ export default function HomeScreen({navigation}) {
     const clearPaypal = useStore(state => state.clearPaypal);
     const paypal = useStore(state => state.paypal, shallow);
 
+    const [matchedSocketData, setMatchedSockerData] = useState(matchedData);
+
     const [isBootsItemModalVisible, setIsBootsItemModalVisible] =
         useState(false);
     const [isSuperLikeStarModalVisible, setIsSuperLikeStarModalVisible] =
         useState(false);
     const [isMatchedModalVisible, setIsMatchedModalVisible] = useState(false);
+
+    useEffect(() => {
+        getUserProfile();
+        socket.on("matched" + userProfile._id, data => {
+            setMatchedSockerData(data);
+            setIsMatchedModalVisible(true);
+        });
+    }, []);
+
     useEffect(() => {
         const getUser = async () => {
             if (!userProfile.genderShow) {
                 const user = await getUserProfile();
+
                 await getUserNewsFeed({
                     gender: user.genderShow,
                     minAge: user.minAge,
@@ -270,11 +282,11 @@ export default function HomeScreen({navigation}) {
             <MatchedModal
                 visible={isMatchedModalVisible}
                 setVisible={setIsMatchedModalVisible}
-                userName={matchedData.userName}
-                userAvatar={matchedData.userAvatar}
-                otherUserAvatar={matchedData.otherUserAvatar}
-                userId={matchedData.userId}
-                otherUserId={matchedData.otherUserId}
+                userName={matchedSocketData.userName}
+                userAvatar={matchedSocketData.userAvatar}
+                otherUserAvatar={matchedSocketData.otherUserAvatar}
+                userId={matchedSocketData.userId}
+                otherUserId={matchedSocketData.otherUserId}
                 navigation={navigation}
             />
             <Footer

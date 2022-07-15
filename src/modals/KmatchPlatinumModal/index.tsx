@@ -26,7 +26,7 @@ const KmatchPlatinumModal = ({visible, setVisible}) => {
         shallow,
     );
     const handleCreatePayment = async () => {
-        await addPaypal(PackageType.Role, Package.KmatchGold);
+        await addPaypal(PackageType.Role, Package.KmatchPlatinum);
     };
     return (
         <View style={styles.backgroundView}>

@@ -1,11 +1,13 @@
 import {FontAwesome} from "@expo/vector-icons";
-import React from "react";
+import React, {useEffect} from "react";
 import {Modal, Text, Pressable, View, Image} from "react-native";
 import colors from "../../constants/Colors";
 import {height, width} from "../../constants/Layout";
 import useStore from "../../stores/store";
 import styles from "../../themes/modals/MatchedModal";
-
+import io from "socket.io-client";
+import {API_URL} from "../../constants";
+const socket = io(API_URL);
 const MatchedModal = ({
     visible,
     setVisible,
@@ -18,6 +20,22 @@ const MatchedModal = ({
 }) => {
     const getThreads = useStore(state => state.getThreads);
     const addThreads = useStore(state => state.addThreads);
+
+    useEffect(() => {
+        socket.emit("matches", {
+            emitId: "matched" + otherUserId,
+            message: {
+                visible,
+                setVisible,
+                userName,
+                userAvatar,
+                otherUserAvatar,
+                userId,
+                otherUserId,
+            },
+        });
+    }, []);
+
     const handleGoToChat = () => {
         const handle = async () => {
             await addThreads(otherUserId);
