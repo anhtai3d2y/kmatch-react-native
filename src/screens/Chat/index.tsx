@@ -16,12 +16,15 @@ import colors from "../../constants/Colors";
 import {
     Entypo,
     FontAwesome,
+    FontAwesome5,
     Ionicons,
     MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import useStore from "../../stores/store";
+import * as ImagePicker from "expo-image-picker";
 import shallow from "zustand/shallow";
 import io from "socket.io-client";
+import {ActivityIndicator} from "react-native-paper";
 const socket = io(API_URL);
 socket.on("connection", () => {
     console.log("Socket connected!");
@@ -32,7 +35,12 @@ export default function ChatScreen({route, navigation}) {
     const getMessages = useStore(state => state.getMessages);
     const getThreads = useStore(state => state.getThreads);
     const addMessages = useStore(state => state.addMessages);
+    const addMessagesImage = useStore(state => state.addMessagesImage);
     const messagesStore = useStore(state => state.messages, shallow);
+    const isLoadingSendMessageImage = useStore(
+        state => state.isLoadingSendMessageImage,
+        shallow,
+    );
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState(messagesStore);
     useEffect(() => {
@@ -75,6 +83,50 @@ export default function ChatScreen({route, navigation}) {
                 ];
             });
             setMessage("");
+            await getMessages(id);
+            await getThreads();
+            socket.emit("events", {
+                emitId,
+                message,
+            });
+        }
+    };
+
+    const createFormData = (photo, body = {}) => {
+        const data = new FormData();
+
+        data.append("image", {
+            name: new Date() + id,
+            type: photo.type + "/jpg",
+            uri:
+                Platform.OS === "ios"
+                    ? photo.uri.replace("file://", "")
+                    : photo.uri,
+        });
+
+        Object.keys(body).forEach(key => {
+            data.append(key, body[key]);
+        });
+
+        return data;
+    };
+
+    const handleSendImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            quality: 1,
+        });
+        if (!result.cancelled) {
+            await addMessagesImage(
+                createFormData(result, {
+                    threadId: id,
+                    receiverId: otherUserId,
+                    messageType: "Image",
+                }),
+            );
+            await getMessages(id);
+            await getThreads();
             socket.emit("events", {
                 emitId,
                 message,
@@ -229,14 +281,36 @@ export default function ChatScreen({route, navigation}) {
                                 messages.map((message, index) => (
                                     <MessageBubble
                                         mine={message.mine}
-                                        image={message.image}
-                                        text={message.messageBody}
+                                        image={
+                                            message.messageType === "Image" &&
+                                            message.messageBody
+                                        }
+                                        text={
+                                            message.messageType === "Text" &&
+                                            message.messageBody
+                                        }
                                         key={index}
                                     />
                                 ))}
                         </ScrollView>
                     </View>
                     <View style={styles.boxChat}>
+                        <TouchableOpacity
+                            style={styles.send}
+                            onPress={handleSendImage}>
+                            {isLoadingSendMessageImage ? (
+                                <ActivityIndicator
+                                    size="small"
+                                    color={colors.redColor}
+                                />
+                            ) : (
+                                <FontAwesome5
+                                    name="image"
+                                    size={24}
+                                    color={colors.redColor}
+                                />
+                            )}
+                        </TouchableOpacity>
                         <TextInput
                             placeholder="Your message"
                             placeholderTextColor="#000"

@@ -19,7 +19,7 @@ export default function MessageBubble({mine, image, text}) {
                             {alignSelf: mine ? "flex-end" : "flex-start"},
                         ]}
                         borderRadius={10}
-                        source={image}
+                        source={{uri: image}}
                     />
                 ) : null}
                 {text ? (

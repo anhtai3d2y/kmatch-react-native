@@ -7,6 +7,7 @@ import {
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import React, {useEffect} from "react";
+import shallow from "zustand/shallow";
 import ChatScreen from "../screens/Chat";
 import EditProfileScreen from "../screens/EditProfile";
 import HomeScreen from "../screens/Home";
@@ -17,7 +18,7 @@ import ProfileScreen from "../screens/Profile";
 import RankingScreen from "../screens/Ranking";
 import SettingProfileScreen from "../screens/SettingProfile";
 import useStore from "../stores/store";
-
+import * as WebBrowser from "expo-web-browser";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -117,6 +118,8 @@ export default function AppStack() {
     const userAuth = useStore(state => state.userAuth);
     const updateUserLocation = useStore(state => state.updateUserLocation);
     const getUserProfile = useStore(state => state.getUserProfile);
+    const clearPaypal = useStore(state => state.clearPaypal);
+    const paypal = useStore(state => state.paypal, shallow);
     useEffect(() => {
         getUserProfile();
         const eventUpdateLocation = setInterval(() => {
@@ -135,6 +138,23 @@ export default function AppStack() {
             // clearInterval(eventGetProfileUser);
         };
     }, []);
+
+    useEffect(() => {
+        const callWebBrowser = async () => {
+            try {
+                const webBrowserStatus = await WebBrowser.openBrowserAsync(
+                    paypal,
+                );
+                await getUserProfile();
+                await clearPaypal();
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        if (paypal) {
+            callWebBrowser();
+        }
+    }, [paypal]);
 
     const getTabBarVisibility = route => {
         const routeName = route.state

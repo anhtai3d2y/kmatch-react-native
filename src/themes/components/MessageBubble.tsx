@@ -22,8 +22,8 @@ const styles = StyleSheet.create({
         borderRadius: 20,
     },
     image: {
-        width: width / 3,
-        height: height / 3,
+        width: 160,
+        height: 160,
     },
     text: {
         paddingTop: 3,

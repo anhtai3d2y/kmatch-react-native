@@ -126,7 +126,7 @@ const SettingNewsfeedModal = ({visible, setVisible}) => {
                         <TextInput
                             placeholder="Distance"
                             placeholderTextColor="#ccc"
-                            value={distance.toString()}
+                            value={distance?.toString()}
                             onChangeText={text => {
                                 if (text === "") {
                                     text = "0";
@@ -147,7 +147,7 @@ const SettingNewsfeedModal = ({visible, setVisible}) => {
                         <TextInput
                             placeholder="Min Age"
                             placeholderTextColor="#ccc"
-                            value={minAge.toString()}
+                            value={minAge?.toString()}
                             onChangeText={text => {
                                 if (text === "") {
                                     text = "0";
@@ -174,7 +174,7 @@ const SettingNewsfeedModal = ({visible, setVisible}) => {
                             <TextInput
                                 placeholder="Max Age"
                                 placeholderTextColor="#ccc"
-                                value={maxAge.toString()}
+                                value={maxAge?.toString()}
                                 onChangeText={text => {
                                     if (text === "") {
                                         text = "0";

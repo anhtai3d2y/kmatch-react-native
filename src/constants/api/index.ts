@@ -1,5 +1,5 @@
-const API_URL = "http://192.168.1.59:3000";
-// const API_URL = "http://www.kmatch.online";
+// const API_URL = "http://192.168.31.95:3000";
+const API_URL = "http://www.kmatch.online";
 
 const EndpointApi = {
     login: "/auth/login",
@@ -27,6 +27,7 @@ const EndpointApi = {
     matches: "/matches",
     threads: "/threads",
     messages: "/messages",
+    messagesImage: "/messages/image",
     paypal: "/paypal",
 };
 

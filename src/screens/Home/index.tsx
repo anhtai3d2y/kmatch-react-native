@@ -45,10 +45,20 @@ export default function HomeScreen({navigation}) {
     const [isSuperLikeStarModalVisible, setIsSuperLikeStarModalVisible] =
         useState(false);
     const [isMatchedModalVisible, setIsMatchedModalVisible] = useState(false);
+
+    // useEffect(() => {
+    //     getUserProfile();
+    //     socket.on("matched" + userProfile._id, data => {
+    //         setMatchedSockerData(data);
+    //         setIsMatchedModalVisible(true);
+    //     });
+    // }, []);
+
     useEffect(() => {
         const getUser = async () => {
             if (!userProfile.genderShow) {
                 const user = await getUserProfile();
+
                 await getUserNewsFeed({
                     gender: user.genderShow,
                     minAge: user.minAge,
@@ -74,22 +84,22 @@ export default function HomeScreen({navigation}) {
         setUsers(userNewsFeed);
     }, [userNewsFeed]);
 
-    useEffect(() => {
-        const callWebBrowser = async () => {
-            try {
-                const webBrowserStatus = await WebBrowser.openBrowserAsync(
-                    paypal,
-                );
-                await getUserProfile();
-                await clearPaypal();
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        if (paypal) {
-            callWebBrowser();
-        }
-    }, [paypal]);
+    // useEffect(() => {
+    //     const callWebBrowser = async () => {
+    //         try {
+    //             const webBrowserStatus = await WebBrowser.openBrowserAsync(
+    //                 paypal,
+    //             );
+    //             await getUserProfile();
+    //             await clearPaypal();
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     };
+    //     if (paypal) {
+    //         callWebBrowser();
+    //     }
+    // }, [paypal]);
     const panResponder = PanResponder.create({
         onMoveShouldSetPanResponder: () => true,
         onPanResponderMove: (_, {dx, dy, y0}) => {
