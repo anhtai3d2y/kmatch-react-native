@@ -5,18 +5,21 @@ import StoreSlice from "./storeSlice";
 export interface MessagesState {
     messages: object[];
     isLoadingMessages: boolean;
+    isLoadingSendMessageImage: boolean;
     addMessages: (
         threadId: string,
         receiverId: string,
         messageType: string,
         messageBody: string,
     ) => void;
+    addMessagesImage: (body: any) => void;
     getMessages: (threadId: string) => void;
 }
 
 const createMessages: StoreSlice<MessagesState> = (set, get) => ({
     messages: [],
     isLoadingMessages: false,
+    isLoadingSendMessageImage: false,
     addMessages: async (
         threadId: string,
         receiverId: string,
@@ -35,6 +38,30 @@ const createMessages: StoreSlice<MessagesState> = (set, get) => ({
             Toast.show({
                 type: "error",
                 text1: "Add Messages Error!",
+                text2: error.response.data.message,
+            });
+        }
+    },
+    addMessagesImage: async (body: any) => {
+        try {
+            set({
+                isLoadingSendMessageImage: true,
+            });
+            const res = await axiosClient.post(
+                API_URL + EndpointApi.messagesImage,
+                body,
+            );
+            const data = res.data.data;
+            set({
+                isLoadingSendMessageImage: false,
+            });
+        } catch (error: any) {
+            set({
+                isLoadingSendMessageImage: false,
+            });
+            Toast.show({
+                type: "error",
+                text1: "Add Messages Image Error!",
                 text2: error.response.data.message,
             });
         }

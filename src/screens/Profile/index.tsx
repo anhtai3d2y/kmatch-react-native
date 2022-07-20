@@ -49,22 +49,22 @@ export default function ProfileScreen({navigation}) {
         setUser(userProfile);
     }, [userProfile]);
 
-    useEffect(() => {
-        const callWebBrowser = async () => {
-            try {
-                const webBrowserStatus = await WebBrowser.openBrowserAsync(
-                    paypal,
-                );
-                await getUserProfile();
-                await clearPaypal();
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        if (paypal) {
-            callWebBrowser();
-        }
-    }, [paypal]);
+    // useEffect(() => {
+    //     const callWebBrowser = async () => {
+    //         try {
+    //             const webBrowserStatus = await WebBrowser.openBrowserAsync(
+    //                 paypal,
+    //             );
+    //             await getUserProfile();
+    //             await clearPaypal();
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     };
+    //     if (paypal) {
+    //         callWebBrowser();
+    //     }
+    // }, [paypal]);
 
     const handleSetting = async () => {
         navigation.navigate("SettingProfile");

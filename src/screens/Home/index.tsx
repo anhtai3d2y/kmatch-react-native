@@ -40,21 +40,19 @@ export default function HomeScreen({navigation}) {
     const clearPaypal = useStore(state => state.clearPaypal);
     const paypal = useStore(state => state.paypal, shallow);
 
-    const [matchedSocketData, setMatchedSockerData] = useState(matchedData);
-
     const [isBootsItemModalVisible, setIsBootsItemModalVisible] =
         useState(false);
     const [isSuperLikeStarModalVisible, setIsSuperLikeStarModalVisible] =
         useState(false);
     const [isMatchedModalVisible, setIsMatchedModalVisible] = useState(false);
 
-    useEffect(() => {
-        getUserProfile();
-        socket.on("matched" + userProfile._id, data => {
-            setMatchedSockerData(data);
-            setIsMatchedModalVisible(true);
-        });
-    }, []);
+    // useEffect(() => {
+    //     getUserProfile();
+    //     socket.on("matched" + userProfile._id, data => {
+    //         setMatchedSockerData(data);
+    //         setIsMatchedModalVisible(true);
+    //     });
+    // }, []);
 
     useEffect(() => {
         const getUser = async () => {
@@ -86,22 +84,22 @@ export default function HomeScreen({navigation}) {
         setUsers(userNewsFeed);
     }, [userNewsFeed]);
 
-    useEffect(() => {
-        const callWebBrowser = async () => {
-            try {
-                const webBrowserStatus = await WebBrowser.openBrowserAsync(
-                    paypal,
-                );
-                await getUserProfile();
-                await clearPaypal();
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        if (paypal) {
-            callWebBrowser();
-        }
-    }, [paypal]);
+    // useEffect(() => {
+    //     const callWebBrowser = async () => {
+    //         try {
+    //             const webBrowserStatus = await WebBrowser.openBrowserAsync(
+    //                 paypal,
+    //             );
+    //             await getUserProfile();
+    //             await clearPaypal();
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     };
+    //     if (paypal) {
+    //         callWebBrowser();
+    //     }
+    // }, [paypal]);
     const panResponder = PanResponder.create({
         onMoveShouldSetPanResponder: () => true,
         onPanResponderMove: (_, {dx, dy, y0}) => {
@@ -282,11 +280,11 @@ export default function HomeScreen({navigation}) {
             <MatchedModal
                 visible={isMatchedModalVisible}
                 setVisible={setIsMatchedModalVisible}
-                userName={matchedSocketData.userName}
-                userAvatar={matchedSocketData.userAvatar}
-                otherUserAvatar={matchedSocketData.otherUserAvatar}
-                userId={matchedSocketData.userId}
-                otherUserId={matchedSocketData.otherUserId}
+                userName={matchedData.userName}
+                userAvatar={matchedData.userAvatar}
+                otherUserAvatar={matchedData.otherUserAvatar}
+                userId={matchedData.userId}
+                otherUserId={matchedData.otherUserId}
                 navigation={navigation}
             />
             <Footer

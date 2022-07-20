@@ -20,13 +20,17 @@ export default function SignupScreen({navigation}) {
     const [email, setEmail] = useState("");
     const addVerification = useStore(state => state.addVerification);
     const statusEmail = useStore(state => state.statusEmail, shallow);
+    const [statusEmailState, setStatusEmailState] = useState(false);
     const isVerificationLoading = useStore(
         state => state.isVerificationLoading,
         shallow,
     );
-    if (statusEmail) {
+    if (statusEmailState) {
         navigation.navigate("Verification");
     }
+    useEffect(() => {
+        setStatusEmailState(statusEmail);
+    }, [statusEmail]);
     const handelSignup = async () => {
         if (!isVerificationLoading) {
             addVerification(email);
