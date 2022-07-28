@@ -68,10 +68,13 @@ export default function Routes() {
     const setLocation = useStore(state => state.setLocation);
     useEffect(() => {
         const eventGetLocation = setInterval(async () => {
-            let location = await Location.getCurrentPositionAsync({});
-            const latitude = parseFloat(location.coords.latitude);
-            const longitude = parseFloat(location.coords.longitude);
-            setLocation(latitude, longitude);
+            let {status} = await Location.requestForegroundPermissionsAsync();
+            if (status === "granted") {
+                let location = await Location.getCurrentPositionAsync({});
+                const latitude = parseFloat(location.coords.latitude);
+                const longitude = parseFloat(location.coords.longitude);
+                setLocation(latitude, longitude);
+            }
         }, 5000);
         return () => {
             clearInterval(eventGetLocation);
